@@ -1,0 +1,27 @@
+{
+    "name": "irap/vida-sdk",
+    "type": "library",
+    "description": "A PHP SDK for interfacing with the ViDA API",
+    "keywords": ["api","sdk","vida"],
+    "homepage": "http://gitlab.irap.org/mark/package-vida-sdk",
+    "license": "MIT",
+    "repositories": [ { "type": "composer", "url": "https://satis.irap-dev.org/" } ],
+    "authors": [
+        {
+            "name": "iRAP",
+            "email": "support@irap.org",
+            "homepage": "http://vida.irap.org/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "iRAP\\VidaSDK\\": "",
+            "iRAP\\VidaSDK\\Controllers\\": "controllers/",
+            "iRAP\\VidaSDK\\Models\\": "models/"
+        }
+    }
+}
