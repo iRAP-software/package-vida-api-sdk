@@ -11,7 +11,7 @@ namespace iRAP\VidaSDK\Models;
 class APIRequest
 {
     private static $s_version;
-    private static $s_url = 'http://api.irap-dev.org';
+    private static $s_url = 'http://api.release.vida.irap.org';
     private $m_ch;
     private $m_headers;
     public $m_result;
