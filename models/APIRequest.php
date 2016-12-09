@@ -31,13 +31,11 @@ class APIRequest
 
     public function send()
     {
-        curl_setopt($this->m_ch, CURLOPT_HEADER, true); // In here for temporary diagnostics
         curl_setopt($this->m_ch, CURLOPT_RETURNTRANSFER, true);
         $this->m_headers = $this->formatHeaders();
         curl_setopt($this->m_ch, CURLOPT_HTTPHEADER, $this->m_headers);
         $this->m_result = curl_exec($this->m_ch);
         curl_close($this->m_ch);
-        echo $this->m_result;
     } 
             
     public function setUrl($resource, $id = null, $arg = null)
