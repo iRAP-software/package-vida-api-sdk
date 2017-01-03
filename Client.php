@@ -32,7 +32,7 @@ class Client implements apiInterface
         $token = new \stdClass();
         $token->userAuthId = $userToken->auth_id;
         $token->userApiKey = $userToken->api_key;
-        $token->api_secret = $userToken->api_secret;
+        $token->userPrivateKey = $userToken->api_secret;
         return $token;
     }
     
