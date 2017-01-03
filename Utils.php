@@ -16,7 +16,7 @@ class Utils extends Client
         parent::__construct($appAuthID, $appAPIKey, $appPrivateKey);
     }
     
-    public function registerApp($email, $password)
+    public function registerApp($name, $owner)
     {
         $appToken = Controllers\AuthController::getAppToken($name, $owner);
         $token = new \stdClass();
