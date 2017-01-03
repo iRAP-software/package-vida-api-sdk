@@ -12,7 +12,6 @@ class AuthController extends AbstractResourceController
 {
     public static function getUserToken($email, $password)
     {
-        
         $request = new \iRAP\VidaSDK\Models\APIRequest();
         $request->setUrl("auth/register");
         $request->setPostData(array("email"=>$email,"password"=>$password));
@@ -28,5 +27,17 @@ class AuthController extends AbstractResourceController
         define('iRAP\VidaSDK\USER_AUTH_ID', $userAuthID);
         define('iRAP\VidaSDK\USER_API_KEY', $userAPIKey);
         define('iRAP\VidaSDK\USER_PRIVATE_KEY', $userPrivateKey);
+    }
+    
+    public static function getAppToken($name, $owner)
+    {
+        $request = new \iRAP\VidaSDK\Models\APIRequest();
+        $request->setUrl("auth/registerApp");
+        $request->setPostData(array("name"=>$name,"owner"=>$owner));
+        $request->send();
+        if ($request->m_result)
+        {
+            return json_decode($request->m_result);
+        }
     }
 }
