@@ -15,7 +15,7 @@ class AuthController extends AbstractResourceController
         
         $request = new \iRAP\VidaSDK\Models\APIRequest();
         $request->setUrl("auth/register");
-        $request->setPostData(array("email"=>$email,"password"=>$password));
+        $request->setPostData(array("email"=>$email,"password"=>md5($password)));
         $request->send();
         if ($request->m_result)
         {
