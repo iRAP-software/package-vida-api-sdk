@@ -37,21 +37,28 @@ class authentication
     {
         array_change_key_case($parameters, CASE_LOWER); # just in case user forgets
         ksort($parameters); # order matters when producing a hash signature.
-        $jsonString = json_encode($parameters);
+        $jsonString = json_encode($parameters, JSON_NUMERIC_CHECK);
         $signature = hash_hmac('sha256', $jsonString, $secretKey);
         return $signature;
     }
     
     private function getParameters()
     {
-        return array(
-            'user_auth_id' 	=> $this->m_user_auth_id,
+        $parameters = array(
             'system_auth_id'    => $this->m_client_auth_id,
-            'user_public_key'   => $this->m_user_api_key,
             'system_public_key' => $this->m_client_api_key,
             'nonce'             => rand(999999, 99999999),
             'timestamp'         => time()
         );
+        if (!empty($this->m_user_auth_id))
+        {
+            $parameters['user_auth_id'] = $this->m_user_auth_id;
+        }
+        if (!empty($this->m_user_api_key))
+        {
+            $parameters['user_public_key'] = $this->m_user_api_key;
+        }
+        return $parameters;
     }
     
     private function getSignatures()
