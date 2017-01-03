@@ -31,19 +31,19 @@ class APIRequest
 
     public function send()
     {
-//        if (defined('IRAPDEV'))
-//        {
-//            curl_setopt($this->m_ch, CURLOPT_HEADER, true);
-//        }
+        if (defined('IRAPDIAGNOSTICS'))
+        {
+            curl_setopt($this->m_ch, CURLOPT_HEADER, true);
+        }
         curl_setopt($this->m_ch, CURLOPT_RETURNTRANSFER, true);
         $this->m_headers = $this->formatHeaders();
         curl_setopt($this->m_ch, CURLOPT_HTTPHEADER, $this->m_headers);
         $this->m_result = curl_exec($this->m_ch);
         curl_close($this->m_ch);
-//        if (defined('IRAPDEV'))
-//        {
-//            echo $this->m_result;
-//        }
+        if (defined('IRAPDIAGNOSTICS'))
+        {
+            echo $this->m_result;
+        }
     } 
             
     public function setUrl($resource, $id = null, $arg = null)
