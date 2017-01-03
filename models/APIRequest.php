@@ -31,7 +31,7 @@ class APIRequest
 
     public function send()
     {
-        if (IRAPDEV)
+        if (defined('IRAPDEV'))
         {
             curl_setopt($this->m_ch, CURLOPT_HEADER, true);
         }
@@ -40,7 +40,7 @@ class APIRequest
         curl_setopt($this->m_ch, CURLOPT_HTTPHEADER, $this->m_headers);
         $this->m_result = curl_exec($this->m_ch);
         curl_close($this->m_ch);
-        if (IRAPDEV)
+        if (defined('IRAPDEV'))
         {
             echo $this->m_result;
         }
