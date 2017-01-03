@@ -10,7 +10,7 @@ namespace iRAP\VidaSDK\Controllers;
 
 class AuthController extends AbstractResourceController
 {
-    public function getUserToken($email, $password)
+    public static function getUserToken($email, $password)
     {
         
         $request = new \iRAP\VidaSDK\Models\APIRequest();
