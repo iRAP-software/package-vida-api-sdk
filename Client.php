@@ -16,6 +16,14 @@ class Client implements apiInterface
         define(__NAMESPACE__.'\APP_AUTH_ID', $appAuthID);
         define(__NAMESPACE__.'\APP_API_KEY', $appAPIKey);
         define(__NAMESPACE__.'\APP_PRIVATE_KEY', $appPrivateKey);
+        if (IRAPDEV)
+        {
+            define(__NAMESPACE__.'\API_URL', 'http://api.irap-dev.org');
+        }
+        else
+        {
+            define(__NAMESPACE__.'\API_URL', 'http://api.release.vida.irap.org');
+        }
     }
     
     public function setUserToken($userAuthID, $userAPIKey, $userPrivateKey)
