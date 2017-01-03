@@ -28,7 +28,12 @@ class Client implements apiInterface
     
     public function getUserToken($email, $password)
     {
-        Controllers\AuthController::getUserToken($email, $password);
+        $userToken = Controllers\AuthController::getUserToken($email, $password);
+        $token = new \stdClass();
+        $token->userAuthId = $userToken->auth_id;
+        $token->userApiKey = $userToken->api_key;
+        $token->api_secret = $userToken->api_secret;
+        return $token;
     }
     
     public function setUserToken($userAuthID, $userAPIKey, $userPrivateKey)
