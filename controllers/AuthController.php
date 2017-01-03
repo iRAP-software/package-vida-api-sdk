@@ -32,7 +32,7 @@ class AuthController extends AbstractResourceController
     public static function getAppToken($name, $owner)
     {
         $request = new \iRAP\VidaSDK\Models\APIRequest();
-        $request->setUrl("auth/registerApp");
+        $request->setUrl("auth/register_app");
         $request->setPostData(array("name"=>$name,"owner"=>$owner));
         $request->send();
         if ($request->m_result)
