@@ -19,7 +19,7 @@ abstract class AbstractResourceController
         $request->send();
         if ($request->m_result)
         {
-            return json_decode($request->m_result);
+            return $this->response($request);
         }
     }
     
@@ -32,7 +32,7 @@ abstract class AbstractResourceController
         $request->send();
         if ($request->m_result)
         {
-            return json_decode($request->m_result);
+            return $this->response($request);
         }
     }
     
@@ -44,7 +44,7 @@ abstract class AbstractResourceController
         $request->send();
         if ($request->m_result)
         {
-            return json_decode($request->m_result);
+            return $this->response($request);
         }
     }
     
@@ -56,7 +56,7 @@ abstract class AbstractResourceController
         $request->send();
         if ($request->m_result)
         {
-            return json_decode($request->m_result);
+            return $this->response($request);
         }
     }
     
@@ -67,8 +67,18 @@ abstract class AbstractResourceController
         $request->send();
         if ($request->m_result)
         {
-            return json_decode($request->m_result);
+            return $this->response($request);
         }
+    }
+    
+    private function response($request)
+    {
+        $response = new \stdClass();
+        $response->response = $request->m_result;
+        $response->status = $request->m_status;
+        $response->code = $request->m_httpCode;
+        $response->error = $request->m_error;
+        return json_decode($response);
     }
 }
 

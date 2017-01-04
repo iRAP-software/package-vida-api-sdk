@@ -15,6 +15,9 @@ class APIRequest
     private $m_ch;
     private $m_headers;
     public $m_result;
+    public $m_httpCode;
+    public $m_status;
+    public $m_error;
     
     public function __construct()
     {
@@ -31,14 +34,12 @@ class APIRequest
 
     public function send()
     {
-        if (defined('IRAPDIAGNOSTICS'))
-        {
-            curl_setopt($this->m_ch, CURLOPT_HEADER, true);
-        }
+        curl_setopt($this->m_ch, CURLOPT_HEADER, true);
         curl_setopt($this->m_ch, CURLOPT_RETURNTRANSFER, true);
         $this->m_headers = $this->formatHeaders();
         curl_setopt($this->m_ch, CURLOPT_HTTPHEADER, $this->m_headers);
-        $this->m_result = curl_exec($this->m_ch);
+        $response = curl_exec($this->m_ch);
+        $this->processResponse($response);
         curl_close($this->m_ch);
         if (defined('IRAPDIAGNOSTICS'))
         {
@@ -94,6 +95,28 @@ class APIRequest
     public function setDeleteRequest()
     {
         curl_setopt($this->m_ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+    }
+    
+    private function processResponse($response)
+    {
+        $info = curl_getinfo($this->m_ch);
+        $header = substr($response, 0, ($info['header_size']-1));
+        $this->m_result = substr($response, $info['header_size']-1);
+        $this->m_httpCode = $info['http_code'];
+        foreach (explode(PHP_EOL, $header) as $line)
+        {
+            $line = explode(': ', $line);
+            $key = $line[0];
+            $value = $line[1];
+            if ($key == 'Status')
+            {
+                $this->m_status = $value;
+            }
+            elseif ($key == 'Error')
+            {
+                $this->m_error = $value;
+            }
+        }
     }
 }
 
