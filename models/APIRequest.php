@@ -43,7 +43,7 @@ class APIRequest
         curl_close($this->m_ch);
         if (defined('IRAPDIAGNOSTICS'))
         {
-            echo $this->m_result;
+            echo $response;
         }
     } 
             
