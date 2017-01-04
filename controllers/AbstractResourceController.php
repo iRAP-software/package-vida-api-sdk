@@ -65,7 +65,10 @@ abstract class AbstractResourceController
         }
         $response->status = $request->m_status;
         $response->code = $request->m_httpCode;
-        $response->error = $request->m_error;
+        if (!empty($request->m_error))
+        {
+            $response->error = $request->m_error;
+        }
         return $response;
     }
 }
