@@ -16,10 +16,7 @@ class AuthController extends AbstractResourceController
         $request->setUrl("auth/register");
         $request->setPostData(array("email"=>$email,"password"=>$password));
         $request->send();
-        if ($request->m_result)
-        {
-            return json_decode($request->m_result);
-        }
+        return $this->response($request);
     }
     
     public static function setUserToken($userAuthID, $userAPIKey, $userPrivateKey)
@@ -35,9 +32,6 @@ class AuthController extends AbstractResourceController
         $request->setUrl("auth/register_app");
         $request->setPostData(array("name"=>$name,"owner"=>$owner));
         $request->send();
-        if ($request->m_result)
-        {
-            return json_decode($request->m_result);
-        }
+        return $this->response($request);
     }
 }

@@ -20,9 +20,16 @@ class Utils extends Client
     {
         $appToken = Controllers\AuthController::getAppToken($name, $owner);
         $token = new \stdClass();
-        $token->appAuthId = $appToken->auth_id;
-        $token->appApiKey = $appToken->api_key;
-        $token->appPrivateKey = $appToken->api_secret;
+        if ($appToken->code == 200)
+        {
+            $token->appAuthId = $appToken->response->auth_id;
+            $token->appApiKey = $appToken->response->api_key;
+            $token->appPrivateKey = $appToken->response->api_secret;
+        }
+        else
+        {
+            $token->error = $appToken->error;
+        }
         return $token;
     }
 }
