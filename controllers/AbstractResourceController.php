@@ -59,7 +59,7 @@ abstract class AbstractResourceController
     private function response($request)
     {
         $response = new \stdClass();
-        if (!empty($request->m_result))
+        if (!empty(json_decode($request->m_result, true)))
         {
             $response->response = json_decode($request->m_result);
         }
