@@ -56,7 +56,7 @@ abstract class AbstractResourceController
         return $this->response($request);
     }
     
-    public function response($request)
+    public static function response($request)
     {
         $response = new \stdClass();
         if (!empty(json_decode($request->m_result, true)))
