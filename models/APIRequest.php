@@ -103,7 +103,7 @@ class APIRequest
         $header = substr($response, 0, ($info['header_size']-1));
         $this->m_result = substr($response, $info['header_size']-1);
         $this->m_httpCode = $info['http_code'];
-        foreach (explode(PHP_EOL, $header) as $line)
+        foreach (explode("\r\n", $header) as $line)
         {
             $line = explode(': ', $line);
             $key = $line[0];

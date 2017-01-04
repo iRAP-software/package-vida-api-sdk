@@ -74,11 +74,11 @@ abstract class AbstractResourceController
     private function response($request)
     {
         $response = new \stdClass();
-        $response->response = $request->m_result;
+        $response->response = json_decode($request->m_result);
         $response->status = $request->m_status;
         $response->code = $request->m_httpCode;
         $response->error = $request->m_error;
-        return json_decode($response);
+        return $response;
     }
 }
 
