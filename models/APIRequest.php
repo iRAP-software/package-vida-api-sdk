@@ -106,6 +106,10 @@ class APIRequest
         foreach (explode("\r\n", $header) as $line)
         {
             $line = explode(': ', $line);
+            if (count($line) < 2)
+            {
+                continue;
+            }
             $key = $line[0];
             $value = $line[1];
             if ($key == 'Status')
