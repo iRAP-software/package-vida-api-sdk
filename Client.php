@@ -32,9 +32,9 @@ class Client implements apiInterface
         $token = new \stdClass();
         if ($userToken->code == 200)
         {
-            $token->userAuthId = $userToken->auth_id;
-            $token->userApiKey = $userToken->api_key;
-            $token->userPrivateKey = $userToken->api_secret;
+            $token->userAuthId = $userToken->response->auth_id;
+            $token->userApiKey = $userToken->response->api_key;
+            $token->userPrivateKey = $userToken->response->api_secret;
         }
         else
         {
