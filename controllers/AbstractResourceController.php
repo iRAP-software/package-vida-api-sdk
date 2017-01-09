@@ -59,7 +59,7 @@ abstract class AbstractResourceController
     public function getResourceForAncestor($resource, $ancestor, $id)
     {
         $request = new \iRAP\VidaSDK\Models\APIRequest();
-        $request->setUrl($resource, $ancestor, $id);
+        $request->setUrl($resource, 'for/' . $ancestor, $id);
         $request->send();
         return $this->response($request);
     }
