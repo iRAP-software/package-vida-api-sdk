@@ -96,6 +96,30 @@ class Client implements apiInterface
         return $datasetController->deleteResource('datasets', $id);
     }
     
+    public function getDatasetUsers($id)
+    {
+        $datasetController = new Controllers\DatasetsController();
+        return $datasetController->getResourceUserAccess('datasets', $id);
+    }
+    
+    public function getDatasetsForProgramme($id)
+    {
+        $datasetController = new Controllers\DatasetsController();
+        return $datasetController->getResourceForAncestor('datasets', 'programme', $id);
+    }
+    
+    public function getDatasetsForRegion($id)
+    {
+        $datasetController = new Controllers\DatasetsController();
+        return $datasetController->getResourceForAncestor('datasets', 'region', $id);
+    }
+    
+    public function getDatasetsForProject($id)
+    {
+        $datasetController = new Controllers\DatasetsController();
+        return $datasetController->getResourceForAncestor('datasets', 'project', $id);
+    }
+    
     public function getProgrammes($id = null)
     {
         $programmeController = new Controllers\ProgrammesController();
@@ -156,6 +180,12 @@ class Client implements apiInterface
         return $regionController->getResourceUserAccess('regions', $id);
     }
     
+    public function getRegionsForProgramme($id)
+    {
+        $regionController = new Controllers\RegionsController();
+        return $regionController->getResourceForAncestor('regions', 'programme', $id);
+    }
+    
     public function getProjects($id = null)
     {
         $projectController = new Controllers\ProjectsController();
@@ -184,5 +214,17 @@ class Client implements apiInterface
     {
         $projectController = new Controllers\ProjectsController();
         return $projectController->getResourceUserAccess('projects', $id);
+    }
+    
+    public function getProjectsForProgramme($id)
+    {
+        $projectController = new Controllers\ProjectsController();
+        return $projectController->getResourceForAncestor('projects', 'programme', $id);
+    }
+    
+    public function getProjectsForRegion($id)
+    {
+        $projectController = new Controllers\ProjectsController();
+        return $projectController->getResourceForAncestor('projects', 'region', $id);
     }
 }

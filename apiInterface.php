@@ -28,6 +28,12 @@ interface apiInterface
     
     public function deleteDataset($id);
     
+    public function getDatasetsForProgramme($id);
+    
+    public function getDatasetsForRegion($id);
+    
+    public function getDatasetsForProject($id);
+    
     public function getProgrammes();
     
     public function addProgramme($name, $manager_id);
@@ -48,6 +54,8 @@ interface apiInterface
     
     public function getRegionUsers($id);
     
+    public function getRegionsForProgramme($id);
+    
     public function getProjects();
     
     public function addProject($name, $region_id, $manager_id, $model_id);
@@ -57,4 +65,8 @@ interface apiInterface
     public function deleteProject($id);
     
     public function getProjectUsers($id);
+    
+    public function getProjectsForProgramme($id);
+    
+    public function getProjectsForRegion($id);
 }

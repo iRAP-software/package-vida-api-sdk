@@ -56,6 +56,14 @@ abstract class AbstractResourceController
         return $this->response($request);
     }
     
+    public function getResourceForAncestor($resource, $ancestor, $id)
+    {
+        $request = new \iRAP\VidaSDK\Models\APIRequest();
+        $request->setUrl($resource, $ancestor, $id);
+        $request->send();
+        return $this->response($request);
+    }
+    
     public static function response($request)
     {
         $response = new \stdClass();
