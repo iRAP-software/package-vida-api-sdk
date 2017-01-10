@@ -30,15 +30,17 @@ class Client implements apiInterface
     {
         $userToken = Controllers\AuthController::getUserToken($email, $password);
         $token = new \stdClass();
-        if ($userToken->code == 200)
+        if (isset($userToken->response))
         {
             $token->userAuthId = $userToken->response->auth_id;
             $token->userApiKey = $userToken->response->api_key;
             $token->userPrivateKey = $userToken->response->api_secret;
         }
-        else
+        $token->status = $userToken->m_status;
+        $token->code = $userToken->m_httpCode;
+        if (!empty($userToken->m_error))
         {
-            $token->error = $userToken->error;
+            $token->error = $userToken->m_error;
         }
         return $token;
     }
