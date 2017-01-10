@@ -36,11 +36,11 @@ class Client implements apiInterface
             $token->userApiKey = $userToken->response->api_key;
             $token->userPrivateKey = $userToken->response->api_secret;
         }
-        $token->status = $userToken->m_status;
-        $token->code = $userToken->m_httpCode;
-        if (!empty($userToken->m_error))
+        $token->status = $userToken->status;
+        $token->code = $userToken->httpCode;
+        if (!empty($userToken->error))
         {
-            $token->error = $userToken->m_error;
+            $token->error = $userToken->error;
         }
         return $token;
     }

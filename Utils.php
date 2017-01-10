@@ -26,11 +26,11 @@ class Utils extends Client
             $token->appApiKey = $appToken->response->api_key;
             $token->appPrivateKey = $appToken->response->api_secret;
         }
-        $token->status = $appToken->m_status;
-        $token->code = $appToken->m_httpCode;
-        if (!empty($appToken->m_error))
+        $token->status = $appToken->status;
+        $token->code = $appToken->httpCode;
+        if (!empty($appToken->error))
         {
-            $token->error = $appToken->m_error;
+            $token->error = $appToken->error;
         }
         return $token;
     }
