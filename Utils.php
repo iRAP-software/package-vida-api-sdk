@@ -27,7 +27,7 @@ class Utils extends Client
             $token->appPrivateKey = $appToken->response->api_secret;
         }
         $token->status = $appToken->status;
-        $token->code = $appToken->httpCode;
+        $token->code = $appToken->ode;
         if (!empty($appToken->error))
         {
             $token->error = $appToken->error;
