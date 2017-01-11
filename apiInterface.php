@@ -69,4 +69,14 @@ interface apiInterface
     public function getProjectsForProgramme($id);
     
     public function getProjectsForRegion($id);
+    
+    public function getVariables();
+    
+    public function addVariable($variables);
+    
+    public function replaceVariable($id, $variables);
+    
+    public function deleteVariable($id);
+    
+    public function getVariablesForDataset($id);
 }

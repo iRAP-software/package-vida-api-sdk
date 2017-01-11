@@ -8,6 +8,15 @@
 
 namespace iRAP\VidaSDK\Models;
 
+if (defined('IRAPDEV'))
+{
+    define('\iRAP\VidaSDK\API_URL', 'http://api.irap-dev.org');
+}
+else
+{
+    define('\iRAP\VidaSDK\API_URL', 'http://api.release.vida.irap.org');
+}
+
 class APIRequest
 {
     private static $s_version;

@@ -16,14 +16,6 @@ class Client implements apiInterface
         define(__NAMESPACE__.'\APP_AUTH_ID', $appAuthID);
         define(__NAMESPACE__.'\APP_API_KEY', $appAPIKey);
         define(__NAMESPACE__.'\APP_PRIVATE_KEY', $appPrivateKey);
-        if (defined('IRAPDEV'))
-        {
-            define(__NAMESPACE__.'\API_URL', 'http://api.irap-dev.org');
-        }
-        else
-        {
-            define(__NAMESPACE__.'\API_URL', 'http://api.release.vida.irap.org');
-        }
     }
     
     public function getUserToken($email, $password)
@@ -228,5 +220,35 @@ class Client implements apiInterface
     {
         $projectController = new Controllers\ProjectsController();
         return $projectController->getResourceForAncestor('projects', 'region', $id);
+    }
+    
+    public function getVariables($id = null)
+    {
+        $variableController = new Controllers\VariablesController();
+        return $variableController->getResource('variables', $id);
+    }
+    
+    public function addVariable($variables)
+    {
+        $variableController = new Controllers\VariablesController();
+        return $variableController->postResource('variables', $variables);
+    }
+    
+    public function replaceVariable($id, $variables)
+    {
+        $variableController = new Controllers\VariablesController();
+        return $variableController->putResource('variables', $id, $variables);
+    }
+    
+    public function deleteVariable($id)
+    {
+        $variableController = new Controllers\VariablesController();
+        return $variableController->deleteResource('variables', $id);
+    }
+    
+    public function getVariablesForDataset($id)
+    {
+        $variableController = new Controllers\VariablesController();
+        return $variableController->getResourceForAncestor('variables', 'dataset', $id);
     }
 }
