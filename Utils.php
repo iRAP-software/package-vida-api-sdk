@@ -34,4 +34,29 @@ class Utils extends Client
         }
         return $token;
     }
+    
+    public function getDatapointsForProgramme($id)
+    {
+        $datapointController = new Controllers\DatapointsController();
+        return $datapointController->getResourceForAncestor('datapoints', 'programme', $id);
+    }
+    
+    public function getDatapointsForRegion($id)
+    {
+        $datapointController = new Controllers\DatapointsController();
+        return $datapointController->getResourceForAncestor('datapoints', 'region', $id);
+    }
+    
+    public function getDatapointsForProject($id)
+    {
+        $datapointController = new Controllers\DatapointsController();
+        return $datapointController->getResourceForAncestor('datapoints', 'project', $id);
+    }
+    
+    public function getDatapointsForDataset($id)
+    {
+        $datapointController = new Controllers\DatapointsController();
+        return $datapointController->getResourceForAncestor('datapoints', 'dataset', $id);
+    }
+    
 }
