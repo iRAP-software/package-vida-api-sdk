@@ -263,49 +263,49 @@ class Client implements apiInterface
     public function getRoadAttributes($id, $dataset_id)
     {
         $roadAttributeController = new Controllers\RoadAttributesController();
-        return $roadAttributeController->getResource('roadAttributes', $id, $dataset_id);
+        return $roadAttributeController->getResource('roadattributes', $id, $dataset_id);
     }
     
     public function addRoadAttribute($roadAttributes, $dataset_id)
     {
         $roadAttributeController = new Controllers\RoadAttributesController();
-        return $roadAttributeController->postResource('roadAttributes', $roadAttributes, $dataset_id);
+        return $roadAttributeController->postResource('roadattributes', $roadAttributes, $dataset_id);
     }
     
     public function replaceRoadAttribute($id, $roadAttributes, $dataset_id)
     {
         $roadAttributeController = new Controllers\RoadAttributesController();
-        return $roadAttributeController->putResource('roadAttributes', $id, $roadAttributes, $dataset_id);
+        return $roadAttributeController->putResource('roadattributes', $id, $roadAttributes, $dataset_id);
     }
     
     public function deleteRoadAttribute($id, $dataset_id)
     {
         $roadAttributeController = new Controllers\RoadAttributesController();
-        return $roadAttributeController->deleteResource('roadAttributes', $id, $dataset_id);
+        return $roadAttributeController->deleteResource('roadattributes', $id, $dataset_id);
     }
     
     public function getRoadAttributesForProgramme($id)
     {
         $roadAttributeController = new Controllers\RoadAttributesController();
-        return $roadAttributeController->getResource('roadAttributes', 'for', array('programme', $id));
+        return $roadAttributeController->getResource('roadattributes', 'for', array('programme', $id));
     }
     
     public function getRoadAttributesForRegion($id)
     {
         $roadAttributeController = new Controllers\RoadAttributesController();
-        return $roadAttributeController->getResource('roadAttributes', 'for', array('region', $id));
+        return $roadAttributeController->getResource('roadattributes', 'for', array('region', $id));
     }
     
     public function getRoadAttributesForProject($id)
     {
         $roadAttributeController = new Controllers\RoadAttributesController();
-        return $roadAttributeController->getResource('roadAttributes', 'for', array('project', $id));
+        return $roadAttributeController->getResource('roadattributes', 'for', array('project', $id));
     }
     
     public function getRoadAttributesForDataset($id)
     {
         $roadAttributeController = new Controllers\RoadAttributesController();
-        return $roadAttributeController->getResource('roadAttributes', 'for', array('dataset', $id));
+        return $roadAttributeController->getResource('roadattributes', 'for', array('dataset', $id));
     }
     
     public function getFatalities($id, $dataset_id)
