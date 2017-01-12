@@ -101,25 +101,25 @@ class Client implements apiInterface
     public function getDatasetUsers($id)
     {
         $datasetController = new Controllers\DatasetsController();
-        return $datasetController->getResourceUserAccess('datasets', $id);
+        return $datasetController->getResource('datasets', $id, 'user-access');
     }
     
     public function getDatasetsForProgramme($id)
     {
         $datasetController = new Controllers\DatasetsController();
-        return $datasetController->getResourceForAncestor('datasets', 'programme', $id);
+        return $datasetController->getResource('datasets', 'for', array('programme', $id));
     }
     
     public function getDatasetsForRegion($id)
     {
         $datasetController = new Controllers\DatasetsController();
-        return $datasetController->getResourceForAncestor('datasets', 'region', $id);
+        return $datasetController->getResource('datasets', 'for', array('region', $id));
     }
     
     public function getDatasetsForProject($id)
     {
         $datasetController = new Controllers\DatasetsController();
-        return $datasetController->getResourceForAncestor('datasets', 'project', $id);
+        return $datasetController->getResource('datasets', 'for', array('project', $id));
     }
     
     public function getProgrammes($id = null)
@@ -149,7 +149,7 @@ class Client implements apiInterface
     public function getProgrammeUsers($id)
     {
         $programmeController = new Controllers\ProgrammesController();
-        return $programmeController->getResourceUserAccess('programmes', $id);
+        return $programmeController->getResource('programmes', $id, 'user-access');
     }
     
     public function getRegions($id = null)
@@ -179,13 +179,13 @@ class Client implements apiInterface
     public function getRegionUsers($id)
     {
         $regionController = new Controllers\RegionsController();
-        return $regionController->getResourceUserAccess('regions', $id);
+        return $regionController->getResource('regions', $id, 'user-access');
     }
     
     public function getRegionsForProgramme($id)
     {
         $regionController = new Controllers\RegionsController();
-        return $regionController->getResourceForAncestor('regions', 'programme', $id);
+        return $regionController->getResource('regions', 'for', array('programme', $id));
     }
     
     public function getProjects($id = null)
@@ -215,19 +215,19 @@ class Client implements apiInterface
     public function getProjectUsers($id)
     {
         $projectController = new Controllers\ProjectsController();
-        return $projectController->getResourceUserAccess('projects', $id);
+        return $projectController->getResource('projects', $id, 'user-access');
     }
     
     public function getProjectsForProgramme($id)
     {
         $projectController = new Controllers\ProjectsController();
-        return $projectController->getResourceForAncestor('projects', 'programme', $id);
+        return $projectController->getResource('projects', 'for', array('programme', $id));
     }
     
     public function getProjectsForRegion($id)
     {
         $projectController = new Controllers\ProjectsController();
-        return $projectController->getResourceForAncestor('projects', 'region', $id);
+        return $projectController->getResource('projects', 'for', array('region', $id));
     }
     
     public function getVariables($id = null)
@@ -257,6 +257,198 @@ class Client implements apiInterface
     public function getVariablesForDataset($id)
     {
         $variableController = new Controllers\VariablesController();
-        return $variableController->getResourceForAncestor('variables', 'dataset', $id);
+        return $variableController->getResource('variables', 'for', array('dataset', $id));
+    }
+    
+    public function getRoadAttributes($id, $dataset_id)
+    {
+        $roadAttributeController = new Controllers\RoadAttributesController();
+        return $roadAttributeController->getResource('roadAttributes', $id, $dataset_id);
+    }
+    
+    public function addRoadAttribute($roadAttributes, $dataset_id)
+    {
+        $roadAttributeController = new Controllers\RoadAttributesController();
+        return $roadAttributeController->postResource('roadAttributes', $roadAttributes, $dataset_id);
+    }
+    
+    public function replaceRoadAttribute($id, $roadAttributes, $dataset_id)
+    {
+        $roadAttributeController = new Controllers\RoadAttributesController();
+        return $roadAttributeController->putResource('roadAttributes', $id, $roadAttributes, $dataset_id);
+    }
+    
+    public function deleteRoadAttribute($id, $dataset_id)
+    {
+        $roadAttributeController = new Controllers\RoadAttributesController();
+        return $roadAttributeController->deleteResource('roadAttributes', $id, $dataset_id);
+    }
+    
+    public function getRoadAttributesForProgramme($id)
+    {
+        $roadAttributeController = new Controllers\RoadAttributesController();
+        return $roadAttributeController->getResource('roadAttributes', 'for', array('programme', $id));
+    }
+    
+    public function getRoadAttributesForRegion($id)
+    {
+        $roadAttributeController = new Controllers\RoadAttributesController();
+        return $roadAttributeController->getResource('roadAttributes', 'for', array('region', $id));
+    }
+    
+    public function getRoadAttributesForProject($id)
+    {
+        $roadAttributeController = new Controllers\RoadAttributesController();
+        return $roadAttributeController->getResource('roadAttributes', 'for', array('project', $id));
+    }
+    
+    public function getRoadAttributesForDataset($id)
+    {
+        $roadAttributeController = new Controllers\RoadAttributesController();
+        return $roadAttributeController->getResource('roadAttributes', 'for', array('dataset', $id));
+    }
+    
+    public function getFatalities($id, $dataset_id)
+    {
+        $fatalitiesController = new Controllers\FatalitiesController();
+        return $fatalitiesController->getResource('fatalities', $id, $dataset_id);
+    }
+    
+    public function addFatalities($fatalities, $dataset_id)
+    {
+        $fatalitiesController = new Controllers\FatalitiesController();
+        return $fatalitiesController->postResource('fatalities', $fatalities, $dataset_id);
+    }
+    
+    public function replaceFatalities($id, $fatalities, $dataset_id)
+    {
+        $fatalitiesController = new Controllers\FatalitiesController();
+        return $fatalitiesController->putResource('fatalities', $id, $fatalities, $dataset_id);
+    }
+    
+    public function deleteFatalities($id, $dataset_id)
+    {
+        $fatalitiesController = new Controllers\FatalitiesController();
+        return $fatalitiesController->deleteResource('fatalities', $id, $dataset_id);
+    }
+    
+    public function getFatalitiesForProgramme($id)
+    {
+        $fatalitiesController = new Controllers\FatalitiesController();
+        return $fatalitiesController->getResource('fatalities', 'for', array('programme', $id));
+    }
+    
+    public function getFatalitiesForRegion($id)
+    {
+        $fatalitiesController = new Controllers\FatalitiesController();
+        return $fatalitiesController->getResource('fatalities', 'for', array('region', $id));
+    }
+    
+    public function getFatalitiesForProject($id)
+    {
+        $fatalitiesController = new Controllers\FatalitiesController();
+        return $fatalitiesController->getResource('fatalities', 'for', array('project', $id));
+    }
+    
+    public function getFatalitiesForDataset($id)
+    {
+        $fatalitiesController = new Controllers\FatalitiesController();
+        return $fatalitiesController->getResource('fatalities', 'for', array('dataset', $id));
+    }
+    
+    public function getBeforeStarRatings($id, $dataset_id)
+    {
+        $starRatingController = new Controllers\StarRatingsController();
+        return $starRatingController->getResource('starratings', $id, array('before', $dataset_id));
+    }
+    
+    public function addBeforeStarRating($starratings, $dataset_id)
+    {
+        $starRatingController = new Controllers\StarRatingsController();
+        return $starRatingController->postResource('starratings', $starratings, array('before', $dataset_id));
+    }
+    
+    public function replaceBeforeStarRating($id, $starratings, $dataset_id)
+    {
+        $starRatingController = new Controllers\StarRatingsController();
+        return $starRatingController->putResource('starratings', $id, $starratings, array('before', $dataset_id));
+    }
+    
+    public function deleteBeforeStarRating($id, $dataset_id)
+    {
+        $starRatingController = new Controllers\StarRatingsController();
+        return $starRatingController->deleteResource('starratings', $id, array('before', $dataset_id));
+    }
+    
+    public function getBeforeStarRatingsForProgramme($id)
+    {
+        $starRatingController = new Controllers\StarRatingsController();
+        return $starRatingController->getResource('starratings', 'for', array('programme', $id, 'before'));
+    }
+    
+    public function getBeforeStarRatingsForRegion($id)
+    {
+        $starRatingController = new Controllers\StarRatingsController();
+        return $starRatingController->getResource('starratings', 'for', array('region', $id, 'before'));
+    }
+    
+    public function getBeforeStarRatingsForProject($id)
+    {
+        $starRatingController = new Controllers\StarRatingsController();
+        return $starRatingController->getResource('starratings', 'for', array('project', $id, 'before'));
+    }
+    
+    public function getBeforeStarRatingsForDataset($id)
+    {
+        $starRatingController = new Controllers\StarRatingsController();
+        return $starRatingController->getResource('starratings', 'for', array('dataset', $id, 'before'));
+    }
+    
+    public function getAfterStarRatings($id, $dataset_id)
+    {
+        $starRatingController = new Controllers\StarRatingsController();
+        return $starRatingController->getResource('starratings', $id, array('after', $dataset_id));
+    }
+    
+    public function addAfterStarRating($starratings, $dataset_id)
+    {
+        $starRatingController = new Controllers\StarRatingsController();
+        return $starRatingController->postResource('starratings', $starratings, array('after', $dataset_id));
+    }
+    
+    public function replaceAfterStarRating($id, $starratings, $dataset_id)
+    {
+        $starRatingController = new Controllers\StarRatingsController();
+        return $starRatingController->putResource('starratings', $id, $starratings, array('after', $dataset_id));
+    }
+    
+    public function deleteAfterStarRating($id, $dataset_id)
+    {
+        $starRatingController = new Controllers\StarRatingsController();
+        return $starRatingController->deleteResource('starratings', $id, array('after', $dataset_id));
+    }
+    
+    public function getAfterStarRatingsForProgramme($id)
+    {
+        $starRatingController = new Controllers\StarRatingsController();
+        return $starRatingController->getResource('starratings', 'for', array('programme', $id, 'after'));
+    }
+    
+    public function getAfterStarRatingsForRegion($id)
+    {
+        $starRatingController = new Controllers\StarRatingsController();
+        return $starRatingController->getResource('starratings', 'for', array('region', $id, 'after'));
+    }
+    
+    public function getAfterStarRatingsForProject($id)
+    {
+        $starRatingController = new Controllers\StarRatingsController();
+        return $starRatingController->getResource('starratings', 'for', array('project', $id, 'after'));
+    }
+    
+    public function getAfterStarRatingsForDataset($id)
+    {
+        $starRatingController = new Controllers\StarRatingsController();
+        return $starRatingController->getResource('starratings', 'for', array('dataset', $id, 'after'));
     }
 }

@@ -11,90 +11,38 @@ namespace iRAP\VidaSDK\Controllers;
 abstract class AbstractResourceController
 {
     
-    public function getResource($resource, $id = null)
+    public function getResource($resource, $id = null, $args = null)
     {
         
         $request = new \iRAP\VidaSDK\Models\APIRequest();
-        $request->setUrl($resource, $id);
+        $request->setUrl($resource, $id, $args);
         $request->send();
         return $this->response($request);
     }
     
-    public function postResource($resource, $data)
+    public function postResource($resource, $data, $id = null, $args = null)
     {
         
         $request = new \iRAP\VidaSDK\Models\APIRequest();
-        $request->setUrl($resource);
+        $request->setUrl($resource, $id, $args);
         $request->setPostData($data);
         $request->send();
         return $this->response($request);
     }
     
-    public function putResource($resource, $id, $data)
+    public function putResource($resource, $id, $data, $args = null)
     {
         $request = new \iRAP\VidaSDK\Models\APIRequest();
-        $request->setUrl($resource, $id);
+        $request->setUrl($resource, $id, $args);
         $request->setPutData($data);
         $request->send();
         return $this->response($request);
     }
     
-    public function deleteResource($resource, $id)
+    public function deleteResource($resource, $id, $args = null)
     {
         $request = new \iRAP\VidaSDK\Models\APIRequest();
-        $request->setUrl($resource, $id);
-        $request->setDeleteRequest();
-        $request->send();
-        return $this->response($request);
-    }
-    
-    public function getResourceUserAccess($resource, $id)
-    {
-        $request = new \iRAP\VidaSDK\Models\APIRequest();
-        $request->setUrl($resource, $id, "user-access");
-        $request->send();
-        return $this->response($request);
-    }
-    
-    public function getResourceForAncestor($resource, $ancestor, $id)
-    {
-        $request = new \iRAP\VidaSDK\Models\APIRequest();
-        $request->setUrl($resource, 'for/' . $ancestor, $id);
-        $request->send();
-        return $this->response($request);
-    }
-    
-    public function getResourceWithParent($resource, $id, $parent_id)
-    {
-        $request = new \iRAP\VidaSDK\Models\APIRequest();
-        $request->setUrl($resource, $id, $parent_id);
-        $request->send();
-        return $this->response($request);
-    }
-    
-    public function postResourceWithParent($resource, $data, $parent_id)
-    {
-        
-        $request = new \iRAP\VidaSDK\Models\APIRequest();
-        $request->setUrl($resource, $parent_id);
-        $request->setPostData($data);
-        $request->send();
-        return $this->response($request);
-    }
-    
-    public function putResourceWithParent($resource, $id, $data, $parent_id)
-    {
-        $request = new \iRAP\VidaSDK\Models\APIRequest();
-        $request->setUrl($resource, $id, $parent_id);
-        $request->setPutData($data);
-        $request->send();
-        return $this->response($request);
-    }
-    
-    public function deleteResourceWithParent($resource, $id, $parent_id)
-    {
-        $request = new \iRAP\VidaSDK\Models\APIRequest();
-        $request->setUrl($resource, $id, $parent_id);
+        $request->setUrl($resource, $id, $args);
         $request->setDeleteRequest();
         $request->send();
         return $this->response($request);

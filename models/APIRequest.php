@@ -47,7 +47,7 @@ class APIRequest
         }
     } 
             
-    public function setUrl($resource, $id = null, $arg = null)
+    public function setUrl($resource, $id = null, $args = null)
     {
         $url = self::$s_url;
         if (!empty(self::$s_version))
@@ -59,9 +59,16 @@ class APIRequest
         {
             $url .= '/'.$id;
         }
-        if (!empty($arg))
+        if (!empty($args))
         {
-            $url .= '/'.$arg;
+            if (is_array($args))
+            {
+                $url .= '/'.implode('/', $args);
+            }
+            else
+            {
+                $url .= '/'.$args;
+            }
         }
         $this->m_ch = curl_init($url);
     }

@@ -79,4 +79,68 @@ interface apiInterface
     public function deleteVariable($id);
     
     public function getVariablesForDataset($id);
+    
+    public function getRoadAttributes($id, $dataset_id);
+    
+    public function addRoadAttribute($roadAttributes, $dataset_id);
+    
+    public function replaceRoadAttribute($id, $roadAttributes, $dataset_id);
+    
+    public function deleteRoadAttribute($id, $dataset_id);
+    
+    public function getRoadAttributesForProgramme($id);
+    
+    public function getRoadAttributesForRegion($id);
+    
+    public function getRoadAttributesForProject($id);
+    
+    public function getRoadAttributesForDataset($id);
+    
+    public function getFatalities($id, $dataset_id);
+    
+    public function addFatalities($fatalities, $dataset_id);
+    
+    public function replaceFatalities($id, $fatalities, $dataset_id);
+    
+    public function deleteFatalities($id, $dataset_id);
+    
+    public function getFatalitiesForProgramme($id);
+    
+    public function getFatalitiesForRegion($id);
+    
+    public function getFatalitiesForProject($id);
+    
+    public function getFatalitiesForDataset($id);
+    
+    public function getBeforeStarRatings($id, $dataset_id);
+    
+    public function addBeforeStarRating($starratings, $dataset_id);
+    
+    public function replaceBeforeStarRating($id, $starratings, $dataset_id);
+    
+    public function deleteBeforeStarRating($id, $dataset_id);
+    
+    public function getBeforeStarRatingsForProgramme($id);
+    
+    public function getBeforeStarRatingsForRegion($id);
+    
+    public function getBeforeStarRatingsForProject($id);
+    
+    public function getBeforeStarRatingsForDataset($id);
+    
+    public function getAfterStarRatings($id, $dataset_id);
+    
+    public function addAfterStarRating($starratings, $dataset_id);
+    
+    public function replaceAfterStarRating($id, $starratings, $dataset_id);
+    
+    public function deleteAfterStarRating($id, $dataset_id);
+    
+    public function getAfterStarRatingsForProgramme($id);
+    
+    public function getAfterStarRatingsForRegion($id);
+    
+    public function getAfterStarRatingsForProject($id);
+    
+    public function getAfterStarRatingsForDataset($id);
 }

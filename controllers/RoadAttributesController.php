@@ -8,7 +8,7 @@
 
 namespace iRAP\VidaSDK\Controllers;
 
-class DatapointsController extends AbstractResourceController
+class RoadAttributesController extends AbstractResourceController
 {
     
 }
