@@ -35,6 +35,30 @@ class Utils extends Client
         return $token;
     }
     
+    public function getDatapoints($id, $dataset_id)
+    {
+        $datapointController = new Controllers\DatapointsController();
+        return $datapointController->getResourceWithParent('datapoints', $id, $dataset_id);
+    }
+    
+    public function addDatapoint($datapoints, $dataset_id)
+    {
+        $datapointController = new Controllers\DatapointsController();
+        return $datapointController->postResourceWithParent('datapoints', $datapoints, $dataset_id);
+    }
+    
+    public function replaceDatapoint($id, $datapoints, $dataset_id)
+    {
+        $datapointController = new Controllers\DatapointsController();
+        return $datapointController->putResourceWithParent('datapoints', $id, $datapoints, $dataset_id);
+    }
+    
+    public function deleteDatapoint($id, $dataset_id)
+    {
+        $datapointController = new Controllers\DatapointsController();
+        return $datapointController->deleteResourceWithParent('datapoints', $id, $dataset_id);
+    }
+    
     public function getDatapointsForProgramme($id)
     {
         $datapointController = new Controllers\DatapointsController();

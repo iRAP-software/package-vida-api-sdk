@@ -64,6 +64,42 @@ abstract class AbstractResourceController
         return $this->response($request);
     }
     
+    public function getResourceWithParent($resource, $id, $parent_id)
+    {
+        $request = new \iRAP\VidaSDK\Models\APIRequest();
+        $request->setUrl($resource, $id, $parent_id);
+        $request->send();
+        return $this->response($request);
+    }
+    
+    public function postResourceWithParent($resource, $data, $parent_id)
+    {
+        
+        $request = new \iRAP\VidaSDK\Models\APIRequest();
+        $request->setUrl($resource, $parent_id);
+        $request->setPostData($data);
+        $request->send();
+        return $this->response($request);
+    }
+    
+    public function putResourceWithParent($resource, $id, $data, $parent_id)
+    {
+        $request = new \iRAP\VidaSDK\Models\APIRequest();
+        $request->setUrl($resource, $id, $parent_id);
+        $request->setPutData($data);
+        $request->send();
+        return $this->response($request);
+    }
+    
+    public function deleteResourceWithParent($resource, $id, $parent_id)
+    {
+        $request = new \iRAP\VidaSDK\Models\APIRequest();
+        $request->setUrl($resource, $id, $parent_id);
+        $request->setDeleteRequest();
+        $request->send();
+        return $this->response($request);
+    }
+    
     public static function response($request)
     {
         $response = new \stdClass();
