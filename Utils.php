@@ -1,9 +1,8 @@
 <?php
 
 /* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This file contains some additional functionality. The methods here are not intended for use by
+ * regular users and calling them will result in failed permissions checks.
  */
 
 namespace iRAP\VidaSDK;
