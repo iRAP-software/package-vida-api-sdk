@@ -247,6 +247,21 @@ class Client implements apiInterface
     }
     
     /**
+     * Start processing the specified dataset. Processing data is added to a queue and a successful
+     * response to this request means that the dataset has been added to the queue, not that
+     * processing is complete. To check whether it has finished, call getDataset($id) and examine
+     * the returned is_data_processing property.
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function processDataset($id)
+    {
+        $datasetController = new Controllers\DatasetsController();
+        return $datasetController->getResource('datasets', $id, 'process');
+    }
+    
+    /**
      * Fetches a list of all of the programmes in the system. If you specify an ID, that programme
      * will be returned to you.
      * 
