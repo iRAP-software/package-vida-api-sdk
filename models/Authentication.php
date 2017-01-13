@@ -11,7 +11,7 @@
 
 namespace iRAP\VidaSDK\Models;
 
-class authentication
+class Authentication
 {
     private $m_client_auth_id;
     private $m_client_api_key;
