@@ -1,11 +1,14 @@
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**************************************************************************************************
+ * This file is for internal use by the ViDA SDK. It should not be altered by users
+ **************************************************************************************************
+ * 
+ * This is the class that actually makes the requests to the API. It is essentially a wrapper
+ * for CURL, which handles inclusion of the authentication tokens in the header, assembles the
+ * URL, sets the different request types and handles the response from the API.
+ * 
  */
-
 namespace iRAP\VidaSDK\Models;
 
 class APIRequest
@@ -19,6 +22,10 @@ class APIRequest
     public $m_status;
     public $m_error;
     
+    /**
+     * The contructor sets up authentication, either for the app only or for app and user and then
+     * adds the authentication information into the request headers.
+     */
     public function __construct()
     {
         if (defined('\iRAP\VidaSDK\USER_AUTH_ID'))
@@ -32,6 +39,9 @@ class APIRequest
         $this->m_headers = $auth->m_authentication;
     }
 
+    /**
+     * This method sends the request to the API and receives the response.
+     */
     public function send()
     {
         curl_setopt($this->m_ch, CURLOPT_HEADER, true);
@@ -46,7 +56,16 @@ class APIRequest
             echo $response;
         }
     } 
-            
+          
+    /**
+     * Builds the URL and uses it to initiate CURL. The $resource and $id make up the first two 
+     * parts of the URL, are $args can either be a third element, or an array of elements, each of which will
+     * be separated with a '/'
+     * 
+     * @param string $resource
+     * @param mixed $id
+     * @param mixed $args
+     */
     public function setUrl($resource, $id = null, $args = null)
     {
         $url = self::$s_url;
@@ -73,11 +92,22 @@ class APIRequest
         $this->m_ch = curl_init($url);
     }
     
+    /**
+     * Adds an array of headers to the existing headers, which are usually the authentication ones.
+     * 
+     * @param array $headers
+     */
     public function setHeaders($headers)
     {
         $this->m_headers = array_merge($this->m_headers, $headers);
     }
     
+    /**
+     * Loops through the m_headers member variable and formats each header for the request. Returns
+     * an array of the headers.
+     * 
+     * @return array;
+     */
     private function formatHeaders() {
         $headers = array();
         foreach ($this->m_headers as $key=>$value)
@@ -87,23 +117,42 @@ class APIRequest
         return $headers;
     }
     
+    /**
+     * Adds the supplied array to the request as POST Fields and sets the request to a POST request.
+     * 
+     * @param array $data
+     */
     public function setPostData($data)
     {
         curl_setopt($this->m_ch, CURLOPT_POST, true);
         curl_setopt($this->m_ch, CURLOPT_POSTFIELDS, $data);
     }
     
+    /**
+     * Adds the supplied array to the request as POST Fields and sets the request to a PUT request.
+     * 
+     * @param array $data
+     */
     public function setPutData($data)
     {
         curl_setopt($this->m_ch, CURLOPT_CUSTOMREQUEST, "PUT");
         curl_setopt($this->m_ch, CURLOPT_POSTFIELDS, $data);
     }
     
+    /**
+     * Sets the request to a DELETE request
+     */
     public function setDeleteRequest()
     {
         curl_setopt($this->m_ch, CURLOPT_CUSTOMREQUEST, "DELETE");
     }
     
+    /**
+     * Takes the response from CURL and splits the header from the body. Splits out the header into
+     * HTTP Code, Status and Error message, for return to the developer.
+     * 
+     * @param object $response
+     */
     private function processResponse($response)
     {
         $info = curl_getinfo($this->m_ch);

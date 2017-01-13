@@ -1,15 +1,27 @@
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**************************************************************************************************
+ * This file is for internal use by the ViDA SDK. It should not be altered by users
+ **************************************************************************************************
+ * 
+ * Contains the authentication methods used to request and set tokens. Also handles encryption
+ * of the user password, before it is transmitted to the API
+ * 
  */
 
 namespace iRAP\VidaSDK\Controllers;
 
 class AuthController extends AbstractResourceController
 {
+    /**
+     * Sends the user's email and password to the API and gets a user token back. The user token 
+     * should be stored locally and used for all future requests. Email and password should NOT
+     * be stored locally. The password is encrypted using the APP_PRIVATE KEY before transmission.
+     * 
+     * @param string $email
+     * @param string $password
+     * @return object
+     */
     public static function getUserToken($email, $password)
     {
         $encrypted_password = self::encrypt($password, \iRAP\VidaSDK\APP_PRIVATE_KEY);
@@ -20,6 +32,14 @@ class AuthController extends AbstractResourceController
         return parent::response($request);
     }
     
+    /**
+     * Sets the various elements of the User token in name spaced constants. These are then
+     * used for all subsequent API requests, avoiding the need for constant re-authentication.
+     * 
+     * @param int $userAuthID
+     * @param string $userAPIKey
+     * @param string $userPrivateKey
+     */
     public static function setUserToken($userAuthID, $userAPIKey, $userPrivateKey)
     {
         define('iRAP\VidaSDK\USER_AUTH_ID', $userAuthID);
@@ -27,6 +47,14 @@ class AuthController extends AbstractResourceController
         define('iRAP\VidaSDK\USER_PRIVATE_KEY', $userPrivateKey);
     }
     
+    /**
+     * Requests an APP token for a new app. This request will normally be rejected, but exists
+     * for use the API administration system, which uses the SDK
+     * 
+     * @param string $name
+     * @param string $owner
+     * @return object
+     */
     public static function getAppToken($name, $owner)
     {
         $request = new \iRAP\VidaSDK\Models\APIRequest();

@@ -1,9 +1,12 @@
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**************************************************************************************************
+ * This file is for internal use by the ViDA SDK. It should not be altered by users
+ **************************************************************************************************
+ * 
+ * This class deals with the authentication. It generates the signatures for app and user and makes
+ * them available to the APIRequest object, for sending with all API requests. 
+ * 
  */
 
 namespace iRAP\VidaSDK\Models;
@@ -20,6 +23,16 @@ class authentication
     private $m_signatures;
     public $m_authentication;
     
+    /**
+     * Takes the API token and user token if available and sets up the authentication member variable
+     * 
+     * @param int $app_auth_id
+     * @param string $app_api_key
+     * @param string $app_private_key
+     * @param int $user_auth_id
+     * @param string $user_api_key
+     * @param string $user_private_key
+     */
     public function __construct($app_auth_id, $app_api_key, $app_private_key, $user_auth_id = '', $user_api_key = '', $user_private_key = '')
     {
         $this->m_client_auth_id = $app_auth_id;
@@ -33,6 +46,14 @@ class authentication
         $this->m_authentication = array_merge($this->m_parameters, $this->m_signatures);
     }
     
+    /**
+     * Takes the request parameters and the secret key and generates the request signature using
+     * the hash_hmac() method and the sha256 algorithm.
+     * 
+     * @param array $parameters
+     * @param string $secretKey
+     * @return string
+     */
     private function generateSignature($parameters, $secretKey)
     {
         array_change_key_case($parameters, CASE_LOWER); # just in case user forgets
@@ -42,6 +63,11 @@ class authentication
         return $signature;
     }
     
+    /**
+     * Builds an array of request parameters, for sending the API
+     * 
+     * @return array
+     */
     private function getParameters()
     {
         $parameters = array(
@@ -61,6 +87,11 @@ class authentication
         return $parameters;
     }
     
+    /**
+     * Gets the signatures for app and user and returns them as an array.
+     * 
+     * @return array
+     */
     private function getSignatures()
     {
         return array(
