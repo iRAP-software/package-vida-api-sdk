@@ -7,11 +7,9 @@
 
 namespace iRAP\VidaSDK;
 
-interface apiInterface
+interface ApiInterface
 {
     public function getUserToken($email, $password);
-    
-    public function setUserToken($userAuthID, $userAPIKey, $userPrivateKey);
     
     public function getUsers();
     

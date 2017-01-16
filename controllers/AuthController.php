@@ -22,29 +22,14 @@ class AuthController extends AbstractResourceController
      * @param string $password
      * @return object
      */
-    public static function getUserToken($email, $password)
+    public static function getUserToken($auth, $email, $password)
     {
         $encrypted_password = self::encrypt($password, \iRAP\VidaSDK\APP_PRIVATE_KEY);
-        $request = new \iRAP\VidaSDK\Models\APIRequest();
+        $request = new \iRAP\VidaSDK\Models\APIRequest($auth);
         $request->setUrl("auth/register");
         $request->setPostData(array("email"=>$email,"password"=>$encrypted_password));
         $request->send();
         return parent::response($request);
-    }
-    
-    /**
-     * Sets the various elements of the User token in name spaced constants. These are then
-     * used for all subsequent API requests, avoiding the need for constant re-authentication.
-     * 
-     * @param int $userAuthID
-     * @param string $userAPIKey
-     * @param string $userPrivateKey
-     */
-    public static function setUserToken($userAuthID, $userAPIKey, $userPrivateKey)
-    {
-        define('iRAP\VidaSDK\USER_AUTH_ID', $userAuthID);
-        define('iRAP\VidaSDK\USER_API_KEY', $userAPIKey);
-        define('iRAP\VidaSDK\USER_PRIVATE_KEY', $userPrivateKey);
     }
     
     /**
@@ -55,9 +40,9 @@ class AuthController extends AbstractResourceController
      * @param string $owner
      * @return object
      */
-    public static function getAppToken($name, $owner)
+    public static function getAppToken($auth, $name, $owner)
     {
-        $request = new \iRAP\VidaSDK\Models\APIRequest();
+        $request = new \iRAP\VidaSDK\Models\APIRequest($auth);
         $request->setUrl("auth/register_app");
         $request->setPostData(array("name"=>$name,"owner"=>$owner));
         $request->send();
