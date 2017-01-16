@@ -244,7 +244,7 @@ class ApiController implements ApiInterface
     public function addProgramme($name, $manager_id)
     {
         $programmeController = new ProgrammesController($this->m_auth);
-        return $programmeController->postResource('programmes', array("name"=>$name, "principle_users_id"=>$manager_id));
+        return $programmeController->postResource('programmes', array("name"=>$name, "principal_users_id"=>$manager_id));
     }
     
     /**
