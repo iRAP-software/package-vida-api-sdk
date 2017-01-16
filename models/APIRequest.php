@@ -26,18 +26,16 @@ class APIRequest
      * The contructor sets up authentication, either for the app only or for app and user and then
      * adds the authentication information into the request headers.
      */
-    public function __construct()
+    public function __construct($auth)
     {
-        var_dump(parent::m_auth);
-        die();
-        if (defined('\iRAP\VidaSDK\USER_AUTH_ID'))
-        {
-            $auth = new Authentication(\iRAP\VidaSDK\APP_AUTH_ID, \iRAP\VidaSDK\APP_API_KEY, \iRAP\VidaSDK\APP_PRIVATE_KEY, \iRAP\VidaSDK\USER_AUTH_ID, \iRAP\VidaSDK\USER_API_KEY, \iRAP\VidaSDK\USER_PRIVATE_KEY);
-        }
-        else
-        {
-            $auth = new Authentication(\iRAP\VidaSDK\APP_AUTH_ID, \iRAP\VidaSDK\APP_API_KEY, \iRAP\VidaSDK\APP_PRIVATE_KEY);
-        }
+//        if (defined('\iRAP\VidaSDK\USER_AUTH_ID'))
+//        {
+//            $auth = new Authentication(\iRAP\VidaSDK\APP_AUTH_ID, \iRAP\VidaSDK\APP_API_KEY, \iRAP\VidaSDK\APP_PRIVATE_KEY, \iRAP\VidaSDK\USER_AUTH_ID, \iRAP\VidaSDK\USER_API_KEY, \iRAP\VidaSDK\USER_PRIVATE_KEY);
+//        }
+//        else
+//        {
+//            $auth = new Authentication(\iRAP\VidaSDK\APP_AUTH_ID, \iRAP\VidaSDK\APP_API_KEY, \iRAP\VidaSDK\APP_PRIVATE_KEY);
+//        }
         $this->m_headers = $auth->m_authentication;
     }
 

@@ -13,7 +13,11 @@ namespace iRAP\VidaSDK\Controllers;
 
 abstract class AbstractResourceController
 {
-    
+    private $m_auth;
+    public function __construct($auth)
+    {
+        $this->m_auth = $auth;
+    }
     /**
      * Send a GET request to the API. The $resource and $id make up the first two parts of the 
      * URL, are $args can either be a third element, or an array of elements, each of which will
@@ -27,7 +31,7 @@ abstract class AbstractResourceController
     public function getResource($resource, $id = null, $args = null)
     {
         
-        $request = new \iRAP\VidaSDK\Models\APIRequest();
+        $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
         $request->setUrl($resource, $id, $args);
         $request->send();
         return $this->response($request);

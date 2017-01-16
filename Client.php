@@ -270,7 +270,7 @@ class Client implements apiInterface
      */
     public function getProgrammes($id = null)
     {
-        $programmeController = new Controllers\ProgrammesController();
+        $programmeController = new Controllers\ProgrammesController($this->m_auth);
         return $programmeController->getResource('programmes', $id);
     }
     
