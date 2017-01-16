@@ -5,7 +5,7 @@
  * Client.php
  */
 
-namespace iRAP\VidaSDK;
+namespace iRAP\VidaSDK\Controllers;
 
 interface ApiInterface
 {

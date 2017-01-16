@@ -9,7 +9,7 @@
  * 
  */
 
-namespace iRAP\VidaSDK;
+namespace iRAP\VidaSDK\Controllers;
 
 class ApiController implements ApiInterface
 {
