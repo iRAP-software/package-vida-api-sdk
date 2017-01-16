@@ -11,7 +11,7 @@
 
 namespace iRAP\VidaSDK;
 
-class Client extends Api
+class Client extends ApiController
 {
     
     /**
