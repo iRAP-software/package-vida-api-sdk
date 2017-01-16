@@ -12,8 +12,5 @@ namespace iRAP\VidaSDK\Controllers;
 
 class ProgrammesController extends AbstractResourceController
 {
- public function __construct($auth)
- {
-     parent::__construct($auth);
- }   
+       
 }
