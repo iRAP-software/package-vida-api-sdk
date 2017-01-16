@@ -36,6 +36,7 @@ class APIRequest
 //        {
 //            $auth = new Authentication(\iRAP\VidaSDK\APP_AUTH_ID, \iRAP\VidaSDK\APP_API_KEY, \iRAP\VidaSDK\APP_PRIVATE_KEY);
 //        }
+        var_dump($auth);
         $this->m_headers = $auth->m_authentication;
     }
 
