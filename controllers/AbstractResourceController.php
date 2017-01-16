@@ -16,6 +16,7 @@ abstract class AbstractResourceController
     private $m_auth;
     public function __construct($auth)
     {
+        var_dump($auth);
         $this->m_auth = $auth;
     }
     /**
