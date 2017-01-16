@@ -10,9 +10,11 @@ namespace iRAP\VidaSDK;
 class Utils extends Client
 {
     
+    private $m_auth;
     public function __construct($appAuthID, $appAPIKey, $appPrivateKey)
     {
         parent::__construct($appAuthID, $appAPIKey, $appPrivateKey);
+        $this->auth = new Models\Authentication($appAuthID, $appAPIKey, $appPrivateKey);
     }
     
     public function registerApp($name, $owner)

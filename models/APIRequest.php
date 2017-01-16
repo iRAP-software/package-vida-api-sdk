@@ -28,6 +28,8 @@ class APIRequest
      */
     public function __construct()
     {
+        var_dump(parent::m_auth);
+        die();
         if (defined('\iRAP\VidaSDK\USER_AUTH_ID'))
         {
             $auth = new Authentication(\iRAP\VidaSDK\APP_AUTH_ID, \iRAP\VidaSDK\APP_API_KEY, \iRAP\VidaSDK\APP_PRIVATE_KEY, \iRAP\VidaSDK\USER_AUTH_ID, \iRAP\VidaSDK\USER_API_KEY, \iRAP\VidaSDK\USER_PRIVATE_KEY);
