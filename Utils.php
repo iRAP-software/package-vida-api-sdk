@@ -14,7 +14,7 @@ class Utils extends Client
     public function __construct($appAuthID, $appAPIKey, $appPrivateKey)
     {
         parent::__construct($appAuthID, $appAPIKey, $appPrivateKey);
-        $this->auth = new Models\Authentication($appAuthID, $appAPIKey, $appPrivateKey);
+        $this->m_auth = new Models\Authentication($appAuthID, $appAPIKey, $appPrivateKey);
     }
     
     public function registerApp($name, $owner)
