@@ -14,7 +14,7 @@ namespace iRAP\VidaSDK\Models;
 class APIRequest
 {
     private static $s_version;
-    private static $s_url = \iRAP\VidaSDK\Controllers\API_URL;
+    private $s_url = \iRAP\VidaSDK\Controllers\API_URL;
     private $m_ch;
     private $m_headers;
     public $m_result;
@@ -28,6 +28,14 @@ class APIRequest
     public function __construct($auth)
     {
         $this->m_headers = $auth->m_authentication;
+        if (defined('IRAPDEV'))
+        {
+            $this->s_url = 'http://api.irap-dev.org';
+        }
+        else
+        {
+            $this->s_url = 'http://api.release.vida.irap.org';
+        }
     }
 
     /**
@@ -59,7 +67,7 @@ class APIRequest
      */
     public function setUrl($resource, $id = null, $args = null)
     {
-        $url = self::$s_url;
+        $url = $this->s_url;
         if (!empty(self::$s_version))
         {
             $url .= '/'.self::$s_version;

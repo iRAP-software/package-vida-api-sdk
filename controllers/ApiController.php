@@ -15,32 +15,6 @@ class ApiController implements ApiInterface
 {
     
     /**
-     * Start here! The constructor takes the App's authentication credentials, which will be 
-     * supplied to you by iRAP. By placing them here, all of the authentication work is done for
-     * you, which saves a lot of hassle further down the line.
-     * 
-     * The IRAPDEV constant is used internally during development of the API, and is no use to you.
-     * 
-     * @param int $appAuthID
-     * @param string $appAPIKey
-     * @param string $appPrivateKey
-     */
-    public function __construct($appAuthID, $appAPIKey, $appPrivateKey)
-    {
-        define(__NAMESPACE__.'\APP_AUTH_ID', $appAuthID);
-        define(__NAMESPACE__.'\APP_API_KEY', $appAPIKey);
-        define(__NAMESPACE__.'\APP_PRIVATE_KEY', $appPrivateKey);
-        if (defined('IRAPDEV'))
-        {
-            define(__NAMESPACE__.'\API_URL', 'http://api.irap-dev.org');
-        }
-        else
-        {
-            define(__NAMESPACE__.'\API_URL', 'http://api.release.vida.irap.org');
-        }
-    }
-    
-    /**
      ******* This method requires special permission from iRAP and is not available to all ********
      * 
      * Takes the user's email address and password and returns the user authentication token needed
@@ -71,21 +45,6 @@ class ApiController implements ApiInterface
             $token->error = $userToken->error;
         }
         return $token;
-    }
-    
-    /**
-     * After constructing the Client object, pass in the token details for the user you wish to
-     * act on behalf of. Once these details are set, they will remain in place for as long as the
-     * object exists. The token details maybe supplied to you by iRAP, or you may have been given
-     * permission to fetch them automatically, using the getUserToken() method above.
-     * 
-     * @param int $userAuthID
-     * @param string $userAPIKey
-     * @param string $userPrivateKey
-     */
-    public function setUserToken($userAuthID, $userAPIKey, $userPrivateKey)
-    {
-        AuthController::setUserToken($userAuthID, $userAPIKey, $userPrivateKey);
     }
     
     /**
