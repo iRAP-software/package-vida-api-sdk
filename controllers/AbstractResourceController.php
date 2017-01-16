@@ -18,6 +18,7 @@ abstract class AbstractResourceController
     {
         $this->m_auth = $auth;
     }
+    
     /**
      * Send a GET request to the API. The $resource and $id make up the first two parts of the 
      * URL, are $args can either be a third element, or an array of elements, each of which will
@@ -52,7 +53,7 @@ abstract class AbstractResourceController
     public function postResource($resource, $data, $id = null, $args = null)
     {
         
-        $request = new \iRAP\VidaSDK\Models\APIRequest();
+        $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
         $request->setUrl($resource, $id, $args);
         $request->setPostData($data);
         $request->send();
@@ -73,7 +74,7 @@ abstract class AbstractResourceController
      */
     public function putResource($resource, $id, $data, $args = null)
     {
-        $request = new \iRAP\VidaSDK\Models\APIRequest();
+        $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
         $request->setUrl($resource, $id, $args);
         $request->setPutData($data);
         $request->send();
@@ -93,7 +94,7 @@ abstract class AbstractResourceController
      */
     public function deleteResource($resource, $id, $args = null)
     {
-        $request = new \iRAP\VidaSDK\Models\APIRequest();
+        $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
         $request->setUrl($resource, $id, $args);
         $request->setDeleteRequest();
         $request->send();

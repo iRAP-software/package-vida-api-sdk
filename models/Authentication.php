@@ -13,15 +13,15 @@ namespace iRAP\VidaSDK\Models;
 
 class Authentication
 {
-    private $m_client_auth_id;
-    private $m_client_api_key;
-    private $m_client_private_key;
+    private $m_app_auth_id;
+    private $m_app_api_key;
+    private $m_app_private_key;
     private $m_user_auth_id;
     private $m_user_api_key;
     private $m_user_private_key;
     private $m_parameters;
     private $m_signatures;
-    public $m_authentication;
+    private $m_authentication;
     
     /**
      * Takes the API token and user token if available and sets up the authentication member variable
@@ -35,15 +35,25 @@ class Authentication
      */
     public function __construct($app_auth_id, $app_api_key, $app_private_key, $user_auth_id = '', $user_api_key = '', $user_private_key = '')
     {
-        $this->m_client_auth_id = $app_auth_id;
-        $this->m_client_api_key = $app_api_key;
-        $this->m_client_private_key = $app_private_key;
+        $this->m_app_auth_id = $app_auth_id;
+        $this->m_app_api_key = $app_api_key;
+        $this->m_app_private_key = $app_private_key;
         $this->m_user_auth_id = $user_auth_id;
         $this->m_user_api_key = $user_api_key;
         $this->m_user_private_key = $user_private_key;
         $this->m_parameters = $this->getParameters();
         $this->m_signatures = $this->getSignatures();
         $this->m_authentication = array_merge($this->m_parameters, $this->m_signatures);
+    }
+    
+    public function getAuthentication()
+    {
+        return $this->m_authentication;
+    }
+    
+    public function getAppPrivateKey()
+    {
+        return $this->m_app_private_key;
     }
     
     /**
@@ -71,8 +81,8 @@ class Authentication
     private function getParameters()
     {
         $parameters = array(
-            'system_auth_id'    => $this->m_client_auth_id,
-            'system_public_key' => $this->m_client_api_key,
+            'system_auth_id'    => $this->m_app_auth_id,
+            'system_public_key' => $this->m_app_api_key,
             'nonce'             => rand(999999, 99999999),
             'timestamp'         => time()
         );
@@ -95,7 +105,7 @@ class Authentication
     private function getSignatures()
     {
         return array(
-            'system_signature'  => $this->generateSignature($this->m_parameters, $this->m_client_private_key),
+            'system_signature'  => $this->generateSignature($this->m_parameters, $this->m_app_private_key),
             'user_signature'  => $this->generateSignature($this->m_parameters, $this->m_user_private_key)
         );
     }
