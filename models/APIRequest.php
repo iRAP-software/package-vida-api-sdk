@@ -30,7 +30,7 @@ class APIRequest
      * 
      * @param \iRAP\VidaSDK\Models\Authentication $auth
      */
-    public function __construct(Authentication $auth)
+    public function __construct(AbstractAuthentication $auth)
     {
         $this->m_headers = $auth->getAuthentication();
         if (defined('IRAPDEV'))
