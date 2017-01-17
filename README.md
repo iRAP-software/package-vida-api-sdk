@@ -9,23 +9,32 @@ The ViDA SDK is still under development, but once complete, it will provide a si
 Here are some starting points for using the SDK
 
 ### Connecting to the API
-To connect, you create a new client object and pass it your developer credentials...
+There are two classes for connecting to the API. The first, App(), can be used to make requests that don't require user authentication, such as requesting a user token. The second, User() is used for almost everything else.
+
+To connect via App(), create a new App() object and pass it the App credentials supplied to you by iRAP:
 
 ```php
-$api = new Client(
-  $auth_id,
-  $api_key,
-  $private_key
+$api = new App(
+  $app_auth_id,
+  $app_api_key,
+  $app_private_key
 );
 ```
-...then you pass in the user access token you've been given:
+You can then request a user token. See [Getting a user token](#getting-a-user-token)
+
+To connect via User(), create a new User() object and pass it the App credentials supplied to you by iRAP AND the User credentials fetched with getUserToken() (or supplied to you by iRAP):
+
 ```php
-$api->setUserToken(
+$api = new User(
+  $app_auth_id,
+  $app_api_key,
+  $app_private_key,
   $user_auth_id,
   $user_api_key,
   $user_private_key
 );
 ```
+
 And that's it. All your authentication needs are dealt with automatically by the SDK from hereon in.
 
 ### Responses
@@ -79,13 +88,16 @@ $response->userAuthId;
 $response->userApiKey;
 $response->userPrivateKey;
 ```
-These should be saved in your app for use in all future API calls, and can be added to the request as follows:
+These should be saved in your app for use in all future API calls, and can be used to instatiate a User object as follows:
 
 ```php
-$api->setUserToken(
-  $userAuthId,
-  $userApiKey,
-  $userPrivateKey
+$api = new User(
+  $app_auth_id,
+  $app_api_key,
+  $app_private_key,
+  $user_auth_id,
+  $user_api_key,
+  $user_private_key
 );
 ```
 **Please Note: It is strictly against the API Terms of Use to store the user's password locally in your application. Once the user token has been received, you will have no further need for the password.**
