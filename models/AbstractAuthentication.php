@@ -14,10 +14,6 @@ namespace iRAP\VidaSDK\Models;
 abstract class AbstractAuthentication
 {
     
-    private $m_authentication;
-    private $m_parameters;
-    private $m_signatures;
-    
     /**
      * Takes the API token and user token if available and sets up the authentication member variable
      * 
@@ -30,9 +26,7 @@ abstract class AbstractAuthentication
      */
     public function __construct()
     {
-        $this->m_parameters = $this->getParameters();
-        $this->m_signatures = $this->getSignatures();
-        $this->m_authentication = array_merge($this->m_parameters, $this->m_signatures);
+        
     }
     
     public function getAuthentication()
