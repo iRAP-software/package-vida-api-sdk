@@ -19,6 +19,9 @@ class UserAuthentication extends AbstractAuthentication
     protected $m_user_auth_id;
     protected $m_user_api_key;
     protected $m_user_protected_key;
+    protected $m_authentication;
+    protected $m_parameters;
+    protected $m_signatures;
     
     /**
      * Takes the API token and user token if available and sets up the authentication member variable
@@ -38,7 +41,9 @@ class UserAuthentication extends AbstractAuthentication
         $this->m_user_auth_id = $user_auth_id;
         $this->m_user_api_key = $user_api_key;
         $this->m_user_private_key = $user_private_key;
-        parent::__construct();
+        $this->m_parameters = $this->getParameters();
+        $this->m_signatures = $this->getSignatures();
+        $this->m_authentication = array_merge($this->m_parameters, $this->m_signatures);
     }
     
     /**

@@ -38,7 +38,6 @@ class AppAuthentication extends AbstractAuthentication
         $this->m_parameters = $this->getParameters();
         $this->m_signatures = $this->getSignatures();
         $this->m_authentication = array_merge($this->m_parameters, $this->m_signatures);
-        parent::__construct();
     }
      
     /**
