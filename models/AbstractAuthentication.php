@@ -68,7 +68,7 @@ abstract class AbstractAuthentication
      * @param string $secretKey
      * @return string
      */
-    private function generateSignature($parameters, $secretKey)
+    protected function generateSignature($parameters, $secretKey)
     {
         array_change_key_case($parameters, CASE_LOWER); # just in case user forgets
         ksort($parameters); # order matters when producing a hash signature.
