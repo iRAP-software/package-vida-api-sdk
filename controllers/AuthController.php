@@ -22,7 +22,7 @@ class AuthController extends AbstractResourceController
      * @param string $password
      * @return object
      */
-    public static function getUserToken(\iRAP\VidaSDK\Models\Authentication $auth, $email, $password)
+    public static function getUserToken(\iRAP\VidaSDK\Models\AbstractAuthentication $auth, $email, $password)
     {
         $encrypted_password = $auth::getEncryption($password);
         $request = new \iRAP\VidaSDK\Models\APIRequest($auth);
@@ -40,7 +40,7 @@ class AuthController extends AbstractResourceController
      * @param string $owner
      * @return object
      */
-    public static function getAppToken(\iRAP\VidaSDK\Models\Authentication $auth, $name, $owner)
+    public static function getAppToken(\iRAP\VidaSDK\Models\AbstractAuthentication $auth, $name, $owner)
     {
         $request = new \iRAP\VidaSDK\Models\APIRequest($auth);
         $request->setUrl("auth/register_app");
