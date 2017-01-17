@@ -25,7 +25,12 @@ class APIRequest
     /**
      * The contructor feeds the authentication information into the request headers.
      */
-    public function __construct($auth)
+    
+    /**
+     * 
+     * @param \iRAP\VidaSDK\Models\Authentication $auth
+     */
+    public function __construct(Authentication $auth)
     {
         $this->m_headers = $auth->getAuthentication();
         if (defined('IRAPDEV'))

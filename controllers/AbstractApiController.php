@@ -11,8 +11,10 @@
 
 namespace iRAP\VidaSDK\Controllers;
 
-class ApiController implements ApiInterface
+abstract class AbstractApiController implements ApiInterface
 {
+     
+    abstract protected function getAuth();
     
     /**
      ******* This method requires special permission from iRAP and is not available to all ********
@@ -29,7 +31,7 @@ class ApiController implements ApiInterface
      */
     public function getUserToken($email, $password)
     {
-        $userToken = AuthController::getUserToken($this->m_auth, $email, $password);
+        $userToken = AuthController::getUserToken($this->getAuth(), $email, $password);
         $token = new \stdClass();
         if (isset($userToken->response))
         {
@@ -56,7 +58,7 @@ class ApiController implements ApiInterface
      */
     public function getUsers($id = null)
     {
-        $userController = new UsersController($this->m_auth);
+        $userController = new UsersController($this->getAuth());
         return $userController->getResource('users', $id);
     }
     
@@ -70,7 +72,7 @@ class ApiController implements ApiInterface
      */
     public function addUser($name, $email, $password)
     {
-        $userController = new UsersController($this->m_auth);
+        $userController = new UsersController($this->getAuth());
         return $userController->postResource('users', array("name"=>$name,"email"=>$email,"password"=>$password));
     }
     
@@ -86,7 +88,7 @@ class ApiController implements ApiInterface
      */
     public function replaceUser($id, $name, $email, $password)
     {
-        $userController = new UsersController($this->m_auth);
+        $userController = new UsersController($this->getAuth());
         return $userController->putResource('users', $id, array("name"=>$name,"email"=>$email,"password"=>$password));
     }
     
@@ -98,7 +100,7 @@ class ApiController implements ApiInterface
      */
     public function deleteUser($id)
     {
-        $userController = new UsersController($this->m_auth);
+        $userController = new UsersController($this->getAuth());
         return $userController->deleteResource('users', $id);
     }
     
@@ -111,7 +113,7 @@ class ApiController implements ApiInterface
      */
     public function getDatasets($id = null)
     {
-        $datasetController = new DatasetsController($this->m_auth);
+        $datasetController = new DatasetsController($this->getAuth());
         return $datasetController->getResource('datasets', $id);
     }
     
@@ -125,7 +127,7 @@ class ApiController implements ApiInterface
      */
     public function addDataset($name, $road_data)
     {
-        $datasetController = new DatasetsController($this->m_auth);
+        $datasetController = new DatasetsController($this->getAuth());
         return $datasetController->postResource('datasets', array("name"=>$name, "road-data"=>$road_data));
     }
     
@@ -141,7 +143,7 @@ class ApiController implements ApiInterface
      */
     public function replaceDataset($id, $name, $road_data)
     {
-        $datasetController = new DatasetsController($this->m_auth);
+        $datasetController = new DatasetsController($this->getAuth());
         return $datasetController->putResource('datasets', $id, array("name"=>$name, "road-data"=>$road_data));
     }
     
@@ -153,7 +155,7 @@ class ApiController implements ApiInterface
      */
     public function deleteDataset($id)
     {
-        $datasetController = new DatasetsController($this->m_auth);
+        $datasetController = new DatasetsController($this->getAuth());
         return $datasetController->deleteResource('datasets', $id);
     }
     
@@ -165,7 +167,7 @@ class ApiController implements ApiInterface
      */
     public function getDatasetUsers($id)
     {
-        $datasetController = new DatasetsController($this->m_auth);
+        $datasetController = new DatasetsController($this->getAuth());
         return $datasetController->getResource('datasets', $id, 'user-access');
     }
     
@@ -177,7 +179,7 @@ class ApiController implements ApiInterface
      */
     public function getDatasetsForProgramme($id)
     {
-        $datasetController = new DatasetsController($this->m_auth);
+        $datasetController = new DatasetsController($this->getAuth());
         return $datasetController->getResource('datasets', 'for', array('programme', $id));
     }
     
@@ -189,7 +191,7 @@ class ApiController implements ApiInterface
      */
     public function getDatasetsForRegion($id)
     {
-        $datasetController = new DatasetsController($this->m_auth);
+        $datasetController = new DatasetsController($this->getAuth());
         return $datasetController->getResource('datasets', 'for', array('region', $id));
     }
     
@@ -201,7 +203,7 @@ class ApiController implements ApiInterface
      */
     public function getDatasetsForProject($id)
     {
-        $datasetController = new DatasetsController($this->m_auth);
+        $datasetController = new DatasetsController($this->getAuth());
         return $datasetController->getResource('datasets', 'for', array('project', $id));
     }
     
@@ -216,7 +218,7 @@ class ApiController implements ApiInterface
      */
     public function processDataset($id)
     {
-        $datasetController = new DatasetsController($this->m_auth);
+        $datasetController = new DatasetsController($this->getAuth());
         return $datasetController->getResource('datasets', $id, 'process');
     }
     
@@ -229,7 +231,7 @@ class ApiController implements ApiInterface
      */
     public function getProgrammes($id = null)
     {
-        $programmeController = new ProgrammesController($this->m_auth);
+        $programmeController = new ProgrammesController($this->getAuth());
         return $programmeController->getResource('programmes', $id);
     }
     
@@ -243,7 +245,7 @@ class ApiController implements ApiInterface
      */
     public function addProgramme($name, $manager_id)
     {
-        $programmeController = new ProgrammesController($this->m_auth);
+        $programmeController = new ProgrammesController($this->getAuth());
         return $programmeController->postResource('programmes', array("name"=>$name, "principal_users_id"=>$manager_id));
     }
     
@@ -258,7 +260,7 @@ class ApiController implements ApiInterface
      */
     public function replaceProgramme($id, $name, $manager_id)
     {
-        $programmeController = new ProgrammesController($this->m_auth);
+        $programmeController = new ProgrammesController($this->getAuth());
         return $programmeController->putResource('programmes', $id, array("name"=>$name, "manager_id"=>$manager_id));
     }
     
@@ -270,7 +272,7 @@ class ApiController implements ApiInterface
      */
     public function deleteProgramme($id)
     {
-        $programmeController = new ProgrammesController($this->m_auth);
+        $programmeController = new ProgrammesController($this->getAuth());
         return $programmeController->deleteResource('programmes', $id);
     }
     
@@ -282,7 +284,7 @@ class ApiController implements ApiInterface
      */
     public function getProgrammeUsers($id)
     {
-        $programmeController = new ProgrammesController($this->m_auth);
+        $programmeController = new ProgrammesController($this->getAuth());
         return $programmeController->getResource('programmes', $id, 'user-access');
     }
     
@@ -295,7 +297,7 @@ class ApiController implements ApiInterface
      */
     public function getRegions($id = null)
     {
-        $regionController = new RegionsController($this->m_auth);
+        $regionController = new RegionsController($this->getAuth());
         return $regionController->getResource('regions', $id);
     }
     
@@ -310,7 +312,7 @@ class ApiController implements ApiInterface
      */
     public function addRegion($name, $programme_id, $manager_id)
     {
-        $regionController = new RegionsController($this->m_auth);
+        $regionController = new RegionsController($this->getAuth());
         return $regionController->postResource('regions', array("name"=>$name, "programme_id"=>$programme_id, "manager_id"=>$manager_id));
     }
     
@@ -326,7 +328,7 @@ class ApiController implements ApiInterface
      */
     public function replaceRegion($id, $name, $programme_id, $manager_id)
     {
-        $regionController = new RegionsController($this->m_auth);
+        $regionController = new RegionsController($this->getAuth());
         return $regionController->putResource('regions', $id, array("name"=>$name, "programme_id"=>$programme_id, "manager_id"=>$manager_id));
     }
     
@@ -338,7 +340,7 @@ class ApiController implements ApiInterface
      */
     public function deleteRegion($id)
     {
-        $regionController = new RegionsController($this->m_auth);
+        $regionController = new RegionsController($this->getAuth());
         return $regionController->deleteResource('regions', $id);
     }
     
@@ -350,7 +352,7 @@ class ApiController implements ApiInterface
      */
     public function getRegionUsers($id)
     {
-        $regionController = new RegionsController($this->m_auth);
+        $regionController = new RegionsController($this->getAuth());
         return $regionController->getResource('regions', $id, 'user-access');
     }
     
@@ -362,7 +364,7 @@ class ApiController implements ApiInterface
      */
     public function getRegionsForProgramme($id)
     {
-        $regionController = new RegionsController($this->m_auth);
+        $regionController = new RegionsController($this->getAuth());
         return $regionController->getResource('regions', 'for', array('programme', $id));
     }
     
@@ -375,7 +377,7 @@ class ApiController implements ApiInterface
      */
     public function getProjects($id = null)
     {
-        $projectController = new ProjectsController($this->m_auth);
+        $projectController = new ProjectsController($this->getAuth());
         return $projectController->getResource('projects', $id);
     }
     
@@ -391,7 +393,7 @@ class ApiController implements ApiInterface
      */
     public function addProject($name, $region_id, $manager_id, $model_id)
     {
-        $projectController = new ProjectsController($this->m_auth);
+        $projectController = new ProjectsController($this->getAuth());
         return $projectController->postResource('projects', array("name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id, "model_id"=>$model_id));
     }
     
@@ -409,7 +411,7 @@ class ApiController implements ApiInterface
      */
     public function replaceProject($id, $name, $region_id, $manager_id, $model_id)
     {
-        $projectController = new ProjectsController($this->m_auth);
+        $projectController = new ProjectsController($this->getAuth());
         return $projectController->putResource('projects', $id, array("name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id, "model_id"=>$model_id));
     }
     
@@ -421,7 +423,7 @@ class ApiController implements ApiInterface
      */
     public function deleteProject($id)
     {
-        $projectController = new ProjectsController($this->m_auth);
+        $projectController = new ProjectsController($this->getAuth());
         return $projectController->deleteResource('projects', $id);
     }
     
@@ -433,7 +435,7 @@ class ApiController implements ApiInterface
      */
     public function getProjectUsers($id)
     {
-        $projectController = new ProjectsController($this->m_auth);
+        $projectController = new ProjectsController($this->getAuth());
         return $projectController->getResource('projects', $id, 'user-access');
     }
     
@@ -445,7 +447,7 @@ class ApiController implements ApiInterface
      */
     public function getProjectsForProgramme($id)
     {
-        $projectController = new ProjectsController($this->m_auth);
+        $projectController = new ProjectsController($this->getAuth());
         return $projectController->getResource('projects', 'for', array('programme', $id));
     }
     
@@ -457,7 +459,7 @@ class ApiController implements ApiInterface
      */
     public function getProjectsForRegion($id)
     {
-        $projectController = new ProjectsController($this->m_auth);
+        $projectController = new ProjectsController($this->getAuth());
         return $projectController->getResource('projects', 'for', array('region', $id));
     }
     
@@ -470,7 +472,7 @@ class ApiController implements ApiInterface
      */
     public function getVariables($id = null)
     {
-        $variableController = new VariablesController($this->m_auth);
+        $variableController = new VariablesController($this->getAuth());
         return $variableController->getResource('variables', $id);
     }
     
@@ -483,7 +485,7 @@ class ApiController implements ApiInterface
      */
     public function addVariable($variables)
     {
-        $variableController = new VariablesController($this->m_auth);
+        $variableController = new VariablesController($this->getAuth());
         return $variableController->postResource('variables', $variables);
     }
     
@@ -498,7 +500,7 @@ class ApiController implements ApiInterface
      */
     public function replaceVariable($id, $variables)
     {
-        $variableController = new VariablesController($this->m_auth);
+        $variableController = new VariablesController($this->getAuth());
         return $variableController->putResource('variables', $id, $variables);
     }
     
@@ -510,7 +512,7 @@ class ApiController implements ApiInterface
      */
     public function deleteVariable($id)
     {
-        $variableController = new VariablesController($this->m_auth);
+        $variableController = new VariablesController($this->getAuth());
         return $variableController->deleteResource('variables', $id);
     }
     
@@ -522,7 +524,7 @@ class ApiController implements ApiInterface
      */
     public function getVariablesForDataset($id)
     {
-        $variableController = new VariablesController($this->m_auth);
+        $variableController = new VariablesController($this->getAuth());
         return $variableController->getResource('variables', 'for', array('dataset', $id));
     }
     
@@ -536,7 +538,7 @@ class ApiController implements ApiInterface
      */
     public function getRoadAttributes($id, $dataset_id)
     {
-        $roadAttributeController = new RoadAttributesController($this->m_auth);
+        $roadAttributeController = new RoadAttributesController($this->getAuth());
         return $roadAttributeController->getResource('roadattributes', $id, $dataset_id);
     }
     
@@ -551,7 +553,7 @@ class ApiController implements ApiInterface
      */
     public function addRoadAttribute($roadAttributes, $dataset_id)
     {
-        $roadAttributeController = new RoadAttributesController($this->m_auth);
+        $roadAttributeController = new RoadAttributesController($this->getAuth());
         return $roadAttributeController->postResource('roadattributes', $roadAttributes, $dataset_id);
     }
     
@@ -568,7 +570,7 @@ class ApiController implements ApiInterface
      */
     public function replaceRoadAttribute($id, $roadAttributes, $dataset_id)
     {
-        $roadAttributeController = new RoadAttributesController($this->m_auth);
+        $roadAttributeController = new RoadAttributesController($this->getAuth());
         return $roadAttributeController->putResource('roadattributes', $id, $roadAttributes, $dataset_id);
     }
     
@@ -580,7 +582,7 @@ class ApiController implements ApiInterface
      */
     public function deleteRoadAttribute($id, $dataset_id)
     {
-        $roadAttributeController = new RoadAttributesController($this->m_auth);
+        $roadAttributeController = new RoadAttributesController($this->getAuth());
         return $roadAttributeController->deleteResource('roadattributes', $id, $dataset_id);
     }
     
@@ -592,7 +594,7 @@ class ApiController implements ApiInterface
      */
     public function getRoadAttributesForProgramme($id)
     {
-        $roadAttributeController = new RoadAttributesController($this->m_auth);
+        $roadAttributeController = new RoadAttributesController($this->getAuth());
         return $roadAttributeController->getResource('roadattributes', 'for', array('programme', $id));
     }
     
@@ -604,7 +606,7 @@ class ApiController implements ApiInterface
      */
     public function getRoadAttributesForRegion($id)
     {
-        $roadAttributeController = new RoadAttributesController($this->m_auth);
+        $roadAttributeController = new RoadAttributesController($this->getAuth());
         return $roadAttributeController->getResource('roadattributes', 'for', array('region', $id));
     }
     
@@ -616,7 +618,7 @@ class ApiController implements ApiInterface
      */
     public function getRoadAttributesForProject($id)
     {
-        $roadAttributeController = new RoadAttributesController($this->m_auth);
+        $roadAttributeController = new RoadAttributesController($this->getAuth());
         return $roadAttributeController->getResource('roadattributes', 'for', array('project', $id));
     }
     
@@ -628,7 +630,7 @@ class ApiController implements ApiInterface
      */
     public function getRoadAttributesForDataset($id)
     {
-        $roadAttributeController = new RoadAttributesController($this->m_auth);
+        $roadAttributeController = new RoadAttributesController($this->getAuth());
         return $roadAttributeController->getResource('roadattributes', 'for', array('dataset', $id));
     }
     
@@ -642,7 +644,7 @@ class ApiController implements ApiInterface
      */
     public function getFatalities($id, $dataset_id)
     {
-        $fatalitiesController = new FatalitiesController($this->m_auth);
+        $fatalitiesController = new FatalitiesController($this->getAuth());
         return $fatalitiesController->getResource('fatalities', $id, $dataset_id);
     }
     
@@ -657,7 +659,7 @@ class ApiController implements ApiInterface
      */
     public function addFatalities($fatalities, $dataset_id)
     {
-        $fatalitiesController = new FatalitiesController($this->m_auth);
+        $fatalitiesController = new FatalitiesController($this->getAuth());
         return $fatalitiesController->postResource('fatalities', $fatalities, $dataset_id);
     }
     
@@ -674,7 +676,7 @@ class ApiController implements ApiInterface
      */
     public function replaceFatalities($id, $fatalities, $dataset_id)
     {
-        $fatalitiesController = new FatalitiesController($this->m_auth);
+        $fatalitiesController = new FatalitiesController($this->getAuth());
         return $fatalitiesController->putResource('fatalities', $id, $fatalities, $dataset_id);
     }
     
@@ -686,7 +688,7 @@ class ApiController implements ApiInterface
      */
     public function deleteFatalities($id, $dataset_id)
     {
-        $fatalitiesController = new FatalitiesController($this->m_auth);
+        $fatalitiesController = new FatalitiesController($this->getAuth());
         return $fatalitiesController->deleteResource('fatalities', $id, $dataset_id);
     }
     
@@ -698,7 +700,7 @@ class ApiController implements ApiInterface
      */
     public function getFatalitiesForProgramme($id)
     {
-        $fatalitiesController = new FatalitiesController($this->m_auth);
+        $fatalitiesController = new FatalitiesController($this->getAuth());
         return $fatalitiesController->getResource('fatalities', 'for', array('programme', $id));
     }
     
@@ -710,7 +712,7 @@ class ApiController implements ApiInterface
      */
     public function getFatalitiesForRegion($id)
     {
-        $fatalitiesController = new FatalitiesController($this->m_auth);
+        $fatalitiesController = new FatalitiesController($this->getAuth());
         return $fatalitiesController->getResource('fatalities', 'for', array('region', $id));
     }
     
@@ -722,7 +724,7 @@ class ApiController implements ApiInterface
      */
     public function getFatalitiesForProject($id)
     {
-        $fatalitiesController = new FatalitiesController($this->m_auth);
+        $fatalitiesController = new FatalitiesController($this->getAuth());
         return $fatalitiesController->getResource('fatalities', 'for', array('project', $id));
     }
     
@@ -734,7 +736,7 @@ class ApiController implements ApiInterface
      */
     public function getFatalitiesForDataset($id)
     {
-        $fatalitiesController = new FatalitiesController($this->m_auth);
+        $fatalitiesController = new FatalitiesController($this->getAuth());
         return $fatalitiesController->getResource('fatalities', 'for', array('dataset', $id));
     }
     
@@ -748,7 +750,7 @@ class ApiController implements ApiInterface
      */
     public function getBeforeStarRatings($id, $dataset_id)
     {
-        $starRatingController = new StarRatingsController($this->m_auth);
+        $starRatingController = new StarRatingsController($this->getAuth());
         return $starRatingController->getResource('starratings', $id, array('before', $dataset_id));
     }
     
@@ -763,7 +765,7 @@ class ApiController implements ApiInterface
      */
     public function addBeforeStarRating($starratings, $dataset_id)
     {
-        $starRatingController = new StarRatingsController($this->m_auth);
+        $starRatingController = new StarRatingsController($this->getAuth());
         return $starRatingController->postResource('starratings', $starratings, array('before', $dataset_id));
     }
     
@@ -780,7 +782,7 @@ class ApiController implements ApiInterface
      */
     public function replaceBeforeStarRating($id, $starratings, $dataset_id)
     {
-        $starRatingController = new StarRatingsController($this->m_auth);
+        $starRatingController = new StarRatingsController($this->getAuth());
         return $starRatingController->putResource('starratings', $id, $starratings, array('before', $dataset_id));
     }
     
@@ -792,7 +794,7 @@ class ApiController implements ApiInterface
      */
     public function deleteBeforeStarRating($id, $dataset_id)
     {
-        $starRatingController = new StarRatingsController($this->m_auth);
+        $starRatingController = new StarRatingsController($this->getAuth());
         return $starRatingController->deleteResource('starratings', $id, array('before', $dataset_id));
     }
     
@@ -804,7 +806,7 @@ class ApiController implements ApiInterface
      */
     public function getBeforeStarRatingsForProgramme($id)
     {
-        $starRatingController = new StarRatingsController($this->m_auth);
+        $starRatingController = new StarRatingsController($this->getAuth());
         return $starRatingController->getResource('starratings', 'for', array('programme', $id, 'before'));
     }
     
@@ -816,7 +818,7 @@ class ApiController implements ApiInterface
      */
     public function getBeforeStarRatingsForRegion($id)
     {
-        $starRatingController = new StarRatingsController($this->m_auth);
+        $starRatingController = new StarRatingsController($this->getAuth());
         return $starRatingController->getResource('starratings', 'for', array('region', $id, 'before'));
     }
     
@@ -828,7 +830,7 @@ class ApiController implements ApiInterface
      */
     public function getBeforeStarRatingsForProject($id)
     {
-        $starRatingController = new StarRatingsController($this->m_auth);
+        $starRatingController = new StarRatingsController($this->getAuth());
         return $starRatingController->getResource('starratings', 'for', array('project', $id, 'before'));
     }
     
@@ -840,7 +842,7 @@ class ApiController implements ApiInterface
      */
     public function getBeforeStarRatingsForDataset($id)
     {
-        $starRatingController = new StarRatingsController($this->m_auth);
+        $starRatingController = new StarRatingsController($this->getAuth());
         return $starRatingController->getResource('starratings', 'for', array('dataset', $id, 'before'));
     }
     
@@ -854,7 +856,7 @@ class ApiController implements ApiInterface
      */
     public function getAfterStarRatings($id, $dataset_id)
     {
-        $starRatingController = new StarRatingsController($this->m_auth);
+        $starRatingController = new StarRatingsController($this->getAuth());
         return $starRatingController->getResource('starratings', $id, array('after', $dataset_id));
     }
     
@@ -869,7 +871,7 @@ class ApiController implements ApiInterface
      */
     public function addAfterStarRating($starratings, $dataset_id)
     {
-        $starRatingController = new StarRatingsController($this->m_auth);
+        $starRatingController = new StarRatingsController($this->getAuth());
         return $starRatingController->postResource('starratings', $starratings, array('after', $dataset_id));
     }
     
@@ -886,7 +888,7 @@ class ApiController implements ApiInterface
      */
     public function replaceAfterStarRating($id, $starratings, $dataset_id)
     {
-        $starRatingController = new StarRatingsController($this->m_auth);
+        $starRatingController = new StarRatingsController($this->getAuth());
         return $starRatingController->putResource('starratings', $id, $starratings, array('after', $dataset_id));
     }
     
@@ -898,7 +900,7 @@ class ApiController implements ApiInterface
      */
     public function deleteAfterStarRating($id, $dataset_id)
     {
-        $starRatingController = new StarRatingsController($this->m_auth);
+        $starRatingController = new StarRatingsController($this->getAuth());
         return $starRatingController->deleteResource('starratings', $id, array('after', $dataset_id));
     }
     
@@ -910,7 +912,7 @@ class ApiController implements ApiInterface
      */
     public function getAfterStarRatingsForProgramme($id)
     {
-        $starRatingController = new StarRatingsController($this->m_auth);
+        $starRatingController = new StarRatingsController($this->getAuth());
         return $starRatingController->getResource('starratings', 'for', array('programme', $id, 'after'));
     }
     
@@ -922,7 +924,7 @@ class ApiController implements ApiInterface
      */
     public function getAfterStarRatingsForRegion($id)
     {
-        $starRatingController = new StarRatingsController($this->m_auth);
+        $starRatingController = new StarRatingsController($this->getAuth());
         return $starRatingController->getResource('starratings', 'for', array('region', $id, 'after'));
     }
     
@@ -934,7 +936,7 @@ class ApiController implements ApiInterface
      */
     public function getAfterStarRatingsForProject($id)
     {
-        $starRatingController = new StarRatingsController($this->m_auth);
+        $starRatingController = new StarRatingsController($this->getAuth());
         return $starRatingController->getResource('starratings', 'for', array('project', $id, 'after'));
     }
     
@@ -946,7 +948,7 @@ class ApiController implements ApiInterface
      */
     public function getAfterStarRatingsForDataset($id)
     {
-        $starRatingController = new StarRatingsController($this->m_auth);
+        $starRatingController = new StarRatingsController($this->getAuth());
         return $starRatingController->getResource('starratings', 'for', array('dataset', $id, 'after'));
     }
 }

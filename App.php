@@ -11,15 +11,14 @@
 
 namespace iRAP\VidaSDK;
 
-class App extends Controllers\ApiController
+class App extends Controllers\AbstractApiController
 {
+    private $m_auth;
     
     /**
      * Start here! The constructor takes the App's authentication credentials, which will be 
-     * supplied to you by iRAP. By placing them here, all of the authentication work is done for
-     * you, which saves a lot of hassle further down the line.
-     * 
-     * The IRAPDEV constant is used internally during development of the API, and is no use to you.
+     * supplied to you by iRAP. An Authentication object
+     * is created, ready to be passed to the API as required.
      * 
      * @param int $appAuthID
      * @param string $appAPIKey
@@ -27,6 +26,15 @@ class App extends Controllers\ApiController
      */
     public function __construct($appAuthID, $appAPIKey, $appPrivateKey)
     {
-        $this->m_auth = new Models\Authentication($appAuthID, $appAPIKey, $appPrivateKey);
+        $this->m_auth = new Models\AppAuthentication($appAuthID, $appAPIKey, $appPrivateKey);
+    }
+    
+    /**
+     * 
+     * @return Models\AppAuthentication
+     */
+    private function getAuth()
+    {
+        return $this->m_auth;
     }
 }
