@@ -31,7 +31,7 @@ class User extends Controllers\AbstractApiController
         $this->m_auth = new Models\UserAuthentication($appAuthID, $appAPIKey, $appPrivateKey, $userAuthID, $userAPIKey, $userPrivateKey);
     }
     
-    private function getAuth()
+    protected function getAuth()
     {
         return $this->m_auth;
     }

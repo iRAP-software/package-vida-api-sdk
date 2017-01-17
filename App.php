@@ -33,7 +33,7 @@ class App extends Controllers\AbstractApiController
      * 
      * @return Models\AppAuthentication
      */
-    private function getAuth()
+    protected function getAuth()
     {
         return $this->m_auth;
     }
