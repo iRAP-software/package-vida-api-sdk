@@ -24,7 +24,7 @@ class AuthController extends AbstractResourceController
      */
     public static function getUserToken(\iRAP\VidaSDK\Models\AbstractAuthentication $auth, $email, $password)
     {
-        $encrypted_password = $auth::getEncryption($password);
+        $encrypted_password = $auth->getEncryption($password);
         $request = new \iRAP\VidaSDK\Models\APIRequest($auth);
         $request->setUrl("auth/register");
         $request->setPostData(array("email"=>$email,"password"=>$encrypted_password));

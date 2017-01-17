@@ -25,7 +25,7 @@ abstract class AbstractAuthentication
      * @param String $key - the key to encrypt and then decrypt the message.
      * @return String - the encrypted form of the string
      */
-    protected static function encrypt($message, $key)
+    protected function encrypt($message, $key)
     {
         $md5Key = md5($key);
         

@@ -46,9 +46,9 @@ class AppAuthentication extends AbstractAuthentication
      * @param string $message
      * @return string
      */
-    public static function getEncryption($message)
+    public function getEncryption($message)
     {
-        return self::encrypt($message, $this->m_app_private_key);
+        return $this->encrypt($message, $this->m_app_private_key);
     }
     
     /**
