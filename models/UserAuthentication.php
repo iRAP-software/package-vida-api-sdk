@@ -46,7 +46,7 @@ class UserAuthentication extends AbstractAuthentication
      * 
      * @return array
      */
-    private function getParameters()
+    protected function getParameters()
     {
         $parameters = array(
             'system_auth_id'    => $this->m_app_auth_id,
@@ -64,7 +64,7 @@ class UserAuthentication extends AbstractAuthentication
      * 
      * @return array
      */
-    private function getSignatures()
+    protected function getSignatures()
     {
         return array(
             'system_signature'  => $this->generateSignature($this->m_parameters, $this->m_app_private_key),
