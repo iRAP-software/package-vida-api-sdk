@@ -35,9 +35,6 @@ class AppAuthentication extends AbstractAuthentication
         $this->m_app_auth_id = $app_auth_id;
         $this->m_app_api_key = $app_api_key;
         $this->m_app_private_key = $app_private_key;
-        $this->m_parameters = $this->getParameters();
-        $this->m_signatures = $this->getSignatures();
-        $this->m_authentication = array_merge($this->m_parameters, $this->m_signatures);
     }
      
     /**

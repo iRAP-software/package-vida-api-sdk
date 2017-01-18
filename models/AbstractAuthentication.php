@@ -16,6 +16,9 @@ abstract class AbstractAuthentication
         
     public function getAuthentication()
     {
+        $this->m_parameters = $this->getParameters();
+        $this->m_signatures = $this->getSignatures();
+        $this->m_authentication = array_merge($this->m_parameters, $this->m_signatures);
         return $this->m_authentication;
     }
     
