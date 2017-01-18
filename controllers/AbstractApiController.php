@@ -246,7 +246,7 @@ abstract class AbstractApiController implements ApiInterface
     public function addProgramme($name, $manager_id)
     {
         $programmeController = new ProgrammesController($this->getAuth());
-        return $programmeController->postResource('programmes', array("name"=>$name, "principal_users_id"=>$manager_id));
+        return $programmeController->postResource('programmes', array("name"=>$name, "manager_id"=>$manager_id));
     }
     
     /**
