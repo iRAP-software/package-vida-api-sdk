@@ -951,4 +951,17 @@ abstract class AbstractApiController implements ApiInterface
         $starRatingController = new StarRatingsController($this->getAuth());
         return $starRatingController->getResource('starratings', 'for', array('dataset', $id, 'after'));
     }
+    
+    /**
+     * Fetches a list of all of the countries in the system. If you specify an ID, that country
+     * will be returned to you.
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getCountries($id = null)
+    {
+        $countriesController = new CountriesController($this->getAuth());
+        return $countriesController->getResource('countries', $id);
+    }
 }

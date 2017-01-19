@@ -142,4 +142,6 @@ interface ApiInterface
     public function getAfterStarRatingsForProject($id);
     
     public function getAfterStarRatingsForDataset($id);
+    
+    public function getCountries();
 }
