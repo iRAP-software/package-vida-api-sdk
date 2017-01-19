@@ -389,12 +389,13 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $region_id
      * @param int $manager_id
      * @param int $model_id
+     * @param int $country_id
      * @return object
      */
-    public function addProject($name, $region_id, $manager_id, $model_id)
+    public function addProject($name, $region_id, $manager_id, $model_id, $country_id)
     {
         $projectController = new ProjectsController($this->getAuth());
-        return $projectController->postResource('projects', array("name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id, "model_id"=>$model_id));
+        return $projectController->postResource('projects', array("name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id, "model_id"=>$model_id, "country_id"=>$country_id));
     }
     
     /**
@@ -407,12 +408,13 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $region_id
      * @param int $manager_id
      * @param int $model_id
+     * @param int $country_id
      * @return object
      */
-    public function replaceProject($id, $name, $region_id, $manager_id, $model_id)
+    public function replaceProject($id, $name, $region_id, $manager_id, $model_id, $country_id)
     {
         $projectController = new ProjectsController($this->getAuth());
-        return $projectController->putResource('projects', $id, array("name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id, "model_id"=>$model_id));
+        return $projectController->putResource('projects', $id, array("name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id, "model_id"=>$model_id, "country_id"=>$country_id));
     }
     
     /**
