@@ -57,9 +57,9 @@ interface ApiInterface
     
     public function getProjects();
     
-    public function addProject($name, $region_id, $manager_id, $model_id);
+    public function addProject($name, $region_id, $manager_id, $model_id, $country_id);
     
-    public function replaceProject($id, $name, $region_id, $manager_id, $model_id);
+    public function replaceProject($id, $name, $region_id, $manager_id, $model_id, $country_id);
     
     public function deleteProject($id);
     
