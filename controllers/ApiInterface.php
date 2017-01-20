@@ -21,9 +21,9 @@ interface ApiInterface
     
     public function getDatasets();
     
-    public function addDataset($name, $road_data);
+    public function addDataset($name, $project_id, $manager_id);
     
-    public function replaceDataset($id, $name, $road_data);
+    public function replaceDataset($id, $name, $project_id, $manager_id);
     
     public function deleteDataset($id);
     

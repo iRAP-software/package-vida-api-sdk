@@ -125,10 +125,10 @@ abstract class AbstractApiController implements ApiInterface
      * @param array $road_data
      * @return object
      */
-    public function addDataset($name, $road_data)
+    public function addDataset($name, $project_id, $manager_id)
     {
         $datasetController = new DatasetsController($this->getAuth());
-        return $datasetController->postResource('datasets', array("name"=>$name, "road-data"=>$road_data));
+        return $datasetController->postResource('datasets', array("name"=>$name, "project_id"=>$project_id, "manager_id"=>$manager_id));
     }
     
     /**
@@ -141,10 +141,10 @@ abstract class AbstractApiController implements ApiInterface
      * @param array $road_data
      * @return object
      */
-    public function replaceDataset($id, $name, $road_data)
+    public function replaceDataset($id, $name, $project_id, $manager_id)
     {
         $datasetController = new DatasetsController($this->getAuth());
-        return $datasetController->putResource('datasets', $id, array("name"=>$name, "road-data"=>$road_data));
+        return $datasetController->putResource('datasets', $id, array("name"=>$name, "project_id"=>$project_id, "manager_id"=>$manager_id));
     }
     
     /**
