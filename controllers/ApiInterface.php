@@ -15,6 +15,8 @@ interface ApiInterface
     
     public function addUser($name, $email, $password);
     
+    public function updateUser($id, $name, $email, $password);
+    
     public function replaceUser($id, $name, $email, $password);
     
     public function deleteUser($id);
@@ -22,6 +24,8 @@ interface ApiInterface
     public function getDatasets();
     
     public function addDataset($name, $project_id, $manager_id);
+    
+    public function updateDataset($id, $name, $project_id, $manager_id);
     
     public function replaceDataset($id, $name, $project_id, $manager_id);
     
@@ -37,6 +41,8 @@ interface ApiInterface
     
     public function addProgramme($name, $manager_id);
     
+    public function updateProgramme($id, $name, $manager_id);
+    
     public function replaceProgramme($id, $name, $manager_id);
     
     public function deleteProgramme($id);
@@ -46,6 +52,8 @@ interface ApiInterface
     public function getRegions();
     
     public function addRegion($name, $programme_id, $manager_id);
+    
+    public function updateRegion($id, $name, $programme_id, $manager_id);
     
     public function replaceRegion($id, $name, $programme_id, $manager_id);
     
@@ -58,6 +66,8 @@ interface ApiInterface
     public function getProjects();
     
     public function addProject($name, $region_id, $manager_id, $model_id, $country_id);
+        
+    public function updateProject($id, $name, $region_id, $manager_id, $model_id, $country_id);
     
     public function replaceProject($id, $name, $region_id, $manager_id, $model_id, $country_id);
     
@@ -73,6 +83,8 @@ interface ApiInterface
     
     public function addVariable($variables);
     
+    public function updateVariable($id, $variables);
+    
     public function replaceVariable($id, $variables);
     
     public function deleteVariable($id);
@@ -82,6 +94,8 @@ interface ApiInterface
     public function getRoadAttributes($id, $dataset_id);
     
     public function addRoadAttribute($roadAttributes, $dataset_id);
+    
+    public function updateRoadAttribute($id, $roadAttributes, $dataset_id);
     
     public function replaceRoadAttribute($id, $roadAttributes, $dataset_id);
     
@@ -99,6 +113,8 @@ interface ApiInterface
     
     public function addFatalities($fatalities, $dataset_id);
     
+    public function updateFatalities($id, $fatalities, $dataset_id);
+    
     public function replaceFatalities($id, $fatalities, $dataset_id);
     
     public function deleteFatalities($id, $dataset_id);
@@ -115,6 +131,8 @@ interface ApiInterface
     
     public function addBeforeStarRating($starratings, $dataset_id);
     
+    public function updateBeforeStarRating($id, $starratings, $dataset_id);
+    
     public function replaceBeforeStarRating($id, $starratings, $dataset_id);
     
     public function deleteBeforeStarRating($id, $dataset_id);
@@ -130,6 +148,8 @@ interface ApiInterface
     public function getAfterStarRatings($id, $dataset_id);
     
     public function addAfterStarRating($starratings, $dataset_id);
+    
+    public function updateAfterStarRating($id, $starratings, $dataset_id);
     
     public function replaceAfterStarRating($id, $starratings, $dataset_id);
     

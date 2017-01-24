@@ -144,6 +144,17 @@ class APIRequest
     }
     
     /**
+     * Adds the supplied array to the request as POST Fields and sets the request to a PATCH request.
+     * 
+     * @param array $data
+     */
+    public function setPatchData($data)
+    {
+        curl_setopt($this->m_ch, CURLOPT_CUSTOMREQUEST, "PATCH");
+        curl_setopt($this->m_ch, CURLOPT_POSTFIELDS, $data);
+    }
+    
+    /**
      * Sets the request to a DELETE request
      */
     public function setDeleteRequest()

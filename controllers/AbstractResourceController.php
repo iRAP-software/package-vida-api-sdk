@@ -82,6 +82,27 @@ abstract class AbstractResourceController
     }
     
     /**
+     * Send a PATCH request to the API. The $resource and $id make up the first two parts of the 
+     * URL, are $args can either be a third element, or an array of elements, each of which will
+     * be separated with a '/'. $data should be an array of name-value pairs, representing the 
+     * names and values of the POST fields.
+     * 
+     * @param string $resource
+     * $param array $data
+     * @param mixed $id
+     * @param mixed $args
+     * @return object
+     */
+    public function patchResource($resource, $id, $data, $args = null)
+    {
+        $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
+        $request->setUrl($resource, $id, $args);
+        $request->setPatchData($data);
+        $request->send();
+        return $this->response($request);
+    }
+    
+    /**
      * Send a DELETE request to the API. The $resource and $id make up the first two parts of the 
      * URL, are $args can either be a third element, or an array of elements, each of which will
      * be separated with a '/'.

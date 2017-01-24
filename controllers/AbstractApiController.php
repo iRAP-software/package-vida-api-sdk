@@ -77,6 +77,22 @@ abstract class AbstractApiController implements ApiInterface
     }
     
     /**
+     * Update a user in the system by supplying their user id, along with a new name, email address
+     * and password.
+     * 
+     * @param int $id
+     * @param string $name
+     * @param string $email
+     * @param string $password
+     * @return object
+     */
+    public function updateUser($id, $name, $email, $password)
+    {
+        $userController = new UsersController($this->getAuth());
+        return $userController->patchResource('users', $id, array("name"=>$name,"email"=>$email,"password"=>$password));
+    }
+    
+    /**
      * Replace a user in the system by supplying their user id, along with a new name, email address
      * and password.
      * 
@@ -129,6 +145,22 @@ abstract class AbstractApiController implements ApiInterface
     {
         $datasetController = new DatasetsController($this->getAuth());
         return $datasetController->postResource('datasets', array("name"=>$name, "project_id"=>$project_id, "manager_id"=>$manager_id));
+    }
+    
+    /**
+     * Updates a dataset using the supplied data, which should be an array of field name as 
+     * keys and the values you wish to insert, as name-value pairs. The ID of the dataset to update
+     * and a new name should also be supplied
+     * 
+     * @param int $id
+     * @param string $name
+     * @param array $road_data
+     * @return object
+     */
+    public function updateDataset($id, $name, $project_id, $manager_id)
+    {
+        $datasetController = new DatasetsController($this->getAuth());
+        return $datasetController->patchResource('datasets', $id, array("name"=>$name, "project_id"=>$project_id, "manager_id"=>$manager_id));
     }
     
     /**
@@ -250,6 +282,21 @@ abstract class AbstractApiController implements ApiInterface
     }
     
     /**
+     * Updates a programme, for which a new name should be supplied, along with the id of
+     * the programme, and the user id of the programme's manager.
+     * 
+     * @param int $id
+     * @param string $name
+     * @param int $manager_id
+     * @return object
+     */
+    public function updateProgramme($id, $name, $manager_id)
+    {
+        $programmeController = new ProgrammesController($this->getAuth());
+        return $programmeController->patchResource('programmes', $id, array("name"=>$name, "manager_id"=>$manager_id));
+    }
+    
+    /**
      * Replaces a programme, for which a new name should be supplied, along with the id of
      * the programme, and the user id of the programme's manager.
      * 
@@ -314,6 +361,22 @@ abstract class AbstractApiController implements ApiInterface
     {
         $regionController = new RegionsController($this->getAuth());
         return $regionController->postResource('regions', array("name"=>$name, "programme_id"=>$programme_id, "manager_id"=>$manager_id));
+    }
+    
+    /**
+     * Updates a region, for which a new name should be supplied, along with the id of the 
+     * region, the id of the parent programme and the user id of the region's manager.
+     * 
+     * @param int $id
+     * @param string $name
+     * @param int $programme_id
+     * @param int $manager_id
+     * @return object
+     */
+    public function updateRegion($id, $name, $programme_id, $manager_id)
+    {
+        $regionController = new RegionsController($this->getAuth());
+        return $regionController->patchResource('regions', $id, array("name"=>$name, "programme_id"=>$programme_id, "manager_id"=>$manager_id));
     }
     
     /**
@@ -396,6 +459,25 @@ abstract class AbstractApiController implements ApiInterface
     {
         $projectController = new ProjectsController($this->getAuth());
         return $projectController->postResource('projects', array("name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id, "model_id"=>$model_id, "country_id"=>$country_id));
+    }
+    
+    /**
+     * Updates a project, for which a name should be supplied, along with the id of the 
+     * project, the id of the parent region, the user id of the project's manager and the id
+     * of the model to be used.
+     * 
+     * @param int $id
+     * @param string $name
+     * @param int $region_id
+     * @param int $manager_id
+     * @param int $model_id
+     * @param int $country_id
+     * @return object
+     */
+    public function updateProject($id, $name, $region_id, $manager_id, $model_id, $country_id)
+    {
+        $projectController = new ProjectsController($this->getAuth());
+        return $projectController->patchResource('projects', $id, array("name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id, "model_id"=>$model_id, "country_id"=>$country_id));
     }
     
     /**
@@ -492,6 +574,21 @@ abstract class AbstractApiController implements ApiInterface
     }
     
     /**
+     * Updates a set of variables, using the values supplied. $variables should be an array list
+     * of name-value pairs, where the name matches the relevant field in the database. $id should
+     * be the ID of the set of variables to be updated
+     * 
+     * @param int $id
+     * @param array $variables
+     * @return object
+     */
+    public function updateVariable($id, $variables)
+    {
+        $variableController = new VariablesController($this->getAuth());
+        return $variableController->patchResource('variables', $id, $variables);
+    }
+    
+    /**
      * Replaces a set of variables, using the values supplied. $variables should be an array list
      * of name-value pairs, where the name matches the relevant field in the database. $id should
      * be the ID of the set of variables to be replaced
@@ -557,6 +654,23 @@ abstract class AbstractApiController implements ApiInterface
     {
         $roadAttributeController = new RoadAttributesController($this->getAuth());
         return $roadAttributeController->postResource('roadattributes', $roadAttributes, $dataset_id);
+    }
+    
+    /**
+     * Updates a set of road attributes for the specified location. $roadAttributes should be an 
+     * array list of name-value pairs, where the name matches the relevant field in the database.
+     * $dataset_id should be the ID of the dataset the road attributes are associated with. $id
+     * should be the ID of the set of road attributes to update.
+     * 
+     * @param int $id
+     * @param array $roadAttributes
+     * @param int $dataset_id
+     * @return object
+     */
+    public function updateRoadAttribute($id, $roadAttributes, $dataset_id)
+    {
+        $roadAttributeController = new RoadAttributesController($this->getAuth());
+        return $roadAttributeController->patchResource('roadattributes', $id, $roadAttributes, $dataset_id);
     }
     
     /**
@@ -666,6 +780,23 @@ abstract class AbstractApiController implements ApiInterface
     }
     
     /**
+     * Updates a set of fatalities for the specified location. $fatalities should be an array 
+     * list of name-value pairs, where the name matches the relevant field in the database.
+     * $dataset_id should be the ID of the dataset the road attributes are associated with. $id
+     * should be the ID of the set of fatalities you wish to update.
+     * 
+     * @param int $id
+     * @param array $fatalities
+     * @param int $dataset_id
+     * @return object
+     */
+    public function updateFatalities($id, $fatalities, $dataset_id)
+    {
+        $fatalitiesController = new FatalitiesController($this->getAuth());
+        return $fatalitiesController->patchResource('fatalities', $id, $fatalities, $dataset_id);
+    }
+    
+    /**
      * Replaces a set of fatalities for the specified location. $fatalities should be an array 
      * list of name-value pairs, where the name matches the relevant field in the database.
      * $dataset_id should be the ID of the dataset the road attributes are associated with. $id
@@ -772,6 +903,23 @@ abstract class AbstractApiController implements ApiInterface
     }
     
     /**
+     * Updates a set of star ratings for the specified location. $starratings should be an array 
+     * list of name-value pairs, where the name matches the relevant field in the database.
+     * $dataset_id should be the ID of the dataset the road attributes are associated with.
+     * $id should be the ID of the set of star ratings to be updated.
+     * 
+     * @param int $id
+     * @param array $starratings
+     * @param int $dataset_id
+     * @return object
+     */
+    public function updateBeforeStarRating($id, $starratings, $dataset_id)
+    {
+        $starRatingController = new StarRatingsController($this->getAuth());
+        return $starRatingController->patchResource('starratings', $id, $starratings, array('before', $dataset_id));
+    }
+    
+    /**
      * Replaces a set of star ratings for the specified location. $starratings should be an array 
      * list of name-value pairs, where the name matches the relevant field in the database.
      * $dataset_id should be the ID of the dataset the road attributes are associated with.
@@ -875,6 +1023,23 @@ abstract class AbstractApiController implements ApiInterface
     {
         $starRatingController = new StarRatingsController($this->getAuth());
         return $starRatingController->postResource('starratings', $starratings, array('after', $dataset_id));
+    }
+    
+    /**
+     * Updates a set of star ratings for the specified location. $starratings should be an array 
+     * list of name-value pairs, where the name matches the relevant field in the database.
+     * $dataset_id should be the ID of the dataset the road attributes are associated with.
+     * $id should be the ID of the set of star ratings to be updated.
+     * 
+     * @param int $id
+     * @param array $starratings
+     * @param int $dataset_id
+     * @return object
+     */
+    public function updateAfterStarRating($id, $starratings, $dataset_id)
+    {
+        $starRatingController = new StarRatingsController($this->getAuth());
+        return $starRatingController->patchResource('starratings', $id, $starratings, array('after', $dataset_id));
     }
     
     /**
