@@ -140,7 +140,7 @@ class APIRequest
     public function setPutData($data)
     {
         curl_setopt($this->m_ch, CURLOPT_CUSTOMREQUEST, "PUT");
-        curl_setopt($this->m_ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($this->m_ch, CURLOPT_POSTFIELDS, http_build_query($data));
     }
     
     /**
