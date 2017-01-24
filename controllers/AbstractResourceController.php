@@ -97,7 +97,7 @@ abstract class AbstractResourceController
     {
         $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
         $request->setUrl($resource, $id, $args);
-        $request->setPatchData($data);
+        $request->setPutData($data);
         $request->send();
         return $this->response($request);
     }
