@@ -139,6 +139,7 @@ class APIRequest
      */
     public function setPutData($data)
     {
+        curl_setopt($this->m_ch, CURLOPT_POST, true);
         curl_setopt($this->m_ch, CURLOPT_CUSTOMREQUEST, "PUT");
         curl_setopt($this->m_ch, CURLOPT_POSTFIELDS, $data);
     }
@@ -150,6 +151,7 @@ class APIRequest
      */
     public function setPatchData($data)
     {
+        curl_setopt($this->m_ch, CURLOPT_POST, true);
         curl_setopt($this->m_ch, CURLOPT_CUSTOMREQUEST, "PATCH");
         curl_setopt($this->m_ch, CURLOPT_POSTFIELDS, $data);
     }
