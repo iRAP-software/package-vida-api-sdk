@@ -81,25 +81,13 @@ interface ApiInterface
     
     public function getVariables();
     
-    public function addVariable($variables);
-    
     public function updateVariable($id, $variables);
     
     public function replaceVariable($id, $variables);
     
-    public function deleteVariable($id);
-    
     public function getVariablesForDataset($id);
     
     public function getRoadAttributes($id, $dataset_id);
-    
-    public function addRoadAttribute($roadAttributes, $dataset_id);
-    
-    public function updateRoadAttribute($id, $roadAttributes, $dataset_id);
-    
-    public function replaceRoadAttribute($id, $roadAttributes, $dataset_id);
-    
-    public function deleteRoadAttribute($id, $dataset_id);
     
     public function getRoadAttributesForProgramme($id);
     
@@ -111,14 +99,6 @@ interface ApiInterface
     
     public function getFatalities($id, $dataset_id);
     
-    public function addFatalities($fatalities, $dataset_id);
-    
-    public function updateFatalities($id, $fatalities, $dataset_id);
-    
-    public function replaceFatalities($id, $fatalities, $dataset_id);
-    
-    public function deleteFatalities($id, $dataset_id);
-    
     public function getFatalitiesForProgramme($id);
     
     public function getFatalitiesForRegion($id);
@@ -128,14 +108,6 @@ interface ApiInterface
     public function getFatalitiesForDataset($id);
     
     public function getBeforeStarRatings($id, $dataset_id);
-    
-    public function addBeforeStarRating($starratings, $dataset_id);
-    
-    public function updateBeforeStarRating($id, $starratings, $dataset_id);
-    
-    public function replaceBeforeStarRating($id, $starratings, $dataset_id);
-    
-    public function deleteBeforeStarRating($id, $dataset_id);
     
     public function getBeforeStarRatingsForProgramme($id);
     
@@ -147,14 +119,6 @@ interface ApiInterface
     
     public function getAfterStarRatings($id, $dataset_id);
     
-    public function addAfterStarRating($starratings, $dataset_id);
-    
-    public function updateAfterStarRating($id, $starratings, $dataset_id);
-    
-    public function replaceAfterStarRating($id, $starratings, $dataset_id);
-    
-    public function deleteAfterStarRating($id, $dataset_id);
-    
     public function getAfterStarRatingsForProgramme($id);
     
     public function getAfterStarRatingsForRegion($id);
@@ -162,6 +126,24 @@ interface ApiInterface
     public function getAfterStarRatingsForProject($id);
     
     public function getAfterStarRatingsForDataset($id);
+    
+    public function getData($id, $dataset_id);
+    
+    public function addData($datas, $dataset_id);
+    
+    public function updateData($id, $datas, $dataset_id);
+    
+    public function replaceData($id, $datas, $dataset_id);
+    
+    public function deleteData($id, $dataset_id);
+    
+    public function getDataForProgramme($id);
+    
+    public function getDataForRegion($id);
+    
+    public function getDataForProject($id);
+    
+    public function getDataForDataset($id);
     
     public function getCountries();
 }

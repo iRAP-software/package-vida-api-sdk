@@ -561,19 +561,6 @@ abstract class AbstractApiController implements ApiInterface
     }
     
     /**
-     * Creates a new set of variables, using the values supplied. $variables should be an array list
-     * of name-value pairs, where the name matches the relevant field in the database.
-     * 
-     * @param array $variables
-     * @return object
-     */
-    public function addVariable($variables)
-    {
-        $variableController = new VariablesController($this->getAuth());
-        return $variableController->postResource('variables', $variables);
-    }
-    
-    /**
      * Updates a set of variables, using the values supplied. $variables should be an array list
      * of name-value pairs, where the name matches the relevant field in the database. $id should
      * be the ID of the set of variables to be updated
@@ -604,18 +591,6 @@ abstract class AbstractApiController implements ApiInterface
     }
     
     /**
-     * Deletes a set of variables from the system, using the set of variables's ID.
-     * 
-     * @param int $id
-     * @return object
-     */
-    public function deleteVariable($id)
-    {
-        $variableController = new VariablesController($this->getAuth());
-        return $variableController->deleteResource('variables', $id);
-    }
-    
-    /**
      * Get a list of variables for a dataset, using the dataset's ID.
      * 
      * @param int $id
@@ -639,67 +614,6 @@ abstract class AbstractApiController implements ApiInterface
     {
         $roadAttributeController = new RoadAttributesController($this->getAuth());
         return $roadAttributeController->getResource('roadattributes', $id, $dataset_id);
-    }
-    
-    /**
-     * Adds a set of road attributes for the specified location. $roadAttributes should be an array 
-     * list of name-value pairs, where the name matches the relevant field in the database.
-     * $dataset_id should be the ID of the dataset the road attributes are associated with.
-     * 
-     * @param array $roadAttributes
-     * @param int $dataset_id
-     * @return object
-     */
-    public function addRoadAttribute($roadAttributes, $dataset_id)
-    {
-        $roadAttributeController = new RoadAttributesController($this->getAuth());
-        return $roadAttributeController->postResource('roadattributes', $roadAttributes, $dataset_id);
-    }
-    
-    /**
-     * Updates a set of road attributes for the specified location. $roadAttributes should be an 
-     * array list of name-value pairs, where the name matches the relevant field in the database.
-     * $dataset_id should be the ID of the dataset the road attributes are associated with. $id
-     * should be the ID of the set of road attributes to update.
-     * 
-     * @param int $id
-     * @param array $roadAttributes
-     * @param int $dataset_id
-     * @return object
-     */
-    public function updateRoadAttribute($id, $roadAttributes, $dataset_id)
-    {
-        $roadAttributeController = new RoadAttributesController($this->getAuth());
-        return $roadAttributeController->patchResource('roadattributes', $id, $roadAttributes, $dataset_id);
-    }
-    
-    /**
-     * Replaces a set of road attributes for the specified location. $roadAttributes should be an 
-     * array list of name-value pairs, where the name matches the relevant field in the database.
-     * $dataset_id should be the ID of the dataset the road attributes are associated with. $id
-     * should be the ID of the set of road attributes to replace.
-     * 
-     * @param int $id
-     * @param array $roadAttributes
-     * @param int $dataset_id
-     * @return object
-     */
-    public function replaceRoadAttribute($id, $roadAttributes, $dataset_id)
-    {
-        $roadAttributeController = new RoadAttributesController($this->getAuth());
-        return $roadAttributeController->putResource('roadattributes', $id, $roadAttributes, $dataset_id);
-    }
-    
-    /**
-     * Deletes a set of road attributes from the system, using the set of road attributes's ID.
-     * 
-     * @param int $id
-     * @return object
-     */
-    public function deleteRoadAttribute($id, $dataset_id)
-    {
-        $roadAttributeController = new RoadAttributesController($this->getAuth());
-        return $roadAttributeController->deleteResource('roadattributes', $id, $dataset_id);
     }
     
     /**
@@ -765,67 +679,6 @@ abstract class AbstractApiController implements ApiInterface
     }
     
     /**
-     * Adds a set of fatalities for the specified location. $fatalities should be an array 
-     * list of name-value pairs, where the name matches the relevant field in the database.
-     * $dataset_id should be the ID of the dataset the road attributes are associated with.
-     * 
-     * @param array $fatalities
-     * @param int $dataset_id
-     * @return object
-     */
-    public function addFatalities($fatalities, $dataset_id)
-    {
-        $fatalitiesController = new FatalitiesController($this->getAuth());
-        return $fatalitiesController->postResource('fatalities', $fatalities, $dataset_id);
-    }
-    
-    /**
-     * Updates a set of fatalities for the specified location. $fatalities should be an array 
-     * list of name-value pairs, where the name matches the relevant field in the database.
-     * $dataset_id should be the ID of the dataset the road attributes are associated with. $id
-     * should be the ID of the set of fatalities you wish to update.
-     * 
-     * @param int $id
-     * @param array $fatalities
-     * @param int $dataset_id
-     * @return object
-     */
-    public function updateFatalities($id, $fatalities, $dataset_id)
-    {
-        $fatalitiesController = new FatalitiesController($this->getAuth());
-        return $fatalitiesController->patchResource('fatalities', $id, $fatalities, $dataset_id);
-    }
-    
-    /**
-     * Replaces a set of fatalities for the specified location. $fatalities should be an array 
-     * list of name-value pairs, where the name matches the relevant field in the database.
-     * $dataset_id should be the ID of the dataset the road attributes are associated with. $id
-     * should be the ID of the set of fatalities you wish to replace.
-     * 
-     * @param int $id
-     * @param array $fatalities
-     * @param int $dataset_id
-     * @return object
-     */
-    public function replaceFatalities($id, $fatalities, $dataset_id)
-    {
-        $fatalitiesController = new FatalitiesController($this->getAuth());
-        return $fatalitiesController->putResource('fatalities', $id, $fatalities, $dataset_id);
-    }
-    
-    /**
-     * Deletes a set of fatalities from the system, using the set of fatalities's ID.
-     * 
-     * @param int $id
-     * @return object
-     */
-    public function deleteFatalities($id, $dataset_id)
-    {
-        $fatalitiesController = new FatalitiesController($this->getAuth());
-        return $fatalitiesController->deleteResource('fatalities', $id, $dataset_id);
-    }
-    
-    /**
      * Get a list of fatalities for a programme, using the programme's ID.
      * 
      * @param int $id
@@ -885,67 +738,6 @@ abstract class AbstractApiController implements ApiInterface
     {
         $starRatingController = new StarRatingsController($this->getAuth());
         return $starRatingController->getResource('starratings', $id, array('before', $dataset_id));
-    }
-    
-    /**
-     * Adds a set of star ratings for the specified location. $starratings should be an array 
-     * list of name-value pairs, where the name matches the relevant field in the database.
-     * $dataset_id should be the ID of the dataset the road attributes are associated with.
-     * 
-     * @param array $starratings
-     * @param int $dataset_id
-     * @return object
-     */
-    public function addBeforeStarRating($starratings, $dataset_id)
-    {
-        $starRatingController = new StarRatingsController($this->getAuth());
-        return $starRatingController->postResource('starratings', $starratings, array('before', $dataset_id));
-    }
-    
-    /**
-     * Updates a set of star ratings for the specified location. $starratings should be an array 
-     * list of name-value pairs, where the name matches the relevant field in the database.
-     * $dataset_id should be the ID of the dataset the road attributes are associated with.
-     * $id should be the ID of the set of star ratings to be updated.
-     * 
-     * @param int $id
-     * @param array $starratings
-     * @param int $dataset_id
-     * @return object
-     */
-    public function updateBeforeStarRating($id, $starratings, $dataset_id)
-    {
-        $starRatingController = new StarRatingsController($this->getAuth());
-        return $starRatingController->patchResource('starratings', $id, $starratings, array('before', $dataset_id));
-    }
-    
-    /**
-     * Replaces a set of star ratings for the specified location. $starratings should be an array 
-     * list of name-value pairs, where the name matches the relevant field in the database.
-     * $dataset_id should be the ID of the dataset the road attributes are associated with.
-     * $id should be the ID of the set of star ratings to be replaced.
-     * 
-     * @param int $id
-     * @param array $starratings
-     * @param int $dataset_id
-     * @return object
-     */
-    public function replaceBeforeStarRating($id, $starratings, $dataset_id)
-    {
-        $starRatingController = new StarRatingsController($this->getAuth());
-        return $starRatingController->putResource('starratings', $id, $starratings, array('before', $dataset_id));
-    }
-    
-    /**
-     * Deletes a set of star ratings from the system, using the set of star ratings's ID.
-     * 
-     * @param int $id
-     * @return object
-     */
-    public function deleteBeforeStarRating($id, $dataset_id)
-    {
-        $starRatingController = new StarRatingsController($this->getAuth());
-        return $starRatingController->deleteResource('starratings', $id, array('before', $dataset_id));
     }
     
     /**
@@ -1011,67 +803,6 @@ abstract class AbstractApiController implements ApiInterface
     }
     
     /**
-     * Adds a set of star ratings for the specified location. $starratings should be an array 
-     * list of name-value pairs, where the name matches the relevant field in the database.
-     * $dataset_id should be the ID of the dataset the road attributes are associated with.
-     * 
-     * @param array $starratings
-     * @param int $dataset_id
-     * @return object
-     */
-    public function addAfterStarRating($starratings, $dataset_id)
-    {
-        $starRatingController = new StarRatingsController($this->getAuth());
-        return $starRatingController->postResource('starratings', $starratings, array('after', $dataset_id));
-    }
-    
-    /**
-     * Updates a set of star ratings for the specified location. $starratings should be an array 
-     * list of name-value pairs, where the name matches the relevant field in the database.
-     * $dataset_id should be the ID of the dataset the road attributes are associated with.
-     * $id should be the ID of the set of star ratings to be updated.
-     * 
-     * @param int $id
-     * @param array $starratings
-     * @param int $dataset_id
-     * @return object
-     */
-    public function updateAfterStarRating($id, $starratings, $dataset_id)
-    {
-        $starRatingController = new StarRatingsController($this->getAuth());
-        return $starRatingController->patchResource('starratings', $id, $starratings, array('after', $dataset_id));
-    }
-    
-    /**
-     * Replaces a set of star ratings for the specified location. $starratings should be an array 
-     * list of name-value pairs, where the name matches the relevant field in the database.
-     * $dataset_id should be the ID of the dataset the road attributes are associated with.
-     * $id should be the ID of the set of star ratings to be replaced.
-     * 
-     * @param int $id
-     * @param array $starratings
-     * @param int $dataset_id
-     * @return object
-     */
-    public function replaceAfterStarRating($id, $starratings, $dataset_id)
-    {
-        $starRatingController = new StarRatingsController($this->getAuth());
-        return $starRatingController->putResource('starratings', $id, $starratings, array('after', $dataset_id));
-    }
-    
-    /**
-     * Deletes a set of star ratings from the system, using the set of star ratings's ID.
-     * 
-     * @param int $id
-     * @return object
-     */
-    public function deleteAfterStarRating($id, $dataset_id)
-    {
-        $starRatingController = new StarRatingsController($this->getAuth());
-        return $starRatingController->deleteResource('starratings', $id, array('after', $dataset_id));
-    }
-    
-    /**
      * Get a list of star ratings for a programme, using the programme's ID.
      * 
      * @param int $id
@@ -1117,6 +848,129 @@ abstract class AbstractApiController implements ApiInterface
     {
         $starRatingController = new StarRatingsController($this->getAuth());
         return $starRatingController->getResource('starratings', 'for', array('dataset', $id, 'after'));
+    }
+    
+    /**
+     * Fetches a data for a specified location. You must specify the location ID,
+     * and the ID of the dataset it belongs to.
+     * 
+     * @param int $id
+     * @param int $dataset_id
+     * @return object
+     */
+    public function getData($id, $dataset_id)
+    {
+        $dataController = new DataController($this->getAuth());
+        return $dataController->getResource('data', $id, $dataset_id);
+    }
+    
+    /**
+     * Adds a set of data for the specified location. $data should be an array 
+     * list of name-value pairs, where the name matches the relevant field in the database.
+     * $dataset_id should be the ID of the dataset the data are associated with.
+     * 
+     * @param array $data
+     * @param int $dataset_id
+     * @return object
+     */
+    public function addData($data, $dataset_id)
+    {
+        $dataController = new DataController($this->getAuth());
+        return $dataController->postResource('data', $data, $dataset_id);
+    }
+    
+    /**
+     * Updates a set of data for the specified location. $data should be an 
+     * array list of name-value pairs, where the name matches the relevant field in the database.
+     * $dataset_id should be the ID of the dataset the data are associated with. $id
+     * should be the ID of the set of data to update.
+     * 
+     * @param int $id
+     * @param array $data
+     * @param int $dataset_id
+     * @return object
+     */
+    public function updateData($id, $data, $dataset_id)
+    {
+        $dataController = new DataController($this->getAuth());
+        return $dataController->patchResource('data', $id, $data, $dataset_id);
+    }
+    
+    /**
+     * Replaces a set of data for the specified location. $data should be an 
+     * array list of name-value pairs, where the name matches the relevant field in the database.
+     * $dataset_id should be the ID of the dataset the data are associated with. $id
+     * should be the ID of the set of data to replace.
+     * 
+     * @param int $id
+     * @param array $data
+     * @param int $dataset_id
+     * @return object
+     */
+    public function replaceData($id, $data, $dataset_id)
+    {
+        $dataController = new DataController($this->getAuth());
+        return $dataController->putResource('data', $id, $data, $dataset_id);
+    }
+    
+    /**
+     * Deletes a set of data from the system, using the set of data's ID.
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function deleteData($id, $dataset_id)
+    {
+        $dataController = new DataController($this->getAuth());
+        return $dataController->deleteResource('data', $id, $dataset_id);
+    }
+    
+    /**
+     * Get a list of data for a programme, using the programme's ID.
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getDataForProgramme($id)
+    {
+        $dataController = new DataController($this->getAuth());
+        return $dataController->getResource('data', 'for', array('programme', $id));
+    }
+    
+    /**
+     * Get a list of data for a region, using the region's ID.
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getDataForRegion($id)
+    {
+        $dataController = new DataController($this->getAuth());
+        return $dataController->getResource('data', 'for', array('region', $id));
+    }
+    
+    /**
+     * Get a list of data for a project, using the project's ID.
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getDataForProject($id)
+    {
+        $dataController = new DataController($this->getAuth());
+        return $dataController->getResource('data', 'for', array('project', $id));
+    }
+    
+    /**
+     * Get a list of data for a dataset, using the dataset's ID.
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getDataForDataset($id)
+    {
+        $dataController = new DataController($this->getAuth());
+        return $dataController->getResource('data', 'for', array('dataset', $id));
     }
     
     /**
