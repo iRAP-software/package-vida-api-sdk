@@ -59,7 +59,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getUsers($id = null)
     {
         $userController = new UsersController($this->getAuth());
-        return $userController->getResource('users', $id);
+        return $userController->getResource($id);
     }
     
     /**
@@ -73,7 +73,7 @@ abstract class AbstractApiController implements ApiInterface
     public function addUser($name, $email, $password)
     {
         $userController = new UsersController($this->getAuth());
-        return $userController->postResource('users', array("name"=>$name,"email"=>$email,"password"=>$password));
+        return $userController->postResource(array("name"=>$name,"email"=>$email,"password"=>$password));
     }
     
     /**
@@ -89,7 +89,7 @@ abstract class AbstractApiController implements ApiInterface
     public function updateUser($id, $name, $email, $password)
     {
         $userController = new UsersController($this->getAuth());
-        return $userController->patchResource('users', $id, array("name"=>$name,"email"=>$email,"password"=>$password));
+        return $userController->patchResource($id, array("name"=>$name,"email"=>$email,"password"=>$password));
     }
     
     /**
@@ -105,7 +105,7 @@ abstract class AbstractApiController implements ApiInterface
     public function replaceUser($id, $name, $email, $password)
     {
         $userController = new UsersController($this->getAuth());
-        return $userController->putResource('users', $id, array("name"=>$name,"email"=>$email,"password"=>$password));
+        return $userController->putResource($id, array("name"=>$name,"email"=>$email,"password"=>$password));
     }
     
     /**
@@ -117,7 +117,7 @@ abstract class AbstractApiController implements ApiInterface
     public function deleteUser($id)
     {
         $userController = new UsersController($this->getAuth());
-        return $userController->deleteResource('users', $id);
+        return $userController->deleteResource($id);
     }
     
     /**
@@ -130,7 +130,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getDatasets($id = null)
     {
         $datasetController = new DatasetsController($this->getAuth());
-        return $datasetController->getResource('datasets', $id);
+        return $datasetController->getResource($id);
     }
     
     /**
@@ -144,7 +144,7 @@ abstract class AbstractApiController implements ApiInterface
     public function addDataset($name, $project_id, $manager_id)
     {
         $datasetController = new DatasetsController($this->getAuth());
-        return $datasetController->postResource('datasets', array("name"=>$name, "project_id"=>$project_id, "manager_id"=>$manager_id));
+        return $datasetController->postResource(array("name"=>$name, "project_id"=>$project_id, "manager_id"=>$manager_id));
     }
     
     /**
@@ -160,7 +160,7 @@ abstract class AbstractApiController implements ApiInterface
     public function updateDataset($id, $name, $project_id, $manager_id)
     {
         $datasetController = new DatasetsController($this->getAuth());
-        return $datasetController->patchResource('datasets', $id, array("name"=>$name, "project_id"=>$project_id, "manager_id"=>$manager_id));
+        return $datasetController->patchResource($id, array("name"=>$name, "project_id"=>$project_id, "manager_id"=>$manager_id));
     }
     
     /**
@@ -176,7 +176,7 @@ abstract class AbstractApiController implements ApiInterface
     public function replaceDataset($id, $name, $project_id, $manager_id)
     {
         $datasetController = new DatasetsController($this->getAuth());
-        return $datasetController->putResource('datasets', $id, array("name"=>$name, "project_id"=>$project_id, "manager_id"=>$manager_id));
+        return $datasetController->putResource($id, array("name"=>$name, "project_id"=>$project_id, "manager_id"=>$manager_id));
     }
     
     /**
@@ -188,7 +188,7 @@ abstract class AbstractApiController implements ApiInterface
     public function deleteDataset($id)
     {
         $datasetController = new DatasetsController($this->getAuth());
-        return $datasetController->deleteResource('datasets', $id);
+        return $datasetController->deleteResource($id);
     }
     
     /**
@@ -200,7 +200,35 @@ abstract class AbstractApiController implements ApiInterface
     public function getDatasetUsers($id)
     {
         $datasetController = new DatasetsController($this->getAuth());
-        return $datasetController->getResource('datasets', $id, 'user-access');
+        return $datasetController->getResource($id, 'user-access');
+    }
+    
+    /**
+     * Grant access to the specified user for the specified dataset
+     * 
+     * @param int $dataset_id
+     * @param int $user_id
+     * @param int $access_level
+     * @param int $user_manager
+     * @return object
+     */
+    public function addDatasetUser($dataset_id, $user_id, $access_level = 1, $user_manager = 0)
+    {
+        $datasetController = new DatasetsController($this->getAuth());
+        return $datasetController->postResource(array('user_id'=>$user_id, 'access_level'=>$access_level, 'user_manager'=>$user_manager), $dataset_id, 'user-access');
+    }
+    
+    /**
+     * Revokes access for the specified user for the specified dataset
+     * 
+     * @param int $dataset_id
+     * @param int $user_id
+     * @return object
+     */
+    public function deleteDatasetUser($dataset_id, $user_id)
+    {
+        $datasetController = new DatasetsController($this->getAuth());
+        return $datasetController->deleteResource($dataset_id, array('user-access',$user_id));
     }
     
     /**
@@ -212,7 +240,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getDatasetsForProgramme($id)
     {
         $datasetController = new DatasetsController($this->getAuth());
-        return $datasetController->getResource('datasets', 'for', array('programme', $id));
+        return $datasetController->getResource('for', array('programme', $id));
     }
     
     /**
@@ -224,7 +252,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getDatasetsForRegion($id)
     {
         $datasetController = new DatasetsController($this->getAuth());
-        return $datasetController->getResource('datasets', 'for', array('region', $id));
+        return $datasetController->getResource('for', array('region', $id));
     }
     
     /**
@@ -236,7 +264,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getDatasetsForProject($id)
     {
         $datasetController = new DatasetsController($this->getAuth());
-        return $datasetController->getResource('datasets', 'for', array('project', $id));
+        return $datasetController->getResource('for', array('project', $id));
     }
     
     /**
@@ -251,7 +279,7 @@ abstract class AbstractApiController implements ApiInterface
     public function processDataset($id)
     {
         $datasetController = new DatasetsController($this->getAuth());
-        return $datasetController->getResource('datasets', $id, 'process');
+        return $datasetController->getResource($id, 'process');
     }
     
     /**
@@ -264,7 +292,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getProgrammes($id = null)
     {
         $programmeController = new ProgrammesController($this->getAuth());
-        return $programmeController->getResource('programmes', $id);
+        return $programmeController->getResource($id);
     }
     
     /**
@@ -278,7 +306,7 @@ abstract class AbstractApiController implements ApiInterface
     public function addProgramme($name, $manager_id)
     {
         $programmeController = new ProgrammesController($this->getAuth());
-        return $programmeController->postResource('programmes', array("name"=>$name, "manager_id"=>$manager_id));
+        return $programmeController->postResource(array("name"=>$name, "manager_id"=>$manager_id));
     }
     
     /**
@@ -293,7 +321,7 @@ abstract class AbstractApiController implements ApiInterface
     public function updateProgramme($id, $name, $manager_id)
     {
         $programmeController = new ProgrammesController($this->getAuth());
-        return $programmeController->patchResource('programmes', $id, array("name"=>$name, "manager_id"=>$manager_id));
+        return $programmeController->patchResource($id, array("name"=>$name, "manager_id"=>$manager_id));
     }
     
     /**
@@ -308,7 +336,7 @@ abstract class AbstractApiController implements ApiInterface
     public function replaceProgramme($id, $name, $manager_id)
     {
         $programmeController = new ProgrammesController($this->getAuth());
-        return $programmeController->putResource('programmes', $id, array("name"=>$name, "manager_id"=>$manager_id));
+        return $programmeController->putResource($id, array("name"=>$name, "manager_id"=>$manager_id));
     }
     
     /**
@@ -320,7 +348,7 @@ abstract class AbstractApiController implements ApiInterface
     public function deleteProgramme($id)
     {
         $programmeController = new ProgrammesController($this->getAuth());
-        return $programmeController->deleteResource('programmes', $id);
+        return $programmeController->deleteResource($id);
     }
     
     /**
@@ -332,7 +360,35 @@ abstract class AbstractApiController implements ApiInterface
     public function getProgrammeUsers($id)
     {
         $programmeController = new ProgrammesController($this->getAuth());
-        return $programmeController->getResource('programmes', $id, 'user-access');
+        return $programmeController->getResource($id, 'user-access');
+    }
+    
+    /**
+     * Grant access to the specified user for the specified programme
+     * 
+     * @param int $programme_id
+     * @param int $user_id
+     * @param int $access_level
+     * @param int $user_manager
+     * @return object
+     */
+    public function addProgrammeUser($programme_id, $user_id, $access_level = 1, $user_manager = 0)
+    {
+        $programmeController = new ProgrammesController($this->getAuth());
+        return $programmeController->postResource(array('user_id'=>$user_id, 'access_level'=>$access_level, 'user_manager'=>$user_manager), $programme_id, 'user-access');
+    }
+    
+    /**
+     * Revokes access for the specified user for the specified programme
+     * 
+     * @param int $programme_id
+     * @param int $user_id
+     * @return object
+     */
+    public function deleteProgrammeUser($programme_id, $user_id)
+    {
+        $programmeController = new ProgrammesController($this->getAuth());
+        return $programmeController->deleteResource($programme_id, array('user-access',$user_id));
     }
     
     /**
@@ -345,7 +401,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getRegions($id = null)
     {
         $regionController = new RegionsController($this->getAuth());
-        return $regionController->getResource('regions', $id);
+        return $regionController->getResource($id);
     }
     
     /**
@@ -360,7 +416,7 @@ abstract class AbstractApiController implements ApiInterface
     public function addRegion($name, $programme_id, $manager_id)
     {
         $regionController = new RegionsController($this->getAuth());
-        return $regionController->postResource('regions', array("name"=>$name, "programme_id"=>$programme_id, "manager_id"=>$manager_id));
+        return $regionController->postResource(array("name"=>$name, "programme_id"=>$programme_id, "manager_id"=>$manager_id));
     }
     
     /**
@@ -376,7 +432,7 @@ abstract class AbstractApiController implements ApiInterface
     public function updateRegion($id, $name, $programme_id, $manager_id)
     {
         $regionController = new RegionsController($this->getAuth());
-        return $regionController->patchResource('regions', $id, array("name"=>$name, "programme_id"=>$programme_id, "manager_id"=>$manager_id));
+        return $regionController->patchResource($id, array("name"=>$name, "programme_id"=>$programme_id, "manager_id"=>$manager_id));
     }
     
     /**
@@ -392,7 +448,7 @@ abstract class AbstractApiController implements ApiInterface
     public function replaceRegion($id, $name, $programme_id, $manager_id)
     {
         $regionController = new RegionsController($this->getAuth());
-        return $regionController->putResource('regions', $id, array("name"=>$name, "programme_id"=>$programme_id, "manager_id"=>$manager_id));
+        return $regionController->putResource($id, array("name"=>$name, "programme_id"=>$programme_id, "manager_id"=>$manager_id));
     }
     
     /**
@@ -404,7 +460,7 @@ abstract class AbstractApiController implements ApiInterface
     public function deleteRegion($id)
     {
         $regionController = new RegionsController($this->getAuth());
-        return $regionController->deleteResource('regions', $id);
+        return $regionController->deleteResource($id);
     }
     
     /**
@@ -416,7 +472,35 @@ abstract class AbstractApiController implements ApiInterface
     public function getRegionUsers($id)
     {
         $regionController = new RegionsController($this->getAuth());
-        return $regionController->getResource('regions', $id, 'user-access');
+        return $regionController->getResource($id, 'user-access');
+    }
+    
+    /**
+     * Grant access to the specified user for the specified region
+     * 
+     * @param int $region_id
+     * @param int $user_id
+     * @param int $access_level
+     * @param int $user_manager
+     * @return object
+     */
+    public function addRegionUser($region_id, $user_id, $access_level = 1, $user_manager = 0)
+    {
+        $regionController = new RegionsController($this->getAuth());
+        return $regionController->postResource(array('user_id'=>$user_id, 'access_level'=>$access_level, 'user_manager'=>$user_manager), $region_id, 'user-access');
+    }
+    
+    /**
+     * Revokes access for the specified user for the specified region
+     * 
+     * @param int $region_id
+     * @param int $user_id
+     * @return object
+     */
+    public function deleteRegionUser($region_id, $user_id)
+    {
+        $regionController = new RegionsController($this->getAuth());
+        return $regionController->deleteResource($region_id, array('user-access',$user_id));
     }
     
     /**
@@ -428,7 +512,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getRegionsForProgramme($id)
     {
         $regionController = new RegionsController($this->getAuth());
-        return $regionController->getResource('regions', 'for', array('programme', $id));
+        return $regionController->getResource('for', array('programme', $id));
     }
     
     /**
@@ -441,7 +525,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getProjects($id = null)
     {
         $projectController = new ProjectsController($this->getAuth());
-        return $projectController->getResource('projects', $id);
+        return $projectController->getResource($id);
     }
     
     /**
@@ -458,7 +542,7 @@ abstract class AbstractApiController implements ApiInterface
     public function addProject($name, $region_id, $manager_id, $model_id, $country_id)
     {
         $projectController = new ProjectsController($this->getAuth());
-        return $projectController->postResource('projects', array("name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id, "model_id"=>$model_id, "country_id"=>$country_id));
+        return $projectController->postResource(array("name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id, "model_id"=>$model_id, "country_id"=>$country_id));
     }
     
     /**
@@ -477,7 +561,7 @@ abstract class AbstractApiController implements ApiInterface
     public function updateProject($id, $name, $region_id, $manager_id, $model_id, $country_id)
     {
         $projectController = new ProjectsController($this->getAuth());
-        return $projectController->patchResource('projects', $id, array("name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id, "model_id"=>$model_id, "country_id"=>$country_id));
+        return $projectController->patchResource($id, array("name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id, "model_id"=>$model_id, "country_id"=>$country_id));
     }
     
     /**
@@ -496,7 +580,7 @@ abstract class AbstractApiController implements ApiInterface
     public function replaceProject($id, $name, $region_id, $manager_id, $model_id, $country_id)
     {
         $projectController = new ProjectsController($this->getAuth());
-        return $projectController->putResource('projects', $id, array("name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id, "model_id"=>$model_id, "country_id"=>$country_id));
+        return $projectController->putResource($id, array("name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id, "model_id"=>$model_id, "country_id"=>$country_id));
     }
     
     /**
@@ -508,7 +592,35 @@ abstract class AbstractApiController implements ApiInterface
     public function deleteProject($id)
     {
         $projectController = new ProjectsController($this->getAuth());
-        return $projectController->deleteResource('projects', $id);
+        return $projectController->deleteResource($id);
+    }
+    
+    /**
+     * Grant access to the specified user for the specified project
+     * 
+     * @param int $project_id
+     * @param int $user_id
+     * @param int $access_level
+     * @param int $user_manager
+     * @return object
+     */
+    public function addProjectUser($project_id, $user_id, $access_level = 1, $user_manager = 0)
+    {
+        $projectController = new ProjectsController($this->getAuth());
+        return $projectController->postResource(array('user_id'=>$user_id, 'access_level'=>$access_level, 'user_manager'=>$user_manager), $project_id, 'user-access');
+    }
+    
+    /**
+     * Revokes access for the specified user for the specified project
+     * 
+     * @param int $project_id
+     * @param int $user_id
+     * @return object
+     */
+    public function deleteProjectUser($project_id, $user_id)
+    {
+        $projectController = new ProjectsController($this->getAuth());
+        return $projectController->deleteResource($project_id, array('user-access',$user_id));
     }
     
     /**
@@ -520,7 +632,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getProjectUsers($id)
     {
         $projectController = new ProjectsController($this->getAuth());
-        return $projectController->getResource('projects', $id, 'user-access');
+        return $projectController->getResource($id, 'user-access');
     }
     
     /**
@@ -532,7 +644,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getProjectsForProgramme($id)
     {
         $projectController = new ProjectsController($this->getAuth());
-        return $projectController->getResource('projects', 'for', array('programme', $id));
+        return $projectController->getResource('for', array('programme', $id));
     }
     
     /**
@@ -544,7 +656,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getProjectsForRegion($id)
     {
         $projectController = new ProjectsController($this->getAuth());
-        return $projectController->getResource('projects', 'for', array('region', $id));
+        return $projectController->getResource('for', array('region', $id));
     }
     
     /**
@@ -557,7 +669,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getVariables($id = null)
     {
         $variableController = new VariablesController($this->getAuth());
-        return $variableController->getResource('variables', $id);
+        return $variableController->getResource($id);
     }
     
     /**
@@ -572,7 +684,7 @@ abstract class AbstractApiController implements ApiInterface
     public function updateVariable($id, $variables)
     {
         $variableController = new VariablesController($this->getAuth());
-        return $variableController->patchResource('variables', $id, $variables);
+        return $variableController->patchResource($id, $variables);
     }
     
     /**
@@ -587,7 +699,7 @@ abstract class AbstractApiController implements ApiInterface
     public function replaceVariable($id, $variables)
     {
         $variableController = new VariablesController($this->getAuth());
-        return $variableController->putResource('variables', $id, $variables);
+        return $variableController->putResource($id, $variables);
     }
     
     /**
@@ -599,7 +711,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getVariablesForDataset($id)
     {
         $variableController = new VariablesController($this->getAuth());
-        return $variableController->getResource('variables', 'for', array('dataset', $id));
+        return $variableController->getResource('for', array('dataset', $id));
     }
     
     /**
@@ -613,7 +725,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getRoadAttributes($id, $dataset_id)
     {
         $roadAttributeController = new RoadAttributesController($this->getAuth());
-        return $roadAttributeController->getResource('roadattributes', $id, $dataset_id);
+        return $roadAttributeController->getResource($id, $dataset_id);
     }
     
     /**
@@ -625,7 +737,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getRoadAttributesForProgramme($id)
     {
         $roadAttributeController = new RoadAttributesController($this->getAuth());
-        return $roadAttributeController->getResource('roadattributes', 'for', array('programme', $id));
+        return $roadAttributeController->getResource('for', array('programme', $id));
     }
     
     /**
@@ -637,7 +749,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getRoadAttributesForRegion($id)
     {
         $roadAttributeController = new RoadAttributesController($this->getAuth());
-        return $roadAttributeController->getResource('roadattributes', 'for', array('region', $id));
+        return $roadAttributeController->getResource('for', array('region', $id));
     }
     
     /**
@@ -649,7 +761,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getRoadAttributesForProject($id)
     {
         $roadAttributeController = new RoadAttributesController($this->getAuth());
-        return $roadAttributeController->getResource('roadattributes', 'for', array('project', $id));
+        return $roadAttributeController->getResource('for', array('project', $id));
     }
     
     /**
@@ -661,7 +773,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getRoadAttributesForDataset($id)
     {
         $roadAttributeController = new RoadAttributesController($this->getAuth());
-        return $roadAttributeController->getResource('roadattributes', 'for', array('dataset', $id));
+        return $roadAttributeController->getResource('for', array('dataset', $id));
     }
     
     /**
@@ -675,7 +787,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getFatalities($id, $dataset_id)
     {
         $fatalitiesController = new FatalitiesController($this->getAuth());
-        return $fatalitiesController->getResource('fatalities', $id, $dataset_id);
+        return $fatalitiesController->getResource($id, $dataset_id);
     }
     
     /**
@@ -687,7 +799,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getFatalitiesForProgramme($id)
     {
         $fatalitiesController = new FatalitiesController($this->getAuth());
-        return $fatalitiesController->getResource('fatalities', 'for', array('programme', $id));
+        return $fatalitiesController->getResource('for', array('programme', $id));
     }
     
     /**
@@ -699,7 +811,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getFatalitiesForRegion($id)
     {
         $fatalitiesController = new FatalitiesController($this->getAuth());
-        return $fatalitiesController->getResource('fatalities', 'for', array('region', $id));
+        return $fatalitiesController->getResource('for', array('region', $id));
     }
     
     /**
@@ -711,7 +823,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getFatalitiesForProject($id)
     {
         $fatalitiesController = new FatalitiesController($this->getAuth());
-        return $fatalitiesController->getResource('fatalities', 'for', array('project', $id));
+        return $fatalitiesController->getResource('for', array('project', $id));
     }
     
     /**
@@ -723,7 +835,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getFatalitiesForDataset($id)
     {
         $fatalitiesController = new FatalitiesController($this->getAuth());
-        return $fatalitiesController->getResource('fatalities', 'for', array('dataset', $id));
+        return $fatalitiesController->getResource('for', array('dataset', $id));
     }
     
     /**
@@ -737,7 +849,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getBeforeStarRatings($id, $dataset_id)
     {
         $starRatingController = new StarRatingsController($this->getAuth());
-        return $starRatingController->getResource('starratings', $id, array('before', $dataset_id));
+        return $starRatingController->getResource($id, array('before', $dataset_id));
     }
     
     /**
@@ -749,7 +861,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getBeforeStarRatingsForProgramme($id)
     {
         $starRatingController = new StarRatingsController($this->getAuth());
-        return $starRatingController->getResource('starratings', 'for', array('programme', $id, 'before'));
+        return $starRatingController->getResource('for', array('programme', $id, 'before'));
     }
     
     /**
@@ -761,7 +873,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getBeforeStarRatingsForRegion($id)
     {
         $starRatingController = new StarRatingsController($this->getAuth());
-        return $starRatingController->getResource('starratings', 'for', array('region', $id, 'before'));
+        return $starRatingController->getResource('for', array('region', $id, 'before'));
     }
     
     /**
@@ -773,7 +885,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getBeforeStarRatingsForProject($id)
     {
         $starRatingController = new StarRatingsController($this->getAuth());
-        return $starRatingController->getResource('starratings', 'for', array('project', $id, 'before'));
+        return $starRatingController->getResource('for', array('project', $id, 'before'));
     }
     
     /**
@@ -785,7 +897,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getBeforeStarRatingsForDataset($id)
     {
         $starRatingController = new StarRatingsController($this->getAuth());
-        return $starRatingController->getResource('starratings', 'for', array('dataset', $id, 'before'));
+        return $starRatingController->getResource('for', array('dataset', $id, 'before'));
     }
     
     /**
@@ -799,7 +911,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getAfterStarRatings($id, $dataset_id)
     {
         $starRatingController = new StarRatingsController($this->getAuth());
-        return $starRatingController->getResource('starratings', $id, array('after', $dataset_id));
+        return $starRatingController->getResource($id, array('after', $dataset_id));
     }
     
     /**
@@ -811,7 +923,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getAfterStarRatingsForProgramme($id)
     {
         $starRatingController = new StarRatingsController($this->getAuth());
-        return $starRatingController->getResource('starratings', 'for', array('programme', $id, 'after'));
+        return $starRatingController->getResource('for', array('programme', $id, 'after'));
     }
     
     /**
@@ -823,7 +935,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getAfterStarRatingsForRegion($id)
     {
         $starRatingController = new StarRatingsController($this->getAuth());
-        return $starRatingController->getResource('starratings', 'for', array('region', $id, 'after'));
+        return $starRatingController->getResource('for', array('region', $id, 'after'));
     }
     
     /**
@@ -835,7 +947,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getAfterStarRatingsForProject($id)
     {
         $starRatingController = new StarRatingsController($this->getAuth());
-        return $starRatingController->getResource('starratings', 'for', array('project', $id, 'after'));
+        return $starRatingController->getResource('for', array('project', $id, 'after'));
     }
     
     /**
@@ -847,7 +959,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getAfterStarRatingsForDataset($id)
     {
         $starRatingController = new StarRatingsController($this->getAuth());
-        return $starRatingController->getResource('starratings', 'for', array('dataset', $id, 'after'));
+        return $starRatingController->getResource('for', array('dataset', $id, 'after'));
     }
     
     /**
@@ -861,7 +973,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getData($id, $dataset_id)
     {
         $dataController = new DataController($this->getAuth());
-        return $dataController->getResource('data', $id, $dataset_id);
+        return $dataController->getResource($id, $dataset_id);
     }
     
     /**
@@ -876,7 +988,7 @@ abstract class AbstractApiController implements ApiInterface
     public function addData($data, $dataset_id)
     {
         $dataController = new DataController($this->getAuth());
-        return $dataController->postResource('data', $data, $dataset_id);
+        return $dataController->postResource($data, $dataset_id);
     }
     
     /**
@@ -893,7 +1005,7 @@ abstract class AbstractApiController implements ApiInterface
     public function updateData($id, $data, $dataset_id)
     {
         $dataController = new DataController($this->getAuth());
-        return $dataController->patchResource('data', $id, $data, $dataset_id);
+        return $dataController->patchResource($id, $data, $dataset_id);
     }
     
     /**
@@ -910,7 +1022,7 @@ abstract class AbstractApiController implements ApiInterface
     public function replaceData($id, $data, $dataset_id)
     {
         $dataController = new DataController($this->getAuth());
-        return $dataController->putResource('data', $id, $data, $dataset_id);
+        return $dataController->putResource($id, $data, $dataset_id);
     }
     
     /**
@@ -922,7 +1034,7 @@ abstract class AbstractApiController implements ApiInterface
     public function deleteData($id, $dataset_id)
     {
         $dataController = new DataController($this->getAuth());
-        return $dataController->deleteResource('data', $id, $dataset_id);
+        return $dataController->deleteResource($id, $dataset_id);
     }
     
     /**
@@ -934,7 +1046,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getDataForProgramme($id)
     {
         $dataController = new DataController($this->getAuth());
-        return $dataController->getResource('data', 'for', array('programme', $id));
+        return $dataController->getResource('for', array('programme', $id));
     }
     
     /**
@@ -946,7 +1058,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getDataForRegion($id)
     {
         $dataController = new DataController($this->getAuth());
-        return $dataController->getResource('data', 'for', array('region', $id));
+        return $dataController->getResource('for', array('region', $id));
     }
     
     /**
@@ -958,7 +1070,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getDataForProject($id)
     {
         $dataController = new DataController($this->getAuth());
-        return $dataController->getResource('data', 'for', array('project', $id));
+        return $dataController->getResource('for', array('project', $id));
     }
     
     /**
@@ -970,7 +1082,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getDataForDataset($id)
     {
         $dataController = new DataController($this->getAuth());
-        return $dataController->getResource('data', 'for', array('dataset', $id));
+        return $dataController->getResource('for', array('dataset', $id));
     }
     
     /**
@@ -983,6 +1095,6 @@ abstract class AbstractApiController implements ApiInterface
     public function getCountries($id = null)
     {
         $countriesController = new CountriesController($this->getAuth());
-        return $countriesController->getResource('countries', $id);
+        return $countriesController->getResource($id);
     }
 }

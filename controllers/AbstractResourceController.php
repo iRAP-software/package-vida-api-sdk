@@ -19,21 +19,23 @@ abstract class AbstractResourceController
         $this->m_auth = $auth;
     }
     
+    abstract protected function getResourceName();
+
+
     /**
      * Send a GET request to the API. The $resource and $id make up the first two parts of the 
      * URL, are $args can either be a third element, or an array of elements, each of which will
      * be separated with a '/'
      * 
-     * @param string $resource
      * @param mixed $id
      * @param mixed $args
      * @return object
      */
-    public function getResource($resource, $id = null, $args = null)
+    public function getResource($id = null, $args = null)
     {
         
         $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
-        $request->setUrl($resource, $id, $args);
+        $request->setUrl($this->getResourceName, $id, $args);
         $request->send();
         return $this->response($request);
     }
@@ -44,17 +46,16 @@ abstract class AbstractResourceController
      * be separated with a '/'. $data should be an array of name-value pairs, representing the 
      * names and values of the POST fields.
      * 
-     * @param string $resource
      * $param array $data
      * @param mixed $id
      * @param mixed $args
      * @return object
      */
-    public function postResource($resource, $data, $id = null, $args = null)
+    public function postResource($data, $id = null, $args = null)
     {
         
         $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
-        $request->setUrl($resource, $id, $args);
+        $request->setUrl($this->getResourceName, $id, $args);
         $request->setPostData($data);
         $request->send();
         return $this->response($request);
@@ -66,16 +67,15 @@ abstract class AbstractResourceController
      * be separated with a '/'. $data should be an array of name-value pairs, representing the 
      * names and values of the POST fields.
      * 
-     * @param string $resource
      * $param array $data
      * @param mixed $id
      * @param mixed $args
      * @return object
      */
-    public function putResource($resource, $id, $data, $args = null)
+    public function putResource($id, $data, $args = null)
     {
         $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
-        $request->setUrl($resource, $id, $args);
+        $request->setUrl($this->getResourceName, $id, $args);
         $request->setPutData($data);
         $request->send();
         return $this->response($request);
@@ -87,16 +87,15 @@ abstract class AbstractResourceController
      * be separated with a '/'. $data should be an array of name-value pairs, representing the 
      * names and values of the POST fields.
      * 
-     * @param string $resource
      * $param array $data
      * @param mixed $id
      * @param mixed $args
      * @return object
      */
-    public function patchResource($resource, $id, $data, $args = null)
+    public function patchResource($id, $data, $args = null)
     {
         $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
-        $request->setUrl($resource, $id, $args);
+        $request->setUrl($this->getResourceName, $id, $args);
         $request->setPatchData($data);
         $request->send();
         return $this->response($request);
@@ -107,16 +106,15 @@ abstract class AbstractResourceController
      * URL, are $args can either be a third element, or an array of elements, each of which will
      * be separated with a '/'.
      * 
-     * @param string $resource
      * $param array $data
      * @param mixed $id
      * @param mixed $args
      * @return object
      */
-    public function deleteResource($resource, $id, $args = null)
+    public function deleteResource($id, $args = null)
     {
         $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
-        $request->setUrl($resource, $id, $args);
+        $request->setUrl($this->getResourceName, $id, $args);
         $request->setDeleteRequest();
         $request->send();
         return $this->response($request);

@@ -12,5 +12,8 @@ namespace iRAP\VidaSDK\Controllers;
 
 class RoadAttributesController extends AbstractResourceController
 {
-    
+    protected function getResourceName()
+    {
+        return 'roadattributes';
+    }
 }

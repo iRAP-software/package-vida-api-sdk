@@ -12,5 +12,8 @@ namespace iRAP\VidaSDK\Controllers;
 
 class CountriesController extends AbstractResourceController
 {
-    
+    protected function getResourceName()
+    {
+        return 'countries';
+    }
 }

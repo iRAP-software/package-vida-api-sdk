@@ -12,5 +12,8 @@ namespace iRAP\VidaSDK\Controllers;
 
 class StarRatingsController extends AbstractResourceController
 {
-    
+    protected function getResourceName()
+    {
+        return 'starratings';
+    }
 }

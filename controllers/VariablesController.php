@@ -12,5 +12,8 @@ namespace iRAP\VidaSDK\Controllers;
 
 class VariablesController extends AbstractResourceController
 {
-    
+    protected function getResourceName()
+    {
+        return 'variables';
+    }
 }

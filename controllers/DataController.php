@@ -12,5 +12,8 @@ namespace iRAP\VidaSDK\Controllers;
 
 class DataController extends AbstractResourceController
 {
-    
+    protected function getResourceName()
+    {
+        return 'data';
+    }
 }

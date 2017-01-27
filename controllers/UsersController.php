@@ -12,5 +12,8 @@ namespace iRAP\VidaSDK\Controllers;
 
 class UsersController extends AbstractResourceController
 {
-    
+    protected function getResourceName()
+    {
+        return 'users';
+    }
 }

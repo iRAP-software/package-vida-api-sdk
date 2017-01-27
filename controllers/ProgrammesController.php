@@ -12,5 +12,8 @@ namespace iRAP\VidaSDK\Controllers;
 
 class ProgrammesController extends AbstractResourceController
 {
-    
+    protected function getResourceName()
+    {
+        return 'programmes';
+    }
 }

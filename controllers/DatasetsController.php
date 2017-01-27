@@ -12,5 +12,8 @@ namespace iRAP\VidaSDK\Controllers;
 
 class DatasetsController extends AbstractResourceController
 {
-    
+    protected function getResourceName()
+    {
+        return 'datasets';
+    }
 }

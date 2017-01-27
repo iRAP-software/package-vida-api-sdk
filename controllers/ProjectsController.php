@@ -12,5 +12,8 @@ namespace iRAP\VidaSDK\Controllers;
 
 class ProjectsController extends AbstractResourceController
 {
-    
+    protected function getResourceName()
+    {
+        return 'projects';
+    }
 }

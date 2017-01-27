@@ -12,5 +12,8 @@ namespace iRAP\VidaSDK\Controllers;
 
 class FatalitiesController extends AbstractResourceController
 {
-    
+    protected function getResourceName()
+    {
+        return 'fatalities';
+    }
 }

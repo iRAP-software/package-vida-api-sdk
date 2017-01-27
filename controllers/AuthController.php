@@ -13,6 +13,11 @@ namespace iRAP\VidaSDK\Controllers;
 
 class AuthController extends AbstractResourceController
 {
+    protected function getResourceName()
+    {
+        return 'auth';
+    }
+    
     /**
      * Sends the user's email and password to the API and gets a user token back. The user token 
      * should be stored locally and used for all future requests. Email and password should NOT
