@@ -35,7 +35,7 @@ abstract class AbstractResourceController
     {
         
         $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
-        $request->setUrl($this->getResourceName, $id, $args);
+        $request->setUrl($this->getResourceName(), $id, $args);
         $request->send();
         return $this->response($request);
     }
@@ -55,7 +55,7 @@ abstract class AbstractResourceController
     {
         
         $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
-        $request->setUrl($this->getResourceName, $id, $args);
+        $request->setUrl($this->getResourceName(), $id, $args);
         $request->setPostData($data);
         $request->send();
         return $this->response($request);
@@ -75,7 +75,7 @@ abstract class AbstractResourceController
     public function putResource($id, $data, $args = null)
     {
         $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
-        $request->setUrl($this->getResourceName, $id, $args);
+        $request->setUrl($this->getResourceName(), $id, $args);
         $request->setPutData($data);
         $request->send();
         return $this->response($request);
@@ -95,7 +95,7 @@ abstract class AbstractResourceController
     public function patchResource($id, $data, $args = null)
     {
         $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
-        $request->setUrl($this->getResourceName, $id, $args);
+        $request->setUrl($this->getResourceName(), $id, $args);
         $request->setPatchData($data);
         $request->send();
         return $this->response($request);
@@ -114,7 +114,7 @@ abstract class AbstractResourceController
     public function deleteResource($id, $args = null)
     {
         $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
-        $request->setUrl($this->getResourceName, $id, $args);
+        $request->setUrl($this->getResourceName(), $id, $args);
         $request->setDeleteRequest();
         $request->send();
         return $this->response($request);
