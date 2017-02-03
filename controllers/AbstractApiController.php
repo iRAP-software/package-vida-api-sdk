@@ -1098,13 +1098,24 @@ abstract class AbstractApiController implements ApiInterface
         return $countriesController->getResource($id);
     }
     
-    
+    /**
+     * Fetches the request logs for the API. Include an ID to return a single record
+     * 
+     * @param int $id
+     * @return object
+     */
     public function getRequests($id = null)
     {
         $requestsController = new RequestsController($this->getAuth());
         return $requestsController->getResource($id);
     }
     
+    /**
+     * Deletes an entry from the request log.
+     * 
+     * @param int $id
+     * @return object
+     */
     public function deleteRequest($id)
     {
         $requestsController = new RequestsController($this->getAuth());
