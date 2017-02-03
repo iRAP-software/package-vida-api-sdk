@@ -1097,4 +1097,17 @@ abstract class AbstractApiController implements ApiInterface
         $countriesController = new CountriesController($this->getAuth());
         return $countriesController->getResource($id);
     }
+    
+    
+    public function getRequests($id = null)
+    {
+        $requestsController = new RequestsController($this->getAuth());
+        return $requestsController->getResource($id);
+    }
+    
+    public function deleteRequest($id)
+    {
+        $requestsController = new RequestsController($this->getAuth());
+        return $requestsController->deleteResource($id);
+    }
 }

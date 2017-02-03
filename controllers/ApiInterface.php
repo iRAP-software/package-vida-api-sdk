@@ -164,4 +164,8 @@ interface ApiInterface
     public function getDataForDataset($id);
     
     public function getCountries();
+    
+    public function getRequests();
+    
+    public function deleteRequest($id);
 }
