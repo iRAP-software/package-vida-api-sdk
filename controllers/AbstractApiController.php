@@ -1121,4 +1121,16 @@ abstract class AbstractApiController implements ApiInterface
         $requestsController = new RequestsController($this->getAuth());
         return $requestsController->deleteResource($id);
     }
+    
+    /**
+     * Fetches the permissions for the user. If this is called on an app object, it fetches
+     * the permissions for the app.
+     * 
+     * @return object
+     */
+    public function getPermissions()
+    {
+        $permissionsController = new PermissionsController($this->getAuth());
+        return $permissionsController->getResource();
+    }
 }

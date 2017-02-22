@@ -168,4 +168,6 @@ interface ApiInterface
     public function getRequests();
     
     public function deleteRequest($id);
+    
+    public function getPermissions();
 }
