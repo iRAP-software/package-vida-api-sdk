@@ -2,7 +2,7 @@
 
 /* 
  * This interface specifies the methods available to users of the ViDA SDK. It is implemented by
- * Client.php
+ * App.php and User.php
  */
 
 namespace iRAP\VidaSDK\Controllers;

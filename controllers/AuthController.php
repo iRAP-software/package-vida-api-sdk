@@ -42,7 +42,7 @@ class AuthController extends AbstractResourceController
      * for use the API administration system, which uses the SDK
      * 
      * @param string $name
-     * @param string $owner
+     * @param int $owner
      * @return object
      */
     public static function getAppToken(\iRAP\VidaSDK\Models\AbstractAuthentication $auth, $name, $owner)
