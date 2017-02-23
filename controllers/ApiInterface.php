@@ -165,9 +165,5 @@ interface ApiInterface
     
     public function getCountries();
     
-    public function getRequests();
-    
-    public function deleteRequest($id);
-    
     public function getPermissions();
 }
