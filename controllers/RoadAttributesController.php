@@ -14,6 +14,6 @@ class RoadAttributesController extends AbstractResourceController
 {
     protected function getResourceName()
     {
-        return 'roadattributes';
+        return 'road-attributes';
     }
 }

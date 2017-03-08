@@ -36,21 +36,4 @@ class AuthController extends AbstractResourceController
         $request->send();
         return parent::response($request);
     }
-    
-    /**
-     * Requests an APP token for a new app. This request will normally be rejected, but exists
-     * for use the API administration system, which uses the SDK
-     * 
-     * @param string $name
-     * @param int $owner
-     * @return object
-     */
-    public static function getAppToken(\iRAP\VidaSDK\Models\AbstractAuthentication $auth, $name, $owner)
-    {
-        $request = new \iRAP\VidaSDK\Models\APIRequest($auth);
-        $request->setUrl("auth/register_app");
-        $request->setPostData(array("name"=>$name,"owner"=>$owner));
-        $request->send();
-        return parent::response($request);
-    }
 }

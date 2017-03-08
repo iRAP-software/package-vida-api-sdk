@@ -23,7 +23,7 @@ class APIRequest
     public $m_error;
     
     /**
-     * The contructor feeds the authentication information into the request headers.
+     * The constructor feeds the authentication information into the request headers.
      */
     
     /**

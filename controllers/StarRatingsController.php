@@ -14,6 +14,6 @@ class StarRatingsController extends AbstractResourceController
 {
     protected function getResourceName()
     {
-        return 'starratings';
+        return 'star-ratings';
     }
 }
