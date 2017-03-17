@@ -13,14 +13,20 @@ namespace iRAP\VidaSDK\Models;
 
 abstract class AbstractAuthentication
 {
-        
-    public function getAuthentication()
+    protected $m_parameters;
+    protected $m_authentication;
+    
+    
+    /**
+     * Fetches the headers for authentication such as the auth_id and API key.
+     * Note: this does not return the signature, use the getSignature method for that.
+     * @return array - name value pairs. e.g. (auth_id => 5)
+     */
+    public function getAuthHeaders()
     {
-        $this->m_parameters = $this->getParameters();
-        $this->m_signatures = $this->getSignatures();
-        $this->m_authentication = array_merge($this->m_parameters, $this->m_signatures);
-        return $this->m_authentication;
+        return $this->getParameters();
     }
+    
     
     /**
      * Encrypt a String
@@ -42,6 +48,7 @@ abstract class AbstractAuthentication
         return $encoded_encryption;
     }
     
+    
     /**
      * Takes the request parameters and the secret key and generates the request signature using
      * the hash_hmac() method and the sha256 algorithm.
@@ -59,6 +66,7 @@ abstract class AbstractAuthentication
         return $signature;
     }
     
+    
     /**
      * Builds an array of request parameters, for sending the API
      * 
@@ -71,5 +79,5 @@ abstract class AbstractAuthentication
      * 
      * @return array
      */
-    abstract protected function getSignatures();
+    abstract public function getSignatures();
 }

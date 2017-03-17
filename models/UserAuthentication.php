@@ -19,9 +19,7 @@ class UserAuthentication extends AbstractAuthentication
     protected $m_user_auth_id;
     protected $m_user_api_key;
     protected $m_user_protected_key;
-    protected $m_authentication;
-    protected $m_parameters;
-    protected $m_signatures;
+    
     
     /**
      * Takes the API token and user token if available and sets up the authentication member variable
@@ -66,7 +64,7 @@ class UserAuthentication extends AbstractAuthentication
      * 
      * @return array
      */
-    protected function getSignatures()
+    public function getSignatures()
     {
         return array(
             'system_signature'  => $this->generateSignature($this->m_parameters, $this->m_app_private_key),

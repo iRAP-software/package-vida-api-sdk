@@ -13,14 +13,18 @@ namespace iRAP\VidaSDK\Models;
 
 class APIRequest
 {
-    private static $s_version;
-    private $s_url;
-    private $m_ch;
-    private $m_headers;
     public $m_result;
     public $m_httpCode;
     public $m_status;
     public $m_error;
+    
+    private static $s_version;
+    private $m_url;
+    private $m_baseUrl;
+    private $m_ch;
+    private $m_headers;
+    private $m_auth;  /* @var $m_auth AbstractAuthentication */
+    private $m_data; /* array of data to send off in the body of the request */
     
     /**
      * The constructor feeds the authentication information into the request headers.
@@ -32,14 +36,15 @@ class APIRequest
      */
     public function __construct(AbstractAuthentication $auth)
     {
-        $this->m_headers = $auth->getAuthentication();
+        $this->m_auth = $auth;
+        
         if (defined('IRAPDEV'))
         {
-            $this->s_url = 'http://api.irap-dev.org';
+            $this->m_baseUrl = 'http://api.irap-dev.org';
         }
         else
         {
-            $this->s_url = 'http://api.release.vida.irap.org';
+            $this->m_baseUrl = 'http://api.release.vida.irap.org';
         }
     }
 
@@ -48,10 +53,19 @@ class APIRequest
      */
     public function send()
     {
+        $headers = array_merge($this->m_headers, $this->m_auth->getAuthHeaders());
+        
+        $allDataToSign = array_merge($headers, $data);
+        $allDataToSign['path'] = $this->m_url;
+        $signatures = $this->m_auth->getSignatures($allDataToSign);
+        
+        // Add signatures to the headers
+        $headers = array_merge($headers, $signatures); 
+        
         curl_setopt($this->m_ch, CURLOPT_HEADER, true);
         curl_setopt($this->m_ch, CURLOPT_RETURNTRANSFER, true);
-        $this->m_headers = $this->formatHeaders();
-        curl_setopt($this->m_ch, CURLOPT_HTTPHEADER, $this->m_headers);
+        $formattedHeaders = $this->formatHeaders($headers);
+        curl_setopt($this->m_ch, CURLOPT_HTTPHEADER, $formattedHeaders);
         $response = curl_exec($this->m_ch);
         $this->processResponse($response);
         curl_close($this->m_ch);
@@ -59,8 +73,9 @@ class APIRequest
         {
             echo $response;
         }
-    } 
-          
+    }
+    
+    
     /**
      * Builds the URL and uses it to initiate CURL. The $resource and $id make up the first two 
      * parts of the URL, are $args can either be a third element, or an array of elements, each of which will
@@ -72,16 +87,20 @@ class APIRequest
      */
     public function setUrl($resource, $id = null, $args = null)
     {
-        $url = $this->s_url;
+        $url = $this->m_baseUrl;
+        
         if (!empty(self::$s_version))
         {
             $url .= '/'.self::$s_version;
         }
+        
         $url .= '/'.$resource;
+        
         if (!empty($id))
         {
             $url .= '/'.$id;
         }
+        
         if (!empty($args))
         {
             if (is_array($args))
@@ -93,6 +112,8 @@ class APIRequest
                 $url .= '/'.$args;
             }
         }
+        
+        $this->m_url = $url;
         $this->m_ch = curl_init($url);
     }
     
@@ -101,7 +122,7 @@ class APIRequest
      * 
      * @param array $headers
      */
-    public function setHeaders($headers)
+    public function addHeaders($headers)
     {
         $this->m_headers = array_merge($this->m_headers, $headers);
     }
@@ -112,14 +133,18 @@ class APIRequest
      * 
      * @return array;
      */
-    private function formatHeaders() {
-        $headers = array();
-        foreach ($this->m_headers as $key=>$value)
+    private function formatHeaders($inputHeaders) 
+    {
+        $outputHeaders = array();
+        
+        foreach ($inputHeaders as $key => $value)
         {
-            $headers[] = $key.': '.$value;
+            $outputHeaders[] = $key.': '.$value;
         }
-        return $headers;
+        
+        return $outputHeaders;
     }
+    
     
     /**
      * Adds the supplied array to the request as POST Fields and sets the request to a POST request.
@@ -128,6 +153,7 @@ class APIRequest
      */
     public function setPostData($data)
     {
+        $this->m_data = $data;
         curl_setopt($this->m_ch, CURLOPT_POST, true);
         curl_setopt($this->m_ch, CURLOPT_POSTFIELDS, $data);
     }
@@ -139,6 +165,7 @@ class APIRequest
      */
     public function setPutData($data)
     {
+        $this->m_data = $data;
         curl_setopt($this->m_ch, CURLOPT_CUSTOMREQUEST, "PUT");
         curl_setopt($this->m_ch, CURLOPT_POSTFIELDS, json_encode($data));
     }
@@ -150,6 +177,7 @@ class APIRequest
      */
     public function setPatchData($data)
     {
+        $this->m_data = $data;
         curl_setopt($this->m_ch, CURLOPT_CUSTOMREQUEST, "PATCH");
         curl_setopt($this->m_ch, CURLOPT_POSTFIELDS, json_encode($data));
     }
@@ -157,8 +185,9 @@ class APIRequest
     /**
      * Sets the request to a DELETE request
      */
-    public function setDeleteRequest()
+    public function setDeleteRequest($data)
     {
+        $this->m_data = $data;
         curl_setopt($this->m_ch, CURLOPT_CUSTOMREQUEST, "DELETE");
     }
     
@@ -194,4 +223,3 @@ class APIRequest
         }
     }
 }
-

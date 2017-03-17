@@ -16,9 +16,7 @@ class AppAuthentication extends AbstractAuthentication
     protected $m_app_auth_id;
     protected $m_app_api_key;
     protected $m_app_private_key;
-    protected $m_authentication;
-    protected $m_parameters;
-    protected $m_signatures;
+    
     
     /**
      * Takes the API token and sets up the authentication member variable
@@ -69,7 +67,7 @@ class AppAuthentication extends AbstractAuthentication
      * 
      * @return array
      */
-    protected function getSignatures()
+    public function getSignatures()
     {
         return array(
             'system_signature'  => $this->generateSignature($this->m_parameters, $this->m_app_private_key)
