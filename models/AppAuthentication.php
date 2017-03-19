@@ -51,14 +51,13 @@ class AppAuthentication extends AbstractAuthentication
      * 
      * @return array
      */
-    protected function getParameters()
+    protected function getAuthHeaders()
     {
         $parameters = array(
             'system_auth_id'    => $this->m_app_auth_id,
-            'system_public_key' => $this->m_app_api_key,
-            'nonce'             => rand(999999, 99999999),
-            'timestamp'         => time()
+            'system_public_key' => $this->m_app_api_key
         );
+        
         return $parameters;
     }
     
@@ -67,10 +66,10 @@ class AppAuthentication extends AbstractAuthentication
      * 
      * @return array
      */
-    public function getSignatures()
+    public function getSignatures(array $data)
     {
         return array(
-            'system_signature'  => $this->generateSignature($this->m_parameters, $this->m_app_private_key)
+            'system_signature'  => $this->generateSignature($data, $this->m_app_private_key)
         );
     }
 }
