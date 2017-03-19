@@ -51,9 +51,15 @@ class APIRequest
      */
     public function send()
     {
-        $headers = array_merge($this->m_headers, $this->m_auth->getAuthHeaders());
+        # Headers that need to be renewed every time we hit send()
+        $lastSecondHeaders = array(
+            'nonce' => rand(1,99999);
+            'timestamp' => time()
+        );
         
-        $allDataToSign = array_merge($headers, $data);
+        $headers = array_merge($this->m_headers, $this->m_auth->getAuthHeaders(), $lastSecondHeaders);
+        
+        $allDataToSign = array_merge($headers, $this->m_data);
         $allDataToSign['path'] = $this->m_url;
         $signatures = $this->m_auth->getSignatures($allDataToSign);
         
@@ -118,13 +124,13 @@ class APIRequest
     
     
     /**
-     * Adds an array of headers to the existing headers, which are usually the authentication ones.
-     * 
+     * Sets some custom headers to send along with the request.
+     * Authentication headers will automatically be appended to these
      * @param array $headers
      */
-    public function addHeaders($headers)
+    public function setHeaders($headers)
     {
-        $this->m_headers = array_merge($this->m_headers, $headers);
+        $this->m_headers = $headers;
     }
     
     
