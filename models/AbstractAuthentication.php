@@ -13,8 +13,7 @@ namespace iRAP\VidaSDK\Models;
 
 abstract class AbstractAuthentication
 {
-    protected $m_parameters;
-    protected $m_authentication;
+    protected $m_authHeaders = array();
     
     
     /**
@@ -24,7 +23,7 @@ abstract class AbstractAuthentication
      */
     public function getAuthHeaders()
     {
-        return $this->getParameters();
+        return $this->m_authHeaders;
     }
     
     
@@ -68,16 +67,8 @@ abstract class AbstractAuthentication
     
     
     /**
-     * Builds an array of request parameters, for sending the API
-     * 
-     * @return array
+     * Return an assosciative array of all necessary signatures for the given data.
+     * @return array - array of signatures to include in the header of the request.
      */
-    abstract protected function getParameters();
-    
-    /**
-     * Gets the signatures for app and user and returns them as an array.
-     * 
-     * @return array
-     */
-    abstract public function getSignatures();
+    abstract public function getSignatures(array $data);
 }
