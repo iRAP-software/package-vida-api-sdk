@@ -26,12 +26,9 @@ class APIRequest
     private $m_auth;  /* @var $m_auth AbstractAuthentication */
     private $m_data; /* array of data to send off in the body of the request */
     
-    /**
-     * The constructor feeds the authentication information into the request headers.
-     */
     
     /**
-     * 
+     * The constructor feeds the authentication information into the request headers.
      * @param \iRAP\VidaSDK\Models\Authentication $auth
      */
     public function __construct(AbstractAuthentication $auth)
@@ -47,9 +44,10 @@ class APIRequest
             $this->m_baseUrl = 'http://api.release.vida.irap.org';
         }
     }
-
+    
+    
     /**
-     * This method sends the request to the API and receives the response.
+     * Send the request to the API and receive the response.
      */
     public function send()
     {
@@ -69,6 +67,7 @@ class APIRequest
         $response = curl_exec($this->m_ch);
         $this->processResponse($response);
         curl_close($this->m_ch);
+        
         if (defined('IRAPDIAGNOSTICS'))
         {
             echo $response;
@@ -91,10 +90,10 @@ class APIRequest
         
         if (!empty(self::$s_version))
         {
-            $url .= '/'.self::$s_version;
+            $url .= '/' . self::$s_version;
         }
         
-        $url .= '/'.$resource;
+        $url .= '/' . $resource;
         
         if (!empty($id))
         {
@@ -105,17 +104,18 @@ class APIRequest
         {
             if (is_array($args))
             {
-                $url .= '/'.implode('/', $args);
+                $url .= '/' . implode('/', $args);
             }
             else
             {
-                $url .= '/'.$args;
+                $url .= '/' . $args;
             }
         }
         
         $this->m_url = $url;
         $this->m_ch = curl_init($url);
     }
+    
     
     /**
      * Adds an array of headers to the existing headers, which are usually the authentication ones.
@@ -126,6 +126,7 @@ class APIRequest
     {
         $this->m_headers = array_merge($this->m_headers, $headers);
     }
+    
     
     /**
      * Loops through the m_headers member variable and formats each header for the request. Returns
@@ -158,6 +159,7 @@ class APIRequest
         curl_setopt($this->m_ch, CURLOPT_POSTFIELDS, $data);
     }
     
+    
     /**
      * Adds the supplied array to the request as POST Fields and sets the request to a PUT request.
      * 
@@ -170,9 +172,9 @@ class APIRequest
         curl_setopt($this->m_ch, CURLOPT_POSTFIELDS, json_encode($data));
     }
     
+    
     /**
      * Adds the supplied array to the request as POST Fields and sets the request to a PATCH request.
-     * 
      * @param array $data
      */
     public function setPatchData($data)
@@ -182,6 +184,7 @@ class APIRequest
         curl_setopt($this->m_ch, CURLOPT_POSTFIELDS, json_encode($data));
     }
     
+    
     /**
      * Sets the request to a DELETE request
      */
@@ -190,6 +193,7 @@ class APIRequest
         $this->m_data = $data;
         curl_setopt($this->m_ch, CURLOPT_CUSTOMREQUEST, "DELETE");
     }
+    
     
     /**
      * Takes the response from CURL and splits the header from the body. Splits out the header into
@@ -203,15 +207,19 @@ class APIRequest
         $header = substr($response, 0, ($info['header_size']-1));
         $this->m_result = substr($response, $info['header_size']-1);
         $this->m_httpCode = $info['http_code'];
+        
         foreach (explode("\r\n", $header) as $line)
         {
             $line = explode(': ', $line);
+            
             if (count($line) < 2)
             {
                 continue;
             }
+            
             $key = $line[0];
             $value = $line[1];
+            
             if ($key == 'Status')
             {
                 $this->m_status = $value;
