@@ -41,6 +41,7 @@ class UserAuthentication extends AbstractAuthentication
         $this->m_user_private_key = $user_private_key;
     }
     
+    
     /**
      * Builds an array of request parameters, for sending the API
      * 
@@ -56,8 +57,10 @@ class UserAuthentication extends AbstractAuthentication
             'nonce'             => rand(999999, 99999999),
             'timestamp'         => time()
         );
+        
         return $parameters;
     }
+    
     
     /**
      * Gets the signatures for app and user and returns them as an array.
