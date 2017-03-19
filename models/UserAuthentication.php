@@ -47,15 +47,13 @@ class UserAuthentication extends AbstractAuthentication
      * 
      * @return array
      */
-    protected function getParameters()
+    public function getAuthHeaders()
     {
         $parameters = array(
             'system_auth_id'    => $this->m_app_auth_id,
             'system_public_key' => $this->m_app_api_key,
             'user_auth_id'      => $this->m_user_auth_id,
             'user_public_key'   => $this->m_user_api_key,
-            'nonce'             => rand(999999, 99999999),
-            'timestamp'         => time()
         );
         
         return $parameters;
@@ -63,15 +61,15 @@ class UserAuthentication extends AbstractAuthentication
     
     
     /**
-     * Gets the signatures for app and user and returns them as an array.
-     * 
-     * @return array
+     * Gets the user and app signatures for the provided data 
+     * before returning them as an assosciative array.
+     * @return array - name/value pairs of the signatures.
      */
-    public function getSignatures()
+    public function getSignatures(array $data)
     {
         return array(
-            'system_signature'  => $this->generateSignature($this->m_parameters, $this->m_app_private_key),
-            'user_signature'  => $this->generateSignature($this->m_parameters, $this->m_user_private_key)
+            'system_signature'  => $this->generateSignature($data, $this->m_app_private_key),
+            'user_signature'  => $this->generateSignature($data, $this->m_user_private_key)
         );
     }
 }
