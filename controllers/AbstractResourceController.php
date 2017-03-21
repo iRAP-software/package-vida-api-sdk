@@ -14,9 +14,11 @@ namespace iRAP\VidaSDK\Controllers;
 abstract class AbstractResourceController
 {
     private $m_auth;
-    public function __construct($auth)
+    private $m_filter;
+    public function __construct($auth, $filter = null)
     {
         $this->m_auth = $auth;
+        $this->m_filter = $filter;
     }
     
     abstract protected function getResourceName();
@@ -35,7 +37,7 @@ abstract class AbstractResourceController
     {
         
         $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
-        $request->setUrl($this->getResourceName(), $id, $args);
+        $request->setUrl($this->getResourceName(), $id, $args, $this->m_filter);
         $request->send();
         return $this->response($request);
     }

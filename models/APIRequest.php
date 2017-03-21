@@ -93,7 +93,7 @@ class APIRequest
      * @param mixed $id
      * @param mixed $args
      */
-    public function setUrl($resource, $id = null, $args = null)
+    public function setUrl($resource, $id = null, $args = null, $filter = null)
     {
         $url = $this->m_baseUrl;
         
@@ -122,6 +122,12 @@ class APIRequest
         }
         
         $this->m_url = $url;
+        
+        if (!empty($filter))
+        {
+            $url .= '?filter=' . $filter->buildFilter();
+        }
+        
         $this->m_ch = curl_init($url);
     }
     
