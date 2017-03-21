@@ -53,7 +53,7 @@ class APIRequest
     {
         # Headers that need to be renewed every time we hit send()
         $lastSecondHeaders = array(
-            'nonce' => rand(1,99999);
+            'nonce' => rand(1,99999),
             'timestamp' => time()
         );
         

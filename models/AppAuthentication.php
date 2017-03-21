@@ -51,7 +51,7 @@ class AppAuthentication extends AbstractAuthentication
      * 
      * @return array
      */
-    protected function getAuthHeaders()
+    public function getAuthHeaders()
     {
         $parameters = array(
             'system_auth_id'    => $this->m_app_auth_id,
