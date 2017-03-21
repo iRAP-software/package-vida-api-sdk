@@ -43,6 +43,8 @@ class APIRequest
         {
             $this->m_baseUrl = 'http://api.release.vida.irap.org';
         }
+        
+        $this->m_headers = array();
     }
     
     
