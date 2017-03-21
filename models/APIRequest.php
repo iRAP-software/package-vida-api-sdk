@@ -45,6 +45,7 @@ class APIRequest
         }
         
         $this->m_headers = array();
+        $this->data = array();
     }
     
     
