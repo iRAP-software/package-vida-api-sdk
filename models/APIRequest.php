@@ -56,14 +56,14 @@ class APIRequest
     {
         # Headers that need to be renewed every time we hit send()
         $lastSecondHeaders = array(
-            'nonce' => rand(1,99999),
-            'timestamp' => time()
+            'auth_nonce' => rand(1,99999),
+            'auth_timestamp' => time()
         );
         
         $headers = array_merge($this->m_headers, $this->m_auth->getAuthHeaders(), $lastSecondHeaders);
         
         $allDataToSign = array_merge($headers, $this->m_data);
-        $allDataToSign['path'] = $this->m_url;
+        $allDataToSign['auth_url'] = $this->m_url;
         $signatures = $this->m_auth->getSignatures($allDataToSign);
         
         // Add signatures to the headers
