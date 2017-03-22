@@ -33,6 +33,11 @@ class Filter
         return urlencode(json_encode($this->m_filter));
     }
     
+    public function getFilter()
+    {
+        return json_encode($this->m_filter);
+    }
+    
     private function filterItem($field, $value, $operator)
     {
         $filter = new \stdClass();
