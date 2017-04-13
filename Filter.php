@@ -46,11 +46,11 @@ class Filter
 class FilterGroup extends Filter
 {
     private $m_filter;
-    private $m_comparison;
     
     public function __construct($filtersArray, $comparison)
     {
-        $this->m_filter = $filtersArray;
-        $this->m_comparison = $comparison;
+        $this->m_filter = new \stdClass();
+        $this->m_filter->filterGroup = $filtersArray;
+        $this->m_filer->comparison = $comparison;
     }
 }
