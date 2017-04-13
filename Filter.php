@@ -43,14 +43,24 @@ class Filter
     }
 }
 
-class FilterGroup extends Filter
+class FilterGroup
 {
-    private $m_filter;
+    private $filterGroup;
     
     public function __construct($filtersArray, $comparison)
     {
-        $this->m_filter = new \stdClass();
-        $this->m_filter->filterGroup = $filtersArray;
-        $this->m_filter->comparison = $comparison;
+        $this->filterGroup = new \stdClass();
+        $this->filterGroup->filtersArray = $filtersArray;
+        $this->filterGroup->comparison = $comparison;
+    }
+    
+    public function buildFilter()
+    {
+        return urlencode(json_encode($this->filterGroup));
+    }
+    
+    public function getFilter()
+    {
+        return json_encode($this->filterGroup);
     }
 }
