@@ -51,6 +51,6 @@ class FilterGroup extends Filter
     {
         $this->m_filter = new \stdClass();
         $this->m_filter->filterGroup = $filtersArray;
-        $this->m_filer->comparison = $comparison;
+        $this->m_filter->comparison = $comparison;
     }
 }
