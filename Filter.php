@@ -50,7 +50,10 @@ class FilterGroup
     public function __construct($filtersArray, $comparison)
     {
         $this->filterGroup = new \stdClass();
-        $this->filterGroup->filtersArray = $filtersArray;
+        foreach ($filtersArray as $filter)
+        {
+            $this->filterGroup->filtersArray[] = $filter->getFilter();
+        }
         $this->filterGroup->comparison = $comparison;
     }
     
