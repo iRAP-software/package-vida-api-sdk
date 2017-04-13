@@ -18,14 +18,9 @@ class Filter
         $this->m_filter[] = $this->filterItem($field, $value, $operator);
     }
     
-    public function addAnd($field, $value, $operator = '=')
+    public function addFilter($field, $value, $operator = '=')
     {
-        $this->m_filter[]['AND'] = $this->filterItem($field, $value, $operator);
-    }
-    
-    public function addOr($field, $value, $operator = '=')
-    {
-        $this->m_filter[]['OR'] = $this->filterItem($field, $value, $operator);
+        $this->m_filter[] = $this->filterItem($field, $value, $operator);
     }
     
     public function buildFilter()
@@ -45,5 +40,17 @@ class Filter
         $filter->value = $value;
         $filter->operator = $operator;
         return $filter;
+    }
+}
+
+class FilterGroup extends iRAP\VidaSDK\Filter
+{
+    private $m_filter;
+    private $m_comparison;
+    
+    public function __construct($filtersArray, $comparison)
+    {
+        $this->m_filter = $filtersArray;
+        $this->m_comparison = $comparison;
     }
 }
