@@ -52,7 +52,7 @@ class FilterGroup
         $this->filterGroup = new \stdClass();
         foreach ($filtersArray as $filter)
         {
-            $this->filterGroup->filtersArray[] = $filter->getFilter();
+            $this->filterGroup->filtersArray[] = json_decode($filter->getFilter());
         }
         $this->filterGroup->comparison = $comparison;
     }
