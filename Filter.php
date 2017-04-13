@@ -43,7 +43,7 @@ class Filter
     }
 }
 
-class FilterGroup extends iRAP\VidaSDK\Filter
+class FilterGroup extends Filter
 {
     private $m_filter;
     private $m_comparison;
