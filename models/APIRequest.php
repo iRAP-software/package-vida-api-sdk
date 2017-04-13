@@ -35,9 +35,9 @@ class APIRequest
     {
         $this->m_auth = $auth;
         
-        if (defined('IRAPDEV'))
+        if (defined('IRAP_API_URL'))
         {
-            $this->m_baseUrl = 'http://api.irap-dev.org';
+            $this->m_baseUrl = IRAP_API_URL;
         }
         else
         {
@@ -77,7 +77,7 @@ class APIRequest
         $this->processResponse($response);
         curl_close($this->m_ch);
         
-        if (defined('IRAPDIAGNOSTICS'))
+        if (defined('IRAP_DIAGNOSTICS'))
         {
             echo $response;
         }
