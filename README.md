@@ -154,8 +154,83 @@ $response = $api->deleteUser($id);
 
 This would delete the user with the ID specified in $id.
 
+### Filters
+By default, a Get method for a resource will return all of the results that are available for the authenticated user. This can be useful, but gives you extra work to do if you only require a subset of results.
+
+To make this easier, the SDK includes a filter object that allows you to only return the criteria you are looking for. You can filter on any of the field names in the returned results and use any one of the following operations:
+
+**field = value**
+
+**field != value**
+
+**field > value**
+
+**field < value**
+
+**field >= value**
+
+**field <= value**
+
+The simplest use of the filter would look like this:
+
+```php
+$filter = new iRAP\VidaSDK\Filter('id', 1);
+```
+
+To use the filter, you must then include it in your request:
+
+```php
+$result = $api->getUsers(null, $filter);
+```
+
+This request will return users where the id field equals 1.
+
+**N.B. Equals (=) is the default operator for a filter, therefore there is no need to include it explicitly.**
+
+If you wanted to see all the users whose id does not equal 1, you could do this:
+
+```php
+$filter = new iRAP\VidaSDK\Filter('id', 1, '!=');
+$result = $api->getUsers(null, $filter);
+```
+
+Notice that the != operator is specified as the third parameter.
+
+### Multiple Filters
+Filtering on a single field is useful, but sometimes you will need to filter on more than one field. This can be done by calling the addFilter() method on the filter object:
+
+```php
+$filter = new iRAP\VidaSDK\Filter('id', 1, '!=');
+$filter->addFilter('is_admin', 1);
+$result = $api->getUsers(null, $filter);
+```
+
+Now you are looking for a user whose id does not equal 1 AND who is an admin. The addFilter method will also take an operator parameter, so you can use different operators on different fields. As before, the default is equals (=). You can call the addFilter() method as many times as you wish, to create the filter criteria you require.
+
+### Filter Groups
+In some situations, you may wish to perform searches on alternative sets of criteria, without having to run two separate queries. For this, we have filter groups. These allow you to pass in multiple filter objects with alternative search options. For example:
+
+```php
+# Create the first filter
+$filter1 = new iRAP\VidaSDK\Filter('id', 1, '!=');
+$filter1->addFilter('is_admin', 1);
+
+# Create the second filter
+$filter2 = new iRAP\VidaSDK\Filter('id', 1);
+$filter2->addFilter('is_admin', 1, '!=');
+
+# Group the filters together
+$filter = new iRAP\VidaSDK\FilterGroup(array($filter1, $filter2), 'OR');
+
+$result = $api->getUsers(null, $filter);
+```
+
+In this example, results will be returned if either the first group of filters are satisfied, OR the second group of filters are satisfied. Note that the two filter objects are passed into the FilterGroup object inside an array. You can include as many filter objects as you wish.
+
+For really advanced requirements, you can nest filter groups inside each other, allowing highly specific filtering to be applied to results. This should cater for almost all use cases, but if not, filtering on the application layer will still be necessary.
+
 ### Resources Available
-A list of the different resource types available, and the methods for accessing them, can be found in apiInterface.php in the root directory of the SDK package. This file will continue to be added to as new methods become available in the API.
+A list of the different resource types available, and the methods for accessing them, can be found in Controllers/ApiInterface.php in the SDK package. This file will continue to be added to as new methods become available in the API.
 
 ### Requirements
 The only requirement for the SDK to run is PHP 5.6 or newer.
