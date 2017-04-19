@@ -9,6 +9,8 @@
  * 
  */
 
+require_once 'Defines.php';
+
 namespace iRAP\VidaSDK;
 
 class App extends Controllers\AbstractApiController
