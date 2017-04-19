@@ -18,7 +18,7 @@ class APIRequest
     public $m_status;
     public $m_error;
     
-    private static $s_version;
+    private static $s_version = IRAP_API_VERSION;
     private $m_url;
     private $m_baseUrl;
     private $m_ch;
@@ -41,7 +41,7 @@ class APIRequest
         }
         else
         {
-            $this->m_baseUrl = 'http://api.release.vida.irap.org';
+            $this->m_baseUrl = IRAP_API_LIVE_URL;
         }
         
         $this->m_headers = array();
@@ -79,6 +79,7 @@ class APIRequest
         
         if (defined('IRAP_DIAGNOSTICS'))
         {
+            echo 'Target: ' . $this->m_url . PHP_EOL;
             echo $response;
         }
     }
