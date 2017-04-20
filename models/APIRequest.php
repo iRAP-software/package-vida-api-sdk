@@ -103,11 +103,6 @@ class APIRequest
             $url .= '/' . self::$s_version;
         }
         
-        if (defined('\iRAP\VidaSDK\IRAP_INTERNAL_VERSION'))
-        {
-            $url .= '/internal/' . \iRAP\VidaSDK\IRAP_INTERNAL_VERSION;
-        }
-        
         $url .= '/' . $resource;
         
         if (!empty($id))
