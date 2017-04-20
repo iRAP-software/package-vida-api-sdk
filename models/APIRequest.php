@@ -18,7 +18,7 @@ class APIRequest
     public $m_status;
     public $m_error;
     
-    private static $s_version = \iRAP\VidaSDK\IRAP_API_VERSION;
+    private static $s_version = iRAP\VidaSDK\IRAP_API_VERSION;
     private $m_url;
     private $m_baseUrl;
     private $m_ch;
@@ -41,7 +41,7 @@ class APIRequest
         }
         else
         {
-            $this->m_baseUrl = \iRAP\VidaSDK\IRAP_API_LIVE_URL;
+            $this->m_baseUrl = iRAP\VidaSDK\IRAP_API_LIVE_URL;
         }
         
         $this->m_headers = array();
