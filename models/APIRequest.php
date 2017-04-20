@@ -35,7 +35,7 @@ class APIRequest
     {
         $this->m_auth = $auth;
         
-        if (defined('IRAP_API_URL'))
+        if (defined('\iRAP\VidaSDK\IRAP_API_URL'))
         {
             $this->m_baseUrl = IRAP_API_URL;
         }
@@ -77,7 +77,7 @@ class APIRequest
 //        $this->processResponse($response);
 //        curl_close($this->m_ch);
         
-        if (defined('IRAP_DIAGNOSTICS'))
+        if (defined('\iRAP\VidaSDK\IRAP_DIAGNOSTICS'))
         {
             echo 'Target: ' . $this->m_url . PHP_EOL;
             echo $response;
@@ -101,6 +101,11 @@ class APIRequest
         if (!empty(self::$s_version))
         {
             $url .= '/' . self::$s_version;
+        }
+        
+        if (defined('\iRAP\VidaSDK\IRAP_INTERNAL_VERSION'))
+        {
+            $url .= '/internal/' . \iRAP\VidaSDK\IRAP_INTERNAL_VERSION;
         }
         
         $url .= '/' . $resource;
