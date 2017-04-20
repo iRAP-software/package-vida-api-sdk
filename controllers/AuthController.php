@@ -13,7 +13,7 @@ namespace iRAP\VidaSDK\Controllers;
 
 class AuthController extends AbstractResourceController
 {
-    protected function getResourceName()
+    protected function getResourcePath()
     {
         return 'auth';
     }

@@ -21,7 +21,7 @@ abstract class AbstractResourceController
         $this->m_filter = $filter;
     }
     
-    abstract protected function getResourceName();
+    abstract protected function getResourcePath();
 
 
     /**
@@ -37,7 +37,7 @@ abstract class AbstractResourceController
     {
         
         $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
-        $request->setUrl($this->getResourceName(), $id, $args, $this->m_filter);
+        $request->setUrl($this->getResourcePath(), $id, $args, $this->m_filter);
         $request->send();
         return $this->response($request);
     }
@@ -57,7 +57,7 @@ abstract class AbstractResourceController
     {
         
         $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
-        $request->setUrl($this->getResourceName(), $id, $args);
+        $request->setUrl($this->getResourcePath(), $id, $args);
         $request->setPostData($data);
         $request->send();
         return $this->response($request);
@@ -77,7 +77,7 @@ abstract class AbstractResourceController
     public function putResource($id, $data, $args = null)
     {
         $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
-        $request->setUrl($this->getResourceName(), $id, $args);
+        $request->setUrl($this->getResourcePath(), $id, $args);
         $request->setPutData($data);
         $request->send();
         return $this->response($request);
@@ -97,7 +97,7 @@ abstract class AbstractResourceController
     public function patchResource($id, $data, $args = null)
     {
         $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
-        $request->setUrl($this->getResourceName(), $id, $args);
+        $request->setUrl($this->getResourcePath(), $id, $args);
         $request->setPatchData($data);
         $request->send();
         return $this->response($request);
@@ -116,7 +116,7 @@ abstract class AbstractResourceController
     public function deleteResource($id, $args = null)
     {
         $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
-        $request->setUrl($this->getResourceName(), $id, $args);
+        $request->setUrl($this->getResourcePath(), $id, $args);
         $request->setDeleteRequest();
         $request->send();
         return $this->response($request);
