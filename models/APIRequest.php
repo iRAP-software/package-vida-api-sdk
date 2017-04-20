@@ -37,7 +37,7 @@ class APIRequest
         
         if (defined('\iRAP\VidaSDK\IRAP_API_URL'))
         {
-            $this->m_baseUrl = IRAP_API_URL;
+            $this->m_baseUrl = \iRAP\VidaSDK\IRAP_API_URL;
         }
         else
         {
