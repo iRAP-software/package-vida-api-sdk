@@ -9,7 +9,7 @@
  * 
  */
 
-require_once 'Defines.php';
+require_once __DIR__ . '/bootstrap.php';
 
 namespace iRAP\VidaSDK;
 
