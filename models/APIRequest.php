@@ -54,28 +54,28 @@ class APIRequest
      */
     public function send()
     {
-//        # Headers that need to be renewed every time we hit send()
-//        $lastSecondHeaders = array(
-//            'auth_nonce' => rand(1,99999),
-//            'auth_timestamp' => time()
-//        );
-//        
-//        $headers = array_merge($this->m_headers, $this->m_auth->getAuthHeaders(), $lastSecondHeaders);
-//        
-//        $allDataToSign = array_merge($headers, $this->m_data);
-//        $allDataToSign['auth_url'] = $this->m_url;
-//        $signatures = $this->m_auth->getSignatures($allDataToSign);
-//        
-//        // Add signatures to the headers
-//        $headers = array_merge($headers, $signatures); 
-//        
-//        curl_setopt($this->m_ch, CURLOPT_HEADER, true);
-//        curl_setopt($this->m_ch, CURLOPT_RETURNTRANSFER, true);
-//        $formattedHeaders = $this->formatHeaders($headers);
-//        curl_setopt($this->m_ch, CURLOPT_HTTPHEADER, $formattedHeaders);
-//        $response = curl_exec($this->m_ch);
-//        $this->processResponse($response);
-//        curl_close($this->m_ch);
+        # Headers that need to be renewed every time we hit send()
+        $lastSecondHeaders = array(
+            'auth_nonce' => rand(1,99999),
+            'auth_timestamp' => time()
+        );
+        
+        $headers = array_merge($this->m_headers, $this->m_auth->getAuthHeaders(), $lastSecondHeaders);
+        
+        $allDataToSign = array_merge($headers, $this->m_data);
+        $allDataToSign['auth_url'] = $this->m_url;
+        $signatures = $this->m_auth->getSignatures($allDataToSign);
+        
+        // Add signatures to the headers
+        $headers = array_merge($headers, $signatures); 
+        
+        curl_setopt($this->m_ch, CURLOPT_HEADER, true);
+        curl_setopt($this->m_ch, CURLOPT_RETURNTRANSFER, true);
+        $formattedHeaders = $this->formatHeaders($headers);
+        curl_setopt($this->m_ch, CURLOPT_HTTPHEADER, $formattedHeaders);
+        $response = curl_exec($this->m_ch);
+        $this->processResponse($response);
+        curl_close($this->m_ch);
         
         if (defined('\iRAP\VidaSDK\IRAP_DIAGNOSTICS'))
         {
