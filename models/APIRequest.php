@@ -197,7 +197,7 @@ class APIRequest
     {
         $this->m_data = $data;
         curl_setopt($this->m_ch, CURLOPT_CUSTOMREQUEST, "PATCH");
-        curl_setopt($this->m_ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($this->m_ch, CURLOPT_POSTFIELDS, array('test'=>$data));
     }
     
     
