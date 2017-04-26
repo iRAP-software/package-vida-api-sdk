@@ -59,7 +59,7 @@ abstract class AbstractAuthentication
     protected function generateSignature($parameters, $secretKey)
     {
         array_change_key_case($parameters, CASE_LOWER); # just in case user forgets
-        ksort($parameters); # order matters when producing a hash signature.
+        ksort($parameters, SORT_STRING); # order matters when producing a hash signature.
         $jsonString = json_encode($parameters, JSON_NUMERIC_CHECK);
         $signature = hash_hmac('sha256', $jsonString, $secretKey);
         return $signature;
