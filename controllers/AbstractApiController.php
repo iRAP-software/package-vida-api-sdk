@@ -987,6 +987,18 @@ abstract class AbstractApiController implements ApiInterface
      */
     public function addData($data, $dataset_id)
     {
+        if (
+                $data !== array_values($data) || 
+                (
+                    isset($data[0]) && 
+                    is_array($data[0]) && 
+                    $data[0] !== array_values($data[0])
+                )
+            )
+        {
+            // $data has keys, encode as JSON
+            $data = array('data' => json_encode($data));
+        }
         $dataController = new DataController($this->getAuth());
         return $dataController->postResource($data, $dataset_id);
     }
