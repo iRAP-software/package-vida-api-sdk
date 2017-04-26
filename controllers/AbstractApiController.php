@@ -1020,22 +1020,7 @@ abstract class AbstractApiController implements ApiInterface
      */
     public function updateData($id, $data, $dataset_id)
     {
-        if (
-                $data !== array_values($data) || 
-                (
-                    isset($data[0]) && 
-                    is_array($data[0]) && 
-                    $data[0] !== array_values($data[0])
-                )
-            )
-        {
-            // $data has keys, encode as JSON
-            $dataArray = array('data' => json_encode($data));
-        }
-        else
-        {
-            $dataArray = array('data' => $data);
-        }
+        $dataArray = array('data' => $data);
         $dataController = new DataController($this->getAuth());
         return $dataController->patchResource($id, $dataArray, $dataset_id);
     }
@@ -1053,22 +1038,7 @@ abstract class AbstractApiController implements ApiInterface
      */
     public function replaceData($id, $data, $dataset_id)
     {
-        if (
-                $data !== array_values($data) || 
-                (
-                    isset($data[0]) && 
-                    is_array($data[0]) && 
-                    $data[0] !== array_values($data[0])
-                )
-            )
-        {
-            // $data has keys, encode as JSON
-            $dataArray = array('data' => json_encode($data));
-        }
-        else
-        {
-            $dataArray = array('data' => $data);
-        }
+        $dataArray = array('data' => $data);
         $dataController = new DataController($this->getAuth());
         return $dataController->putResource($id, $dataArray, $dataset_id);
     }
