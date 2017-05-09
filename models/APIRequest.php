@@ -204,9 +204,8 @@ class APIRequest
     /**
      * Sets the request to a DELETE request
      */
-    public function setDeleteRequest($data)
+    public function setDeleteRequest()
     {
-        $this->m_data = $data;
         curl_setopt($this->m_ch, CURLOPT_CUSTOMREQUEST, "DELETE");
     }
     

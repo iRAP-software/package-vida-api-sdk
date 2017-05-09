@@ -108,7 +108,6 @@ abstract class AbstractResourceController
      * URL, are $args can either be a third element, or an array of elements, each of which will
      * be separated with a '/'.
      * 
-     * $param array $data
      * @param mixed $id
      * @param mixed $args
      * @return object
