@@ -73,10 +73,18 @@ abstract class AbstractApiController implements ApiInterface
             $token->userID = $get['userID'];
             $response = $token;
         }
+        elseif(isset($get['status']) && $get['status'] == 'rejected')
+        {
+            $token = new \stdClass();
+            $token->status = 'Rejected';
+            $token->code = 401;
+            $response = $token;
+        }
         else
         {
             $response = AuthController::requestUserPermissions($this->getAuth(), $returnUrl);
         }
+        return $response;
     }
     
     /**

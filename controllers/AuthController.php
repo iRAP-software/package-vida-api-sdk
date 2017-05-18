@@ -37,6 +37,13 @@ class AuthController extends AbstractResourceController
         return parent::response($request);
     }
     
+    /**
+     * Builds query parameters to sign, signs them and then sends the query to ViDA, so that the 
+     * user can view and accept/reject the permissions that the app is asking for.
+     * 
+     * @param \iRAP\VidaSDK\Models\AbstractAuthentication $auth
+     * @param type $returnUrl
+     */
     public static function requestUserPermissions(\iRAP\VidaSDK\Models\AbstractAuthentication $auth, $returnUrl)
     {
         $headers = $auth->getAuthHeaders();
