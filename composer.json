@@ -15,8 +15,7 @@
     ],
     "require": {
         "php": ">=5.6.0",
-        "ext-mcrypt": "*",
-        "irap/sso-client": "dev-master"
+        "ext-mcrypt": "*"
     },
     "autoload": {
         "psr-4": {

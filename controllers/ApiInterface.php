@@ -11,6 +11,8 @@ interface ApiInterface
 {
     public function getUserToken($email, $password);
     
+    public function requestUserPermissions($returnUrl);
+    
     public function getUsers();
     
     public function addUser($name, $email, $password);

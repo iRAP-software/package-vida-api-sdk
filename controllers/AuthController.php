@@ -36,4 +36,22 @@ class AuthController extends AbstractResourceController
         $request->send();
         return parent::response($request);
     }
+    
+    public static function requestUserPermissions(\iRAP\VidaSDK\Models\AbstractAuthentication $auth, $returnUrl)
+    {
+        $headers = $auth->getAuthHeaders();
+        $headers['return_url'] = urlencode($returnUrl);
+        $headers['signature'] = $auth->getSignatures($headers);
+        
+        if (defined('\iRAP\VidaSDK\IRAP_PERMISSIONS_URL'))
+        {
+            $url = \iRAP\VidaSDK\IRAP_PERMISSIONS_URL;
+        }
+        else
+        {
+            $url = \iRAP\VidaSDK\IRAP_PERMISSIONS_LIVE_URL;
+        }
+        
+        header('Location: ' . $url . '?' . http_build_query($headers));
+    }
 }

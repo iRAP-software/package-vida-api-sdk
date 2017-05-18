@@ -50,6 +50,36 @@ abstract class AbstractApiController implements ApiInterface
     }
     
     /**
+     * Checks whether the GET contains the user key. If so, it creates a user token object and 
+     * returns it. If not, the requestUserPermissions method is called, which redirects the user
+     * to ViDA.
+     * 
+     * @param string $returnUrl
+     */
+    public function requestUserPermissions($returnUrl)
+    {
+        $get = filter_input_array(INPUT_GET);
+        if (
+                isset($get['userAuthId']) &&
+                isset($get['userApiKey']) &&
+                isset($get['userPrivateKey']) &&
+                isset($get['userID'])
+            )
+        {
+            $token = new \stdClass();
+            $token->userAuthId = urldecode($get['userAuthId']);
+            $token->userApiKey = urldecode($get['userApiKey']);
+            $token->userPrivateKey = urldecode($get['userPrivateKey']);
+            $token->userID = $get['userID'];
+            $response = $token;
+        }
+        else
+        {
+            $response = AuthController::requestUserPermissions($this->getAuth(), $returnUrl);
+        }
+    }
+    
+    /**
      * Fetches a list of all of the users in the system. If you specify an ID, that user will be
      * returned to you.
      * 
