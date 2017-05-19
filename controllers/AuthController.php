@@ -48,7 +48,8 @@ class AuthController extends AbstractResourceController
     {
         $headers = $auth->getAuthHeaders();
         $headers['return_url'] = urlencode($returnUrl);
-        $headers['signature'] = $auth->getSignatures($headers);
+        $signature = $auth->getSignatures($headers);
+        $query = array_merge($headers, $signature);
         
         if (defined('\iRAP\VidaSDK\IRAP_PERMISSIONS_URL'))
         {
@@ -59,6 +60,6 @@ class AuthController extends AbstractResourceController
             $url = \iRAP\VidaSDK\IRAP_PERMISSIONS_LIVE_URL;
         }
         
-        header('Location: ' . $url . '?' . http_build_query($headers));
+        header('Location: ' . $url . '?' . http_build_query($query));
     }
 }
