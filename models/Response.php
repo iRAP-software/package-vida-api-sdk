@@ -78,7 +78,7 @@ class Response
      */
     public function getCode()
     {
-        return $this->code();
+        return $this->code;
     }
     
     
