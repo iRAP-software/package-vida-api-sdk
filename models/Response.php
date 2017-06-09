@@ -29,7 +29,7 @@ class Response
      * @param mixed $error - the error message from the API respnose header (if there was one)
      * @throws Exception
      */
-    public function construct($code, $status, $rawResponseBody, $error = null)
+    public function __construct($code, $status, $rawResponseBody, $error = null)
     {
         if (!in_array($status, array("success", "error")))
         {
