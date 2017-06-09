@@ -31,6 +31,12 @@ class Response
      */
     public function __construct($code, $status, $rawResponseBody, $error = null)
     {
+        if ($status === null || $status === "")
+        {
+            // if status is not set, something went wrong.
+            $status = "error";
+        }
+        
         if (!in_array($status, array("success", "error")))
         {
             throw new \Exception("Unrecognized status: " . $status);
