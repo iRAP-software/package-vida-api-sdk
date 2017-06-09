@@ -33,7 +33,7 @@ class Response
     {
         if (!in_array($status, array("success", "error")))
         {
-            throw new Exception("Unrecognized status: " . $status);
+            throw new \Exception("Unrecognized status: " . $status);
         }
         
         $this->status = $status;
