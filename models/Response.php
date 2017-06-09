@@ -37,6 +37,8 @@ class Response
             $status = "error";
         }
         
+        $status = strtolower($status);
+        
         if (!in_array($status, array("success", "error")))
         {
             throw new \Exception("Unrecognized status: " . $status);
