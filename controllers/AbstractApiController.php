@@ -1122,7 +1122,7 @@ abstract class AbstractApiController implements ApiInterface
         $msg = 'getFatalitiesForDataset is deprecated. ' . 
                'Please use getBeforeFatalitiesForDataset instead.';
         trigger_error($msg, E_USER_NOTICE);
-        return getBeforeFatalitiesForDataset($id, $filter);
+        return $this->getBeforeFatalitiesForDataset($id, $filter);
     }
     
     
