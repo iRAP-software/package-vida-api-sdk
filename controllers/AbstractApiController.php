@@ -1309,7 +1309,7 @@ abstract class AbstractApiController implements ApiInterface
             )
         {
             // $data has keys, encode as JSON
-            $dataArray = array('data' => json_encode($data));
+            $dataArray = array('data' => $data);
         }
         else
         {
