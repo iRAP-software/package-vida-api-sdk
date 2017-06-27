@@ -172,7 +172,7 @@ class APIRequest
     {
         $this->m_data = $data;
         curl_setopt($this->m_ch, CURLOPT_POST, true);
-        curl_setopt($this->m_ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($this->m_ch, CURLOPT_POSTFIELDS, json_encode($data));
     }
     
     

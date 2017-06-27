@@ -752,129 +752,403 @@ abstract class AbstractApiController implements ApiInterface
         return $variableController->getResource('for', array('dataset', $id));
     }
     
+    
     /**
      * Fetches a road attributes for a specified location. You must specify the location ID,
      * and the ID of the dataset it belongs to.
-     * 
-     * @param int $id
-     * @param int $dataset_id
+     * @param int $id - the location ID of the road attributes in the dataset.
+     * @param int $dataset_id - the ID of the dataset.
      * @return object
      */
     public function getRoadAttributes($id, $dataset_id, $filter = null)
     {
-        $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
-        return $roadAttributeController->getResource($id, $dataset_id);
+        $msg = 'getRoadAttributes is deprecated. ' . 
+               'Please use getBeforeRoadAttributes instead.';
+        trigger_error($msg, E_USER_NOTICE);
+        return $this->getBeforeRoadAttributes($id, $dataset_id, $filter);
     }
+    
+    
+    /**
+     * Fetches a road attributes for a specified location. You must specify the location ID,
+     * and the ID of the dataset it belongs to.
+     * @param int $id - the location ID of the road attributes in the dataset.
+     * @param int $dataset_id - the ID of the dataset.
+     * @return object
+     */
+    public function getBeforeRoadAttributes($id, $dataset_id, $filter = null)
+    {
+        $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
+        return $roadAttributeController->getResource($id, $dataset_id, 'before');
+    }
+    
+    
+    /**
+     * Fetches a road attributes for a specified location. You must specify the location ID,
+     * and the ID of the dataset it belongs to.
+     * @param int $id - the location ID of the road attributes in the dataset.
+     * @param int $dataset_id - the ID of the dataset.
+     * @return object
+     */
+    public function getAfterRoadAttributes($id, $dataset_id, $filter = null)
+    {
+        $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
+        return $roadAttributeController->getResource($id, $dataset_id, 'after');
+    }
+    
     
     /**
      * Get a list of road attributes for a programme, using the programme's ID.
-     * 
-     * @param int $id
+     * This method is deprecated. Please use getBeforeRoadAttributesForProgramme instead.
+     * @param int $id - the ID of the programme.
      * @return object
      */
     public function getRoadAttributesForProgramme($id, $filter = null)
     {
-        $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
-        return $roadAttributeController->getResource('for', array('programme', $id));
+        $msg = 'getRoadAttributesForProgramme is deprecated. ' . 
+               'Please use getBeforeRoadAttributesForProgramme instead.';
+        trigger_error($msg, E_USER_NOTICE);
+        return $this->getBeforeRoadAttributesForProgramme($id, $filter);
     }
+    
+    
+    /**
+     * Get a list of road attributes for a programme, using the programme's ID.
+     * @param int $id - the ID of the programme.
+     * @return object
+     */
+    public function getBeforeRoadAttributesForProgramme($id, $filter = null)
+    {
+        $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
+        return $roadAttributeController->getResource('for', array('programme', $id, 'before'));
+    }
+    
+    
+    /**
+     * Get a list of road attributes for a programme, using the programme's ID.
+     * @param int $id - the ID of the programme.
+     * @return object
+     */
+    public function getAfterRoadAttributesForProgramme($id, $filter = null)
+    {
+        $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
+        return $roadAttributeController->getResource('for', array('programme', $id, 'after'));
+    }
+    
     
     /**
      * Get a list of road attributes for a region, using the region's ID.
-     * 
-     * @param int $id
+     * @param int $id - the ID of the region.
      * @return object
      */
     public function getRoadAttributesForRegion($id, $filter = null)
     {
-        $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
-        return $roadAttributeController->getResource('for', array('region', $id));
+        $msg = 'getRoadAttributesForRegion is deprecated. ' . 
+               'Please use getBeforeRoadAttributesForRegion instead.';
+        trigger_error($msg, E_USER_NOTICE);
+        return $this->getBeforeRoadAttributesForRegion($id, $filter);
     }
     
+    
     /**
-     * Get a list of road attributes for a project, using the project's ID.
-     * 
-     * @param int $id
+     * Get a list of road attributes for a region, using the region's ID.
+     * @param int $id - the ID of the region.
+     * @return object
+     */
+    public function getBeforeRoadAttributesForRegion($id, $filter = null)
+    {
+        $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
+        return $roadAttributeController->getResource('for', array('region', $id, 'before'));
+    }
+    
+    
+    /**
+     * Get a list of road attributes for a region, using the region's ID.
+     * @param int $id - the ID of the region.
+     * @return object
+     */
+    public function getAfterRoadAttributesForRegion($id, $filter = null)
+    {
+        $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
+        return $roadAttributeController->getResource('for', array('region', $id, 'after'));
+    }
+    
+    
+    /**
+     * Get a list of road attributes for a project.
+     * This is deprecated, please use getBeforeRoadAttributesForProject instead.
+     * @param int $id - the ID of the project to get road attributes for.
      * @return object
      */
     public function getRoadAttributesForProject($id, $filter = null)
     {
-        $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
-        return $roadAttributeController->getResource('for', array('project', $id));
+        $msg = 'getRoadAttributesForProject is deprecated. ' . 
+               'Please use getBeforeRoadAttributesForProject instead.';
+        trigger_error($msg, E_USER_NOTICE);
+        return $this->getBeforeRoadAttributesForProject();
     }
     
+    
     /**
-     * Get a list of road attributes for a dataset, using the dataset's ID.
-     * 
-     * @param int $id
+     * Get a list of road attributes for a project.
+     * @param int $id - the ID of the project to get road attributes for.
+     * @return object
+     */
+    public function getBeforeRoadAttributesForProject($id, $filter = null)
+    {
+        $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
+        return $roadAttributeController->getResource('for', array('project', $id, 'before'));
+    }
+    
+    
+    /**
+     * Get a list of road attributes for a project.
+     * @param int $id - the ID of the project to get road attributes for.
+     * @return object
+     */
+    public function getAfterRoadAttributesForProject($id, $filter = null)
+    {
+        $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
+        return $roadAttributeController->getResource('for', array('project', $id, 'after'));
+    }
+    
+    
+    /**
+     * Alias for getBeforeRoadAttributesForDataset.
+     * This is deprecated, please use getBeforeRoadAttributesForDataset instead.
+     * @param int $id - the ID of the dataset
      * @return object
      */
     public function getRoadAttributesForDataset($id, $filter = null)
     {
-        $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
-        return $roadAttributeController->getResource('for', array('dataset', $id));
+        $msg = 'getBeforeRoadAttributesForDataset is deprecated. ' . 
+               'Please use getBeforeRoadAttributesForDataset instead.';
+        trigger_error($msg, E_USER_NOTICE);
+        return $this->getBeforeRoadAttributesForDataset($id, $filter);
     }
     
+    
     /**
-     * Fetches fatalities for a specified location. You must specify the location ID,
-     * and the ID of the dataset it belongs to.
-     * 
-     * @param int $id
-     * @param int $dataset_id
+     * Get a list of road attributes for a dataset, using the dataset's ID.
+     * @param int $id - the ID of the dataset
+     * @return object
+     */
+    public function getBeforeRoadAttributesForDataset($id, $filter = null)
+    {
+        $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
+        return $roadAttributeController->getResource('for', array('dataset', $id, 'before'));
+    }
+    
+    
+    /**
+     * Get a list of road attributes for a dataset, using the dataset's ID.
+     * @param int $id - the ID of the dataset
+     * @return object
+     */
+    public function getAfterRoadAttributesForDataset($id, $filter = null)
+    {
+        $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
+        return $roadAttributeController->getResource('for', array('dataset', $id, 'after'));
+    }
+    
+    
+    /**
+     * Alias for getBeforeFatalities.
+     * This is deprecated, please use getBeforeFatalities instead.
+     * @param int $id - the location ID of the fatalities
+     * @param int $dataset_id - the ID of the dataset the fatality row is in.
      * @return object
      */
     public function getFatalities($id, $dataset_id, $filter = null)
     {
-        $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
-        return $fatalitiesController->getResource($id, $dataset_id);
+        $msg = 'getFatalities is deprecated. ' . 
+               'Please use getBeforeFatalities instead.';
+        trigger_error($msg, E_USER_NOTICE);
+        return $this->getBeforeFatalities($id, $dataset_id, $filter);
     }
+    
+    
+    /**
+     * Fetches fatalities for a specified location. You must specify the location ID,
+     * and the ID of the dataset it belongs to.
+     * @param int $id - the location ID of the fatalities
+     * @param int $dataset_id - the ID of the dataset the fatality row is in.
+     * @return object
+     */
+    public function getBeforeFatalities($id, $dataset_id, $filter = null)
+    {
+        $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
+        return $fatalitiesController->getResource($id, array($dataset_id, 'before'));
+    }
+    
+    
+    /**
+     * Fetches fatalities for a specified location. You must specify the location ID,
+     * and the ID of the dataset it belongs to.
+     * @param int $id - the location ID of the fatalities
+     * @param int $dataset_id - the ID of the dataset the fatality row is in.
+     * @return object
+     */
+    public function getAfterFatalities($id, $dataset_id, $filter = null)
+    {
+        $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
+        return $fatalitiesController->getResource($id, array($dataset_id, 'after'));
+    }
+    
     
     /**
      * Get a list of fatalities for a programme, using the programme's ID.
-     * 
-     * @param int $id
+     * @param int $id - the ID of the programme.
      * @return object
      */
     public function getFatalitiesForProgramme($id, $filter = null)
     {
-        $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
-        return $fatalitiesController->getResource('for', array('programme', $id));
+        $msg = 'getFatalitiesForProgramme is deprecated. ' . 
+               'Please use getBeforeFatalitiesForProgramme instead.';
+        trigger_error($msg, E_USER_NOTICE);
+        return $this->getBeforeFatalitiesForProgramme($id, $filter);
     }
+    
+    
+    /**
+     * Get a list of "before" fatalities for a programme, using the programme's ID.
+     * @param int $id - the ID of the programme.
+     * @return object
+     */
+    public function getBeforeFatalitiesForProgramme($id, $filter = null)
+    {
+        $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
+        return $fatalitiesController->getResource('for', array('programme', $id, 'before'));
+    }
+    
+    
+    /**
+     * Get a list of "after" fatalities for a programme, using the programme's ID.
+     * @param int $id - the ID of the programme.
+     * @return object
+     */
+    public function getAfterFatalitiesForProgramme($id, $filter = null)
+    {
+        $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
+        return $fatalitiesController->getResource('for', array('programme', $id, 'after'));
+    }
+    
     
     /**
      * Get a list of fatalities for a region, using the region's ID.
-     * 
-     * @param int $id
+     * @param int $id - the ID of the region.
      * @return object
      */
     public function getFatalitiesForRegion($id, $filter = null)
     {
-        $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
-        return $fatalitiesController->getResource('for', array('region', $id));
+        $msg = 'getFatalitiesForRegion is deprecated. ' . 
+               'Please use getBeforeFatalitiesForRegion instead.';
+        trigger_error($msg, E_USER_NOTICE);
+        return $this->getBeforeFatalitiesForRegion($id, $filter);
     }
+    
+    
+    /**
+     * Get a list of "before" fatalities for a region, using the region's ID.
+     * @param int $id - the ID of the region.
+     * @return object
+     */
+    public function getBeforeFatalitiesForRegion($id, $filter = null)
+    {
+        $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
+        return $fatalitiesController->getResource('for', array('region', $id, 'before'));
+    }
+    
+    
+    /**
+     * Get a list of "after" fatalities for a region, using the region's ID.
+     * @param int $id - the ID of the region.
+     * @return object
+     */
+    public function getAfterFatalitiesForRegion($id, $filter = null)
+    {
+        $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
+        return $fatalitiesController->getResource('for', array('region', $id, 'after'));
+    }
+    
     
     /**
      * Get a list of fatalities for a project, using the project's ID.
-     * 
-     * @param int $id
+     * @param int $id - the ID of the project.
      * @return object
      */
     public function getFatalitiesForProject($id, $filter = null)
     {
-        $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
-        return $fatalitiesController->getResource('for', array('project', $id));
+        $msg = 'getFatalitiesForProject is deprecated. ' . 
+               'Please use getBeforeFatalitiesForProject instead.';
+        trigger_error($msg, E_USER_NOTICE);
+        return $this->getBeforeFatalitiesForProject($id, $filter);
     }
     
+    
     /**
-     * Get a list of fatalities for a dataset, using the dataset's ID.
+     * Get a list of "before" fatalities for a project, using the project's ID.
+     * @param int $id - the ID of the project we are getting fatalities for.
+     * @return object
+     */
+    public function getBeforeFatalitiesForProject($id, $filter = null)
+    {
+        $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
+        return $fatalitiesController->getResource('for', array('project', $id, 'before'));
+    }
+    
+    
+    /**
+     * Get a list of "after" fatalities for a project, using the project's ID.
+     * @param int $id - the ID of the project we are getting fatalities for.
+     * @return object
+     */
+    public function getAfterFatalitiesForProject($id, $filter = null)
+    {
+        $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
+        return $fatalitiesController->getResource('for', array('project', $id, 'after'));
+    }
+    
+    
+    /**
+     * Get a list of the before fatalities for a dataset, using the dataset's ID.
+     * This is deprecated, please use getBeforeFatalitiesForDataset instead.
      * 
      * @param int $id
      * @return object
      */
     public function getFatalitiesForDataset($id, $filter = null)
     {
-        $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
-        return $fatalitiesController->getResource('for', array('dataset', $id));
+        $msg = 'getFatalitiesForDataset is deprecated. ' . 
+               'Please use getBeforeFatalitiesForDataset instead.';
+        trigger_error($msg, E_USER_NOTICE);
+        return $this->getBeforeFatalitiesForDataset($id, $filter);
     }
+    
+    
+    /**
+     * Get a list of the before fatalities for a dataset, using the dataset's ID.
+     * @param int $id - the ID of the dataset we are getting fatalities for.
+     * @return object
+     */
+    public function getBeforeFatalitiesForDataset($id, $filter = null)
+    {
+        $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
+        return $fatalitiesController->getResource('for', array('dataset', $id, 'before'));
+    }
+    
+    
+    /**
+     * Get a list of the after fatalities for a dataset, using the dataset's ID.
+     * @param int $id - the ID of the dataset we are getting fatalities for.
+     * @return object
+     */
+    public function getAfterFatalitiesForDataset($id, $filter = null)
+    {
+        $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
+        return $fatalitiesController->getResource('for', array('dataset', $id, 'after'));
+    }
+    
     
     /**
      * Fetches a before countermeasures star rating for a specified location. You must specify the 
@@ -1035,7 +1309,7 @@ abstract class AbstractApiController implements ApiInterface
             )
         {
             // $data has keys, encode as JSON
-            $dataArray = array('data' => json_encode($data));
+            $dataArray = array('data' => $data);
         }
         else
         {
