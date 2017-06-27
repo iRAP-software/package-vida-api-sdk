@@ -3,7 +3,7 @@
     "type": "SDK",
     "description": "A PHP SDK for interfacing with the ViDA API",
     "keywords": ["api","sdk","vida"],
-    "homepage": "https://github.com/iRAP-software/vida-api-sdk",
+    "homepage": "https://github.com/iRAP-software/package-vida-api-sdk",
     "license": "MIT",
     "authors": [
         {
