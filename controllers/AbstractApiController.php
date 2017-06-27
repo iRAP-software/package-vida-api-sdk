@@ -585,40 +585,34 @@ abstract class AbstractApiController implements ApiInterface
     
     /**
      * Updates a project, for which a name should be supplied, along with the id of the 
-     * project, the id of the parent region, the user id of the project's manager and the id
-     * of the model to be used.
+     * project, the id of the parent region, the user id of the project's manager.
      * 
      * @param int $id
      * @param string $name
      * @param int $region_id
      * @param int $manager_id
-     * @param int $model_id
-     * @param int $country_id
      * @return object
      */
-    public function updateProject($id, $name, $region_id, $manager_id, $model_id, $country_id)
+    public function updateProject($id, $name, $region_id, $manager_id)
     {
         $projectController = new ProjectsController($this->getAuth());
-        return $projectController->patchResource($id, array("name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id, "model_id"=>$model_id, "country_id"=>$country_id));
+        return $projectController->patchResource($id, array("name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id));
     }
     
     /**
      * Replaces a project, for which a name should be supplied, along with the id of the 
-     * project, the id of the parent region, the user id of the project's manager and the id
-     * of the model to be used.
+     * project, the id of the parent region, the user id of the project's manager.
      * 
      * @param int $id
      * @param string $name
      * @param int $region_id
      * @param int $manager_id
-     * @param int $model_id
-     * @param int $country_id
      * @return object
      */
-    public function replaceProject($id, $name, $region_id, $manager_id, $model_id, $country_id)
+    public function replaceProject($id, $name, $region_id, $manager_id)
     {
         $projectController = new ProjectsController($this->getAuth());
-        return $projectController->putResource($id, array("name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id, "model_id"=>$model_id, "country_id"=>$country_id));
+        return $projectController->putResource($id, array("name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id));
     }
     
     /**
