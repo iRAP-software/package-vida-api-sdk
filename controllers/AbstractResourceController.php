@@ -22,8 +22,8 @@ abstract class AbstractResourceController
     }
     
     abstract protected function getResourcePath();
-
-
+    
+    
     /**
      * Send a GET request to the API. The $resource and $id make up the first two parts of the 
      * URL, are $args can either be a third element, or an array of elements, each of which will
@@ -31,7 +31,7 @@ abstract class AbstractResourceController
      * 
      * @param mixed $id
      * @param mixed $args
-     * @return object
+     * @return \iRAP\VidaSDK\Models\Response
      */
     public function getResource($id = null, $args = null)
     {
@@ -51,7 +51,7 @@ abstract class AbstractResourceController
      * $param array $data
      * @param mixed $id
      * @param mixed $args
-     * @return object
+     * @return \iRAP\VidaSDK\Models\Response
      */
     public function postResource($data, $id = null, $args = null)
     {
@@ -72,7 +72,7 @@ abstract class AbstractResourceController
      * $param array $data
      * @param mixed $id
      * @param mixed $args
-     * @return object
+     * @return \iRAP\VidaSDK\Models\Response
      */
     public function putResource($id, $data, $args = null)
     {
@@ -92,7 +92,7 @@ abstract class AbstractResourceController
      * $param array $data
      * @param mixed $id
      * @param mixed $args
-     * @return object
+     * @return \iRAP\VidaSDK\Models\Response
      */
     public function patchResource($id, $data, $args = null)
     {
@@ -110,7 +110,7 @@ abstract class AbstractResourceController
      * 
      * @param mixed $id
      * @param mixed $args
-     * @return object
+     * @return \iRAP\VidaSDK\Models\Response
      */
     public function deleteResource($id, $args = null)
     {
@@ -126,22 +126,16 @@ abstract class AbstractResourceController
      * the developer.
      * 
      * @param object $request
-     * @return \stdClass
+     * @return \iRAP\VidaSDK\Models\Response
      */
     public static function response($request)
     {
-        $response = new \stdClass();
-        if (!empty(json_decode($request->m_result, true)))
-        {
-            $response->response = json_decode($request->m_result);
-        }
-        $response->status = $request->m_status;
-        $response->code = $request->m_httpCode;
-        if (!empty($request->m_error))
-        {
-            $response->error = $request->m_error;
-        }
-        return $response;
+        return new \iRAP\VidaSDK\Models\Response(
+            $request->m_httpCode,
+            $request->m_status,
+            $request->m_result,
+            (isset($request->m_error)) ? $request->m_error : null
+        );
     }
 }
 
