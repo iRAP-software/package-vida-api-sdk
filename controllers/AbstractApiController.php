@@ -33,7 +33,7 @@ abstract class AbstractApiController implements ApiInterface
     {
         $userToken = AuthController::getUserToken($this->getAuth(), $email, $password);
         $token = new \stdClass();
-        if (isset($userToken->response))
+        if ($userToken->code == 200)
         {
             $token->userAuthId = $userToken->response->auth_id;
             $token->userApiKey = $userToken->response->api_key;
