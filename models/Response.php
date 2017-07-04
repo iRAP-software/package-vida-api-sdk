@@ -26,7 +26,7 @@ class Response
      * @param int $code - the HTTP response code.
      * @param string $status - the status message from the response header.
      * @param string $rawResponseBody - the string response body.
-     * @param mixed $error - the error message from the API respnose header (if there was one)
+     * @param mixed $error - the error message from the API response header (if there was one)
      * @throws Exception
      */
     public function __construct($code, $status, $rawResponseBody, $error = null)
@@ -34,12 +34,15 @@ class Response
         if ($status === null || $status === "")
         {
             // if status is not set, something went wrong.
-            $status = "error";
+            $status = "Error";
+            
+            if ($error === null || $error === "")
+            {
+                $error = "Server did not respond as expected (server may be down)";
+            }
         }
         
-        $status = strtolower($status);
-        
-        if (!in_array($status, array("success", "error")))
+        if (!in_array($status, array("Success", "Error")))
         {
             throw new \Exception("Unrecognized status: " . $status);
         }
