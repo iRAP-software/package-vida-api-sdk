@@ -9,9 +9,8 @@
 
 namespace iRAP\VidaSDK;
 
-class Filter
+class Filter implements FilterInterface
 {
-    
     private $m_filter = array();
     
     /**
@@ -77,52 +76,5 @@ class Filter
         $filter->value = $value;
         $filter->operator = $operator;
         return $filter;
-    }
-}
-
-/*
- * This class creates an object to group multiple filters together.
- */
-class FilterGroup
-{
-    private $filterGroup;
-    
-    /**
-     * Builds the group using an array of filter objects and a comparison string to explain how
-     * to compare the filters. Acceptable comparisons are "AND" and "OR".
-     * 
-     * @param array $filtersArray
-     * @param string $comparison
-     */
-    public function __construct($filtersArray, $comparison)
-    {
-        $this->filterGroup = new \stdClass();
-        foreach ($filtersArray as $filter)
-        {
-            $this->filterGroup->filtersArray[] = json_decode($filter->getFilter());
-        }
-        $this->filterGroup->comparison = $comparison;
-    }
-    
-    /**
-     * A copy of the same method on the filter object, to ensure that it is still available to 
-     * the APIRequest if the filter group is passed in.
-     * 
-     * @return string
-     */
-    public function buildFilter()
-    {
-        return urlencode(json_encode($this->filterGroup));
-    }
-    
-    /**
-     * A copy of the same method on the filter object, to ensure that it is still available to 
-     * the APIRequest if the filter group is passed in.
-     * 
-     * @return json
-     */
-    public function getFilter()
-    {
-        return json_encode($this->filterGroup);
     }
 }
