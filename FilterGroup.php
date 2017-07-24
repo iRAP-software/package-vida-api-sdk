@@ -6,9 +6,11 @@
 
 namespace iRAP\VidaSDK;
 
+
 class FilterGroup implements FilterInterface
 {
-    private $filterGroup;
+    private $m_conjunction; 
+    private $m_filtersArray = array();
     
     
     /**
@@ -18,17 +20,31 @@ class FilterGroup implements FilterInterface
      * @param array $filters
      * @param string $comparison
      */
-    public function __construct($comparison, FilterInterface ...$filters)
-    {
-        $this->filterGroup = new \stdClass();
+    public function __construct(Conjunction $conjunction, FilterInterface ...$filters)
+    {        
+        $this->m_filtersArray = $filters;
         
         foreach ($filters as $filter)
         {
             /* @var $filter FilterInterface */
-            $this->filterGroup->filtersArray[] = json_decode($filter->getFilter());
+            $this->m_filtersArray[] = json_decode($filter->getFilter());
         }
         
-        $this->filterGroup->comparison = $comparison;
+        $this->m_conjunction = $conjunction;
+    }
+    
+
+    /**
+     * Method for JsonSerializable interface. Converts this object into a form that is json
+     * serializable.
+     * @return type
+     */
+    public function jsonSerialize() 
+    {
+        return array(
+            'comparison' => $this->m_conjunction,
+            'filtersArray' => $this->m_filtersArray
+        );
     }
     
     
@@ -40,7 +56,7 @@ class FilterGroup implements FilterInterface
      */
     public function buildFilter()
     {
-        return urlencode(json_encode($this->filterGroup));
+        return urlencode(json_encode($this));
     }
     
     
@@ -52,6 +68,6 @@ class FilterGroup implements FilterInterface
      */
     public function getFilter()
     {
-        return json_encode($this->filterGroup);
+        return json_encode($this);
     }
 }
