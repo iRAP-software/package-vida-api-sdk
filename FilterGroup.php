@@ -21,7 +21,7 @@ class FilterGroup implements FilterInterface
      * @param string $comparison
      */
     public function __construct(Conjunction $conjunction, FilterInterface ...$filters)
-    {        
+    {
         $this->m_filtersArray = $filters;
         
         foreach ($filters as $filter)
@@ -33,7 +33,7 @@ class FilterGroup implements FilterInterface
         $this->m_conjunction = $conjunction;
     }
     
-
+    
     /**
      * Method for JsonSerializable interface. Converts this object into a form that is json
      * serializable.
