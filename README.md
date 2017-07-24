@@ -197,7 +197,8 @@ $result = $api->getUsers(null, $filter);
 Notice that the != operator is specified as the third parameter.
 
 ### Multiple Filters
-Filtering on a single field is useful, but sometimes you will need to filter on more than one field. This can be done by calling the addFilter() method on the filter object:
+Filtering on a single field is useful, but sometimes you will need to filter on more than one field. This can be done by calling the addFilter() method on the filter object. 
+This is an "AND" relationship (all criteria must pass, rather than just one of them).
 
 ```php
 $filter = new iRAP\VidaSDK\Filter('id', 1, '!=');
@@ -211,16 +212,16 @@ Now you are looking for a user whose id does not equal 1 AND who is an admin. Th
 In some situations, you may wish to perform searches on alternative sets of criteria, without having to run two separate queries. For this, we have filter groups. These allow you to pass in multiple filter objects with alternative search options. For example:
 
 ```php
-# Create the first filter
-$filter1 = new iRAP\VidaSDK\Filter('id', 1, '!=');
+# Create the first filter for the first admins that were put into the system
+$filter1 = new iRAP\VidaSDK\Filter('id', 10, '<=');
 $filter1->addFilter('is_admin', 1);
 
-# Create the second filter
-$filter2 = new iRAP\VidaSDK\Filter('id', 1);
+# Create second filter for newer users that are not admins.
+$filter2 = new iRAP\VidaSDK\Filter('id', 1000, '>');
 $filter2->addFilter('is_admin', 1, '!=');
 
 # Group the filters together
-$filter = new iRAP\VidaSDK\FilterGroup(array($filter1, $filter2), 'OR');
+$filter = new iRAP\VidaSDK\FilterGroup(iRAP\VidaSDK\Conjunction::createOr(), $filter1, $filter2);
 
 $result = $api->getUsers(null, $filter);
 ```
