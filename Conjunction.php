@@ -5,6 +5,8 @@
  * Similar to an Enum.
  */
 
+namespace iRAP\VidaSDK;
+
 class Conjunction
 {
     private $m_conjunction;
