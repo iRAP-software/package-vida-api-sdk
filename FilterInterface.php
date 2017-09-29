@@ -6,7 +6,7 @@
 
 namespace iRAP\VidaSDK;
 
-Interface FilterInterface
+Interface FilterInterface extends \JsonSerializable
 {
     /**
      * The same as getFilter, but performs a urlencode on the result.
@@ -20,4 +20,10 @@ Interface FilterInterface
      * @return string - json
      */
     public function getFilter();
+    
+    
+    /**
+     * All filters need to be serializable
+     */
+    public function jsonSerialize();
 }

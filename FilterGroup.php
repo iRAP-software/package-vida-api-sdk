@@ -23,13 +23,6 @@ class FilterGroup implements FilterInterface
     public function __construct(Conjunction $conjunction, FilterInterface ...$filters)
     {
         $this->m_filtersArray = $filters;
-        
-        foreach ($filters as $filter)
-        {
-            /* @var $filter FilterInterface */
-            $this->m_filtersArray[] = json_decode($filter->getFilter());
-        }
-        
         $this->m_conjunction = $conjunction;
     }
     
@@ -42,7 +35,7 @@ class FilterGroup implements FilterInterface
     public function jsonSerialize() 
     {
         return array(
-            'comparison' => $this->m_conjunction,
+            'comparison' => (string)$this->m_conjunction,
             'filtersArray' => $this->m_filtersArray
         );
     }

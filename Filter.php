@@ -61,6 +61,19 @@ class Filter implements FilterInterface
         return json_encode($this->m_filter);
     }
     
+    
+    /**
+     * Implementing jsonSerializable method so that
+     * if this is a subpart of another object being 
+     * serialized, it will come through correctly.
+     * @return array
+     */
+    public function jsonSerialize() 
+    {
+        return $this->m_filter;
+    }
+    
+    
     /**
      * Helper method that creates a filter object from the StdClass.
      * 
