@@ -61,5 +61,6 @@ class AuthController extends AbstractResourceController
         }
         
         header('Location: ' . $url . '?' . http_build_query($query));
+        die();
     }
 }
