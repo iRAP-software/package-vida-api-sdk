@@ -29,6 +29,8 @@ interface ApiInterface
     
     public function updateDataset($id, $name, $project_id, $manager_id);
     
+    public function updateDatasetStatus($id, $status_id);
+    
     public function replaceDataset($id, $name, $project_id, $manager_id);
     
     public function deleteDataset($id);

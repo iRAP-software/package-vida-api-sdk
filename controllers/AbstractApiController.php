@@ -202,6 +202,25 @@ abstract class AbstractApiController implements ApiInterface
     }
     
     /**
+     * Updates the status of a dataset, using the following status codes:
+     * 
+     * - 1 - Draft
+     * - 2 - Working
+     * - 3 - Final Hidden
+     * - 4 - Final Unpublished
+     * - 5 - Final Published
+     * 
+     * @param int $id
+     * @param int $status_id
+     * @return object
+     */
+    public function updateDatasetStatus($id, $status_id)
+    {
+        $datasetController = new DatasetsController($this->getAuth());
+        return $datasetController->patchResource($id, array("status_id"=>$status_id));
+    }
+    
+    /**
      * Replaces a dataset using the supplied data, which should be an array of field name as 
      * keys and the values you wish to insert, as name-value pairs. The ID of the dataset to replace
      * and a new name should also be supplied
