@@ -51,8 +51,9 @@ class Response
         $this->rawResponse = $rawResponseBody;
         $this->code = $code;
         $this->error = $error;
-               
-        if (!empty(json_decode($rawResponseBody, true)))
+        
+        // Using null instead of empty() so response can be set to an empty array for "[]"
+        if (json_decode($rawResponseBody, true) !== null)
         {
             $this->response = json_decode($rawResponseBody);
         }
