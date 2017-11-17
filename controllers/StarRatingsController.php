@@ -40,7 +40,7 @@ class StarRatingsController extends AbstractResourceController
      * @param int $datasetID
      * @return \iRAP\VidaSDK\Models\APIRequest
      */
-    public function getBeforeStarRatingsForDatasetRequest($datasetID, \iRAP\VidaSDK\Filter $filter = null)
+    public function getBeforeStarRatingsForDatasetRequest($datasetID, \iRAP\VidaSDK\FilterInterface $filter = null)
     {
         $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
         $args = array('dataset', $datasetID, 'before');
@@ -54,7 +54,7 @@ class StarRatingsController extends AbstractResourceController
      * @param int $datasetID
      * @return \iRAP\VidaSDK\Models\APIRequest
      */
-    public function getAfterStarRatingsForDatasetRequest($datasetID, \iRAP\VidaSDK\Filter $filter = null)
+    public function getAfterStarRatingsForDatasetRequest($datasetID, \iRAP\VidaSDK\FilterInterface $filter = null)
     {
         $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
         $args = array('dataset', $datasetID, 'after');
