@@ -1175,8 +1175,8 @@ abstract class AbstractApiController implements ApiInterface
     {
         $starRatingController = new StarRatingsController($this->getAuth());
         $request = $starRatingController->getBeforeStarRatingsRequest($id, $dataset_id, $filter);
-        $response = $request->send();
-        return $response;
+        $request->send();
+        return $request->getResponse();
     }
     
     /**
@@ -1224,7 +1224,9 @@ abstract class AbstractApiController implements ApiInterface
     public function getBeforeStarRatingsForDataset($id, $filter = null)
     {
         $starRatingController = new StarRatingsController($this->getAuth(), $filter);
-        return $starRatingController->getResource('for', array('dataset', $id, 'before'));
+        $request = $starRatingController->getBeforeStarRatingsForDatasetRequest($id, $filter);
+        $request->send();
+        return $request->getResponse();
     }
     
     /**
@@ -1286,7 +1288,9 @@ abstract class AbstractApiController implements ApiInterface
     public function getAfterStarRatingsForDataset($id, $filter = null)
     {
         $starRatingController = new StarRatingsController($this->getAuth(), $filter);
-        return $starRatingController->getResource('for', array('dataset', $id, 'after'));
+        $request = $starRatingController->getAfterStarRatingsForDatasetRequest($id, $filter);
+        $request->send();
+        return $request->getResponse();
     }
     
     /**
