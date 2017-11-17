@@ -18,9 +18,10 @@ class APIRequest
     public $m_status;
     public $m_error;
     
-    private static $s_version = \iRAP\VidaSDK\IRAP_API_VERSION;
-    private $m_url;
-    private $m_baseUrl;
+    private static $s_version = \iRAP\VidaSDK\Defines::IRAP_API_VERSION;
+    private $m_urlWithouFilter; // url that will never have any ?filter within it
+    private $m_url; // url request will be sent to
+    private $m_baseUrl; // the url of where the API is. e.g. https://api.vida.irap.org (no end slash)
     private $m_ch;
     private $m_headers;
     private $m_auth;  /* @var $m_auth AbstractAuthentication */
@@ -41,7 +42,7 @@ class APIRequest
         }
         else
         {
-            $this->m_baseUrl = \iRAP\VidaSDK\IRAP_API_LIVE_URL;
+            $this->m_baseUrl = \iRAP\VidaSDK\Defines::IRAP_API_LIVE_URL;
         }
         
         $this->m_headers = array();
@@ -54,6 +55,30 @@ class APIRequest
      */
     public function send()
     {
+        $curlHandle = $this->getCurlHandleForSending();
+        $response = curl_exec($curlHandle);
+        $this->processResponse($response, $curlHandle);
+        curl_close($curlHandle);
+        
+        if (defined('\iRAP\VidaSDK\IRAP_DIAGNOSTICS'))
+        {
+            echo 'Target: ' . $this->m_urlWithouFilter . PHP_EOL;
+            echo $response;
+        }
+    }
+    
+    
+    /**
+     * Prep the curl handle for sending by adding the last second headers that are used for 
+     * authentication
+     * This is public because it is needed by the AsyncRequester class for sending lots of requests
+     * asynchronously
+     * @return the curl handle for sending a curl request.
+     */
+    public function getCurlHandleForSending()
+    {
+        $handle = $this->m_ch;
+        
         # Headers that need to be renewed every time we hit send()
         $lastSecondHeaders = array(
             'auth_nonce' => rand(1,99999),
@@ -63,24 +88,16 @@ class APIRequest
         $headers = array_merge($this->m_headers, $this->m_auth->getAuthHeaders(), $lastSecondHeaders);
         
         $allDataToSign = array_merge($headers, $this->m_data);
-        $allDataToSign['auth_url'] = $this->m_url;
+        $allDataToSign['auth_url'] = $this->m_urlWithouFilter;
         $signatures = $this->m_auth->getSignatures($allDataToSign);
         // Add signatures to the headers
         $headers = array_merge($headers, $signatures); 
         
-        curl_setopt($this->m_ch, CURLOPT_HEADER, true);
-        curl_setopt($this->m_ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($handle, CURLOPT_HEADER, true);
+        curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
         $formattedHeaders = $this->formatHeaders($headers);
-        curl_setopt($this->m_ch, CURLOPT_HTTPHEADER, $formattedHeaders);
-        $response = curl_exec($this->m_ch);
-        $this->processResponse($response);
-        curl_close($this->m_ch);
-        
-        if (defined('\iRAP\VidaSDK\IRAP_DIAGNOSTICS'))
-        {
-            echo 'Target: ' . $this->m_url . PHP_EOL;
-            echo $response;
-        }
+        curl_setopt($handle, CURLOPT_HTTPHEADER, $formattedHeaders);
+        return $handle;
     }
     
     
@@ -121,7 +138,7 @@ class APIRequest
             }
         }
         
-        $this->m_url = $url;
+        $this->m_urlWithouFilter = $url;
         
         if (!empty($filter))
         {
@@ -129,7 +146,8 @@ class APIRequest
             $this->m_headers['filter'] = $filter->getFilter();
         }
         
-        $this->m_ch = curl_init($url);
+        $this->m_url = $url;
+        $this->m_ch = curl_init($this->m_url);
     }
     
     
@@ -213,12 +231,12 @@ class APIRequest
     /**
      * Takes the response from CURL and splits the header from the body. Splits out the header into
      * HTTP Code, Status and Error message, for return to the developer.
-     * 
+     * This is public so that the AsyncRequester class can use it
      * @param object $response
      */
-    private function processResponse($response)
+    public function processResponse($response, $curlHandle)
     {
-        $info = curl_getinfo($this->m_ch);
+        $info = curl_getinfo($curlHandle);
         $header = substr($response, 0, ($info['header_size']-1));
         $this->m_result = substr($response, $info['header_size']-1);
         $this->m_httpCode = $info['http_code'];
@@ -245,4 +263,13 @@ class APIRequest
             }
         }
     }
+    
+    
+    # Accessors
+    # In future use these rather than accesssing member vars directly.
+    public function getUrl() { return $this->m_urlWithouFilter; }
+    public function getResult() { return $this->m_result; }
+    public function getHttpCode() { return $this->m_httpCode; }
+    public function getStatus() { return $this->m_status; }
+    public function getError() { return $this->m_error; }
 }
