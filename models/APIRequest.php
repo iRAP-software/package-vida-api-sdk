@@ -223,6 +223,8 @@ class APIRequest
         $this->m_result = substr($response, $info['header_size']-1);
         $this->m_httpCode = $info['http_code'];
         
+        $headers = array();
+        
         foreach (explode("\r\n", $header) as $line)
         {
             $line = explode(': ', $line);
@@ -235,14 +237,24 @@ class APIRequest
             $key = $line[0];
             $value = $line[1];
             
-            if ($key == 'Status')
-            {
-                $this->m_status = $value;
-            }
-            elseif ($key == 'Error')
-            {
-                $this->m_error = $value;
-            }
+            $headers[$key] = $value;
+        }
+        
+        // In the transition to NGINX we have to switch from Status to API_STATUS, but unsure
+        // if we will get Stutus back from fpm or whether nginx will strip this out, so having
+        // API_STATUS override Status, if it exists.
+        if (isset($headers['API_STATUS']))
+        {
+            $this->m_status = $headers['API_STATUS'];
+        }
+        elseif (isset($headers['Status']))
+        {
+            $this->m_status = $headers['Status'];
+        }
+        
+        if (isset($headers['Error']))
+        {
+            $this->m_error = $headers['Error'];
         }
     }
 }
