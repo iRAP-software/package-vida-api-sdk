@@ -11,7 +11,6 @@
 
 namespace iRAP\VidaSDK;
 
-require_once __DIR__ . '/bootstrap.php';
 
 class User extends Controllers\AbstractApiController
 {
