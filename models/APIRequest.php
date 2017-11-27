@@ -55,8 +55,11 @@ class APIRequest
     public function send()
     {
         # Headers that need to be renewed every time we hit send()
+        $size = 20;
+        $nonce = substr(base64_encode(openssl_random_pseudo_bytes($size)), 0, $size);
+        
         $lastSecondHeaders = array(
-            'auth_nonce' => rand(1,99999),
+            'auth_nonce' => $nonce,
             'auth_timestamp' => time()
         );
         
