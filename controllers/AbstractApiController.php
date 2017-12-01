@@ -964,6 +964,64 @@ abstract class AbstractApiController implements ApiInterface
         return $roadAttributeController->getResource('for', array('dataset', $id, 'after'));
     }
     
+    /**
+     * Fetches a locations for a specified location. You must specify the location ID,
+     * and the ID of the dataset it belongs to.
+     * @param int $id - the location ID of the locations in the dataset.
+     * @param int $dataset_id - the ID of the dataset.
+     * @return object
+     */
+    public function getLocations($id, $dataset_id, $filter = null)
+    {
+        $locationController = new LocationsController($this->getAuth(), $filter);
+        return $locationController->getResource($id, $dataset_id, 'before');
+    }
+    
+    
+    /**
+     * Get a list of locations for a programme, using the programme's ID.
+     * @param int $id - the ID of the programme.
+     * @return object
+     */
+    public function getLocationsForProgramme($id, $filter = null)
+    {
+        $locationController = new LocationsController($this->getAuth(), $filter);
+        return $locationController->getResource('for', array('programme', $id, 'before'));
+    }
+    
+    
+    /**
+     * Get a list of locations for a region, using the region's ID.
+     * @param int $id - the ID of the region.
+     * @return object
+     */
+    public function getLocationsForRegion($id, $filter = null)
+    {
+        $locationController = new LocationsController($this->getAuth(), $filter);
+        return $locationController->getResource('for', array('region', $id, 'before'));
+    }
+    
+    /**
+     * Get a list of locations for a project.
+     * @param int $id - the ID of the project to get locations for.
+     * @return object
+     */
+    public function getLocationsForProject($id, $filter = null)
+    {
+        $locationController = new LocationsController($this->getAuth(), $filter);
+        return $locationController->getResource('for', array('project', $id, 'before'));
+    }   
+    
+    /**
+     * Get a list of locations for a dataset, using the dataset's ID.
+     * @param int $id - the ID of the dataset
+     * @return object
+     */
+    public function getLocationsForDataset($id, $filter = null)
+    {
+        $locationController = new LocationsController($this->getAuth(), $filter);
+        return $locationController->getResource('for', array('dataset', $id, 'before'));
+    }
     
     /**
      * Alias for getBeforeFatalities.

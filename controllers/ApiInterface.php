@@ -119,6 +119,16 @@ interface ApiInterface
     
     public function getRoadAttributesForDataset($id);
     
+    public function getLocations($id, $dataset_id, $filter = null);
+    
+    public function getLocationsForProgramme($id, $filter = null);
+    
+    public function getLocationsForRegion($id, $filter = null);
+    
+    public function getLocationsForProject($id, $filter = null);
+    
+    public function getLocationsForDataset($id, $filter = null);
+    
     public function getFatalities($id, $dataset_id);
     
     public function getFatalitiesForProgramme($id);
