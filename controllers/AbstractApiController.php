@@ -974,7 +974,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getLocations($id, $dataset_id, $filter = null)
     {
         $locationController = new LocationsController($this->getAuth(), $filter);
-        return $locationController->getResource($id, $dataset_id, 'before');
+        return $locationController->getResource($id, $dataset_id);
     }
     
     
@@ -986,7 +986,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getLocationsForProgramme($id, $filter = null)
     {
         $locationController = new LocationsController($this->getAuth(), $filter);
-        return $locationController->getResource('for', array('programme', $id, 'before'));
+        return $locationController->getResource('for', array('programme', $id));
     }
     
     
@@ -998,7 +998,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getLocationsForRegion($id, $filter = null)
     {
         $locationController = new LocationsController($this->getAuth(), $filter);
-        return $locationController->getResource('for', array('region', $id, 'before'));
+        return $locationController->getResource('for', array('region', $id));
     }
     
     /**
@@ -1009,7 +1009,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getLocationsForProject($id, $filter = null)
     {
         $locationController = new LocationsController($this->getAuth(), $filter);
-        return $locationController->getResource('for', array('project', $id, 'before'));
+        return $locationController->getResource('for', array('project', $id));
     }   
     
     /**
