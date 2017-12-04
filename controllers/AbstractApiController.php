@@ -1020,7 +1020,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getLocationsForDataset($id, $filter = null)
     {
         $locationController = new LocationsController($this->getAuth(), $filter);
-        return $locationController->getResource('for', array('dataset', $id, 'before'));
+        return $locationController->getResource('for', array('dataset', $id));
     }
     
     /**
