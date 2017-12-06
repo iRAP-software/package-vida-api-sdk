@@ -129,6 +129,14 @@ interface ApiInterface
     
     public function getLocationsForDataset($id, $filter = null);
     
+    public function getBoundsForProgramme($id, $filter = null);
+    
+    public function getBoundsForRegion($id, $filter = null);
+    
+    public function getBoundsForProject($id, $filter = null);
+    
+    public function getBoundsForDataset($id, $filter = null);
+    
     public function getFatalities($id, $dataset_id);
     
     public function getFatalitiesForProgramme($id);

@@ -1024,6 +1024,51 @@ abstract class AbstractApiController implements ApiInterface
     }
     
     /**
+     * Get a list of bounds for a programme, using the programme's ID.
+     * @param int $id - the ID of the programme.
+     * @return object
+     */
+    public function getBoundsForProgramme($id, $filter = null)
+    {
+        $boundController = new BoundsController($this->getAuth(), $filter);
+        return $boundController->getResource('for', array('programme', $id));
+    }
+    
+    
+    /**
+     * Get a list of bounds for a region, using the region's ID.
+     * @param int $id - the ID of the region.
+     * @return object
+     */
+    public function getBoundsForRegion($id, $filter = null)
+    {
+        $boundController = new BoundsController($this->getAuth(), $filter);
+        return $boundController->getResource('for', array('region', $id));
+    }
+    
+    /**
+     * Get a list of bounds for a project.
+     * @param int $id - the ID of the project to get bounds for.
+     * @return object
+     */
+    public function getBoundsForProject($id, $filter = null)
+    {
+        $boundController = new BoundsController($this->getAuth(), $filter);
+        return $boundController->getResource('for', array('project', $id));
+    }   
+    
+    /**
+     * Get a list of bounds for a dataset, using the dataset's ID.
+     * @param int $id - the ID of the dataset
+     * @return object
+     */
+    public function getBoundsForDataset($id, $filter = null)
+    {
+        $boundController = new BoundsController($this->getAuth(), $filter);
+        return $boundController->getResource('for', array('dataset', $id));
+    }
+    
+    /**
      * Alias for getBeforeFatalities.
      * This is deprecated, please use getBeforeFatalities instead.
      * @param int $id - the location ID of the fatalities
