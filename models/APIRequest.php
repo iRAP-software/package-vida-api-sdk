@@ -145,7 +145,6 @@ class APIRequest
         
         if (!empty($filter))
         {
-            $url .= '?filter=' . $filter->buildFilter();
             $this->m_headers['filter'] = $filter->getFilter();
         }
         
