@@ -92,7 +92,7 @@ class APIRequest
         
         $allDataToSign = array_merge($headers, $this->m_data);
         $allDataToSign['auth_url'] = $this->m_urlWithouFilter;
-        print_r($allDataToSign);
+        
         $signatures = $this->m_auth->getSignatures($allDataToSign);
         // Add signatures to the headers
         $headers = array_merge($headers, $signatures); 
