@@ -1276,10 +1276,8 @@ abstract class AbstractApiController implements ApiInterface
      */
     public function getBeforeStarRatings($id, $dataset_id, $filter = null)
     {
-        $starRatingController = new StarRatingsController($this->getAuth());
-        $request = $starRatingController->getBeforeStarRatingsRequest($id, $dataset_id, $filter);
-        $response = $request->send();
-        return $response;
+        $starRatingController = new StarRatingsController($this->getAuth(), $filter);
+        return $starRatingController->getResource($id, array('before', $dataset_id));
     }
     
     /**

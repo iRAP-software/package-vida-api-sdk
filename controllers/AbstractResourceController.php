@@ -13,10 +13,8 @@ namespace iRAP\VidaSDK\Controllers;
 
 abstract class AbstractResourceController
 {
-    protected $m_auth;
-    protected $m_filter;
-    
-    
+    private $m_auth;
+    private $m_filter;
     public function __construct($auth, $filter = null)
     {
         $this->m_auth = $auth;
@@ -140,3 +138,4 @@ abstract class AbstractResourceController
         );
     }
 }
+

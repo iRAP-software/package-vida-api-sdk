@@ -234,10 +234,10 @@ class APIRequest
     /**
      * Takes the response from CURL and splits the header from the body. Splits out the header into
      * HTTP Code, Status and Error message, for return to the developer.
-     * This is public so that the AsyncRequester class can use it
+     * 
      * @param object $response
      */
-    public function processResponse($response, $curlHandle)
+    private function processResponse($response, $curlHandle)
     {
         $info = curl_getinfo($curlHandle);
         $header = substr($response, 0, ($info['header_size']-1));
