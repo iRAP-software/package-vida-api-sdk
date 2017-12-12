@@ -33,32 +33,4 @@ class StarRatingsController extends AbstractResourceController
         $request->setUrl($this->getResourcePath(), $id, $args);
         return $request;
     }
-    
-    
-    /**
-     * Get a list of star ratings for a dataset, using the dataset's ID.
-     * @param int $datasetID
-     * @return \iRAP\VidaSDK\Models\APIRequest
-     */
-    public function getBeforeStarRatingsForDatasetRequest($datasetID, \iRAP\VidaSDK\Filter $filter = null)
-    {
-        $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
-        $args = array('dataset', $datasetID, 'before');
-        $request->setUrl($this->getResourcePath(), 'for', $args, $filter);
-        return $request;
-    }
-    
-    
-    /**
-     * Get a list of star ratings for a dataset, using the dataset's ID.
-     * @param int $datasetID
-     * @return \iRAP\VidaSDK\Models\APIRequest
-     */
-    public function getAfterStarRatingsForDatasetRequest($datasetID, \iRAP\VidaSDK\Filter $filter = null)
-    {
-        $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
-        $args = array('dataset', $datasetID, 'after');
-        $request->setUrl($this->getResourcePath(), 'for', $args, $filter);
-        return $request;
-    }
 }
