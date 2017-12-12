@@ -57,7 +57,7 @@ class AuthController extends AbstractResourceController
         }
         else
         {
-            $url = \iRAP\VidaSDK\IRAP_PERMISSIONS_LIVE_URL;
+            $url = \iRAP\VidaSDK\Defines::IRAP_PERMISSIONS_LIVE_URL;
         }
         
         header('Location: ' . $url . '?' . http_build_query($query));

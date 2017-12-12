@@ -280,6 +280,22 @@ class APIRequest
     }
     
     
+    /**
+     * Get a response object for this request.
+     * This relies on the request having already been sent.
+     * @return \iRAP\VidaSDK\Models\Response
+     */
+    public function getResponse()
+    {
+        return new \iRAP\VidaSDK\Models\Response(
+            $this->m_httpCode,
+            $this->m_status,
+            $this->m_result,
+            (isset($this->m_error)) ? $this->m_error : null
+        );
+    }
+    
+    
     # Accessors
     # In future use these rather than accesssing member vars directly.
     public function getUrl() { return $this->m_urlWithouFilter; }
