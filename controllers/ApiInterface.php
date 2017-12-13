@@ -119,15 +119,25 @@ interface ApiInterface
     
     public function getRoadAttributesForDataset($id);
     
-    public function getLocations($id, $dataset_id, $filter = null);
+    public function getBeforeLocations($id, $dataset_id, $filter = null);
     
-    public function getLocationsForProgramme($id, $filter = null);
+    public function getBeforeLocationsForProgramme($id, $filter = null);
     
-    public function getLocationsForRegion($id, $filter = null);
+    public function getBeforeLocationsForRegion($id, $filter = null);
     
-    public function getLocationsForProject($id, $filter = null);
+    public function getBeforeLocationsForProject($id, $filter = null);
     
-    public function getLocationsForDataset($id, $filter = null);
+    public function getBeforeLocationsForDataset($id, $filter = null);
+            
+    public function getAfterLocations($id, $dataset_id, $filter = null);
+    
+    public function getAfterLocationsForProgramme($id, $filter = null);
+    
+    public function getAfterLocationsForRegion($id, $filter = null);
+    
+    public function getAfterLocationsForProject($id, $filter = null);
+    
+    public function getAfterLocationsForDataset($id, $filter = null);
     
     public function getBoundsForProgramme($id, $filter = null);
     

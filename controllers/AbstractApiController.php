@@ -971,10 +971,10 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $dataset_id - the ID of the dataset.
      * @return object
      */
-    public function getLocations($id, $dataset_id, $filter = null)
+    public function getBeforeLocations($id, $dataset_id, $filter = null)
     {
         $locationController = new LocationsController($this->getAuth(), $filter);
-        return $locationController->getResource($id, $dataset_id);
+        return $locationController->getResource($id, $dataset_id, 'before');
     }
     
     
@@ -983,10 +983,10 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $id - the ID of the programme.
      * @return object
      */
-    public function getLocationsForProgramme($id, $filter = null)
+    public function getBeforeLocationsForProgramme($id, $filter = null)
     {
         $locationController = new LocationsController($this->getAuth(), $filter);
-        return $locationController->getResource('for', array('programme', $id));
+        return $locationController->getResource('for', array('programme', $id, 'before'));
     }
     
     
@@ -995,10 +995,10 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $id - the ID of the region.
      * @return object
      */
-    public function getLocationsForRegion($id, $filter = null)
+    public function getBeforeLocationsForRegion($id, $filter = null)
     {
         $locationController = new LocationsController($this->getAuth(), $filter);
-        return $locationController->getResource('for', array('region', $id));
+        return $locationController->getResource('for', array('region', $id, 'before'));
     }
     
     /**
@@ -1006,10 +1006,10 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $id - the ID of the project to get locations for.
      * @return object
      */
-    public function getLocationsForProject($id, $filter = null)
+    public function getBeforeLocationsForProject($id, $filter = null)
     {
         $locationController = new LocationsController($this->getAuth(), $filter);
-        return $locationController->getResource('for', array('project', $id));
+        return $locationController->getResource('for', array('project', $id, 'before'));
     }   
     
     /**
@@ -1017,10 +1017,69 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $id - the ID of the dataset
      * @return object
      */
-    public function getLocationsForDataset($id, $filter = null)
+    public function getBeforeLocationsForDataset($id, $filter = null)
     {
         $locationController = new LocationsController($this->getAuth(), $filter);
-        return $locationController->getResource('for', array('dataset', $id));
+        return $locationController->getResource('for', array('dataset', $id, 'before'));
+    }
+    
+    /**
+     * Fetches a locations for a specified location. You must specify the location ID,
+     * and the ID of the dataset it belongs to.
+     * @param int $id - the location ID of the locations in the dataset.
+     * @param int $dataset_id - the ID of the dataset.
+     * @return object
+     */
+    public function getAfterLocations($id, $dataset_id, $filter = null)
+    {
+        $locationController = new LocationsController($this->getAuth(), $filter);
+        return $locationController->getResource($id, $dataset_id, 'after');
+    }
+    
+    
+    /**
+     * Get a list of locations for a programme, using the programme's ID.
+     * @param int $id - the ID of the programme.
+     * @return object
+     */
+    public function getAfterLocationsForProgramme($id, $filter = null)
+    {
+        $locationController = new LocationsController($this->getAuth(), $filter);
+        return $locationController->getResource('for', array('programme', $id, 'after'));
+    }
+    
+    
+    /**
+     * Get a list of locations for a region, using the region's ID.
+     * @param int $id - the ID of the region.
+     * @return object
+     */
+    public function getAfterLocationsForRegion($id, $filter = null)
+    {
+        $locationController = new LocationsController($this->getAuth(), $filter);
+        return $locationController->getResource('for', array('region', $id, 'after'));
+    }
+    
+    /**
+     * Get a list of locations for a project.
+     * @param int $id - the ID of the project to get locations for.
+     * @return object
+     */
+    public function getAfterLocationsForProject($id, $filter = null)
+    {
+        $locationController = new LocationsController($this->getAuth(), $filter);
+        return $locationController->getResource('for', array('project', $id, 'after'));
+    }   
+    
+    /**
+     * Get a list of locations for a dataset, using the dataset's ID.
+     * @param int $id - the ID of the dataset
+     * @return object
+     */
+    public function getAfterLocationsForDataset($id, $filter = null)
+    {
+        $locationController = new LocationsController($this->getAuth(), $filter);
+        return $locationController->getResource('for', array('dataset', $id, 'after'));
     }
     
     /**
