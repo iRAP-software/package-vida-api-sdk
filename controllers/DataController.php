@@ -29,7 +29,8 @@ class DataController extends AbstractResourceController
     public function importData($datasetID, $url)
     {
         $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
-        $request->setUrl($this->getResourcePath(), $datasetID);
+        $args = array('import');
+        $request->setUrl($this->getResourcePath(), $datasetID, $args);
         $request->setPostData(array('url' => $url));
         $request->send();
         return $this->response($request);
