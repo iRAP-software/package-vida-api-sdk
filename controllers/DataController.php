@@ -16,4 +16,22 @@ class DataController extends AbstractResourceController
     {
         return 'data';
     }
+    
+    
+    /**
+     * Imports a CSV file from the specified url. The CSV file is expected to have a header
+     * row that will be ignored.
+     * @param int $datasetID - the ID of the dataset we wish to import for.
+     * @param string $url - the url to the CSV file we wish to import. Temporary pre-signed s3 urls
+     *                      recommended.
+     * @return object
+     */
+    public function import($datasetID, $url)
+    {
+        $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
+        $request->setUrl($this->getResourcePath(), $datasetID);
+        $request->setPostData(array('url' => $url));
+        $request->send();
+        return $this->response($request);
+    }
 }
