@@ -1560,7 +1560,7 @@ abstract class AbstractApiController implements ApiInterface
     public function importData($dataset_id, $url)
     {
         $dataController = new DataController($this->getAuth());
-        return $dataController->import($dataset_id, $url);
+        return $dataController->importData($dataset_id, $url);
     }
     
     /**
