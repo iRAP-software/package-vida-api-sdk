@@ -47,6 +47,10 @@ interface ApiInterface
     
     public function getDatasetsForProject($id);
     
+    public function processDataset($id, $filter = null);
+    
+    public function validateAndProcessDataset($id, $filter = null);
+    
     public function getProgrammes();
     
     public function addProgramme($name, $manager_id);
