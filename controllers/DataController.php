@@ -24,7 +24,7 @@ class DataController extends AbstractResourceController
      * @param int $datasetID - the ID of the dataset we wish to import for.
      * @param string $url - the url to the CSV file we wish to import. Temporary pre-signed s3 urls
      *                      recommended.
-     * @return object
+     * @return \iRAP\VidaSDK\Models\ImportResponse
      */
     public function importData($datasetID, $url)
     {
@@ -33,6 +33,6 @@ class DataController extends AbstractResourceController
         $request->setUrl($this->getResourcePath(), $datasetID, $args);
         $request->setPostData(array('url' => $url));
         $request->send();
-        return $this->response($request);
+        return new ImportResponse($this->response($request));
     }
 }

@@ -1573,13 +1573,14 @@ abstract class AbstractApiController implements ApiInterface
      * @param type $dataset_id - the ID of the dataset we wish to import for.
      * @param string $url - the url to the CSV file we wish to import. Temporary pre-signed s3 urls
      *                      recommended.
-     * @return object
+     * @return \iRAP\VidaSDK\Models\ImportResponse
      */
     public function importData($dataset_id, $url)
     {
         $dataController = new DataController($this->getAuth());
         return $dataController->importData($dataset_id, $url);
     }
+    
     
     /**
      * Get a list of data for a programme, using the programme's ID.
