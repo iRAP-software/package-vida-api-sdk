@@ -340,6 +340,24 @@ abstract class AbstractApiController implements ApiInterface
     }
     
     /**
+     * Validates the specified dataset and begins processing. Processing data is added to a queue 
+     * and a successful response to this request means that the dataset has been added to the queue, 
+     * not that processing is complete. To check whether it has finished, call getDataset($id) and 
+     * examine the returned is_data_processing property.
+     * 
+     * If the data fails to validate, a 400 will be returned. Check the errors property for the 
+     * errors encountered
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function validateAndProcessDataset($id, $filter = null)
+    {
+        $datasetController = new DatasetsController($this->getAuth(), $filter);
+        return $datasetController->getResource($id, 'validateandprocess');
+    }
+    
+    /**
      * Fetches a list of all of the programmes in the system. If you specify an ID, that programme
      * will be returned to you.
      * 
