@@ -9,7 +9,7 @@
 
 namespace iRAP\VidaSDK\Models;
 
-class ImportResponse extends iRAP\VidaSDK\Models\Response
+class ImportResponse extends Response
 {
     private $m_validationErrors;
     
