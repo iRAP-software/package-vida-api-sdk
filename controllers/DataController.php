@@ -33,6 +33,6 @@ class DataController extends AbstractResourceController
         $request->setUrl($this->getResourcePath(), $datasetID, $args);
         $request->setPostData(array('url' => $url));
         $request->send();
-        return new ImportResponse($this->response($request));
+        return new \iRAP\VidaSDK\Models\ImportResponse($this->response($request));
     }
 }
