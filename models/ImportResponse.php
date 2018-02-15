@@ -14,11 +14,11 @@ class ImportResponse extends Response
     private $m_validationErrors;
     
     
-    public function __construct(iRAP\VidaSDK\Models\Response $response)
+    public function __construct(Response $response)
     {
         $this->status = $response->status;
         $this->code = $response->code;
-        $this->response = $response->response();
+        $this->response = $response->response;
         $this->rawResponse = $response->rawResponse;
         $this->m_validationErrors = array();
         
