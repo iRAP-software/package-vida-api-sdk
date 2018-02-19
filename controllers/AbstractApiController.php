@@ -810,7 +810,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getBeforeRoadAttributes($id, $dataset_id, $filter = null)
     {
         $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
-        return $roadAttributeController->getResource($id, $dataset_id, 'before');
+        return $roadAttributeController->getResource($id, 'before', $dataset_id);
     }
     
     
@@ -992,7 +992,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getBeforeLocations($id, $dataset_id, $filter = null)
     {
         $locationController = new LocationsController($this->getAuth(), $filter);
-        return $locationController->getResource($id, $dataset_id, 'before');
+        return $locationController->getResource($id, 'before', $dataset_id);
     }
     
     
@@ -1051,7 +1051,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getAfterLocations($id, $dataset_id, $filter = null)
     {
         $locationController = new LocationsController($this->getAuth(), $filter);
-        return $locationController->getResource($id, $dataset_id, 'after');
+        return $locationController->getResource($id, 'after', $dataset_id);
     }
     
     
@@ -1171,7 +1171,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getBeforeFatalities($id, $dataset_id, $filter = null)
     {
         $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
-        return $fatalitiesController->getResource($id, array($dataset_id, 'before'));
+        return $fatalitiesController->getResource($id, array('before', $dataset_id));
     }
     
     
@@ -1185,7 +1185,7 @@ abstract class AbstractApiController implements ApiInterface
     public function getAfterFatalities($id, $dataset_id, $filter = null)
     {
         $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
-        return $fatalitiesController->getResource($id, array($dataset_id, 'after'));
+        return $fatalitiesController->getResource($id, array('after', $dataset_id));
     }
     
     
