@@ -202,4 +202,12 @@ interface ApiInterface
     public function getCountries();
     
     public function getPermissions();
+    
+    public function getStarRatingResultsSummaryForProgramme($id, $filter = null);
+    
+    public function getStarRatingResultsSummaryForRegion($id, $filter = null);
+    
+    public function getStarRatingResultsSummaryForProject($id, $filter = null);
+    
+    public function getStarRatingResultsSummaryForDataset($id, $filter = null);
 }

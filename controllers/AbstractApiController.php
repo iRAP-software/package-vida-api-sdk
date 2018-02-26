@@ -1654,4 +1654,52 @@ abstract class AbstractApiController implements ApiInterface
         $permissionsController = new PermissionsController($this->getAuth(), $filter);
         return $permissionsController->getResource();
     }
+    
+    /**
+     * Get a list of star rating results summary for a programme, using the programme's ID.
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getStarRatingResultsSummaryForProgramme($id, $filter = null)
+    {
+        $starratingresultssummaryController = new StarRatingResultsSummaryController($this->getAuth(), $filter);
+        return $starratingresultssummaryController->getResource('for', array('programme', $id));
+    }
+    
+    /**
+     * Get a list of star rating results summary for a region, using the region's ID.
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getStarRatingResultsSummaryForRegion($id, $filter = null)
+    {
+        $starratingresultssummaryController = new StarRatingResultsSummaryController($this->getAuth(), $filter);
+        return $starratingresultssummaryController->getResource('for', array('region', $id));
+    }
+    
+    /**
+     * Get a list of star rating results summary for a project, using the project's ID.
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getStarRatingResultsSummaryForProject($id, $filter = null)
+    {
+        $starratingresultssummaryController = new StarRatingResultsSummaryController($this->getAuth(), $filter);
+        return $starratingresultssummaryController->getResource('for', array('project', $id));
+    }
+    
+    /**
+     * Get a list of star rating results summary for a dataset, using the dataset's ID.
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getStarRatingResultsSummaryForDataset($id, $filter = null)
+    {
+        $starratingresultssummaryController = new StarRatingResultsSummaryController($this->getAuth(), $filter);
+        return $starratingresultssummaryController->getResource('for', array('dataset', $id));
+    }
 }
