@@ -11,7 +11,7 @@
 
 namespace iRAP\VidaSDK\Controllers;
 
-class StarRatingsResultsSummaryController extends AbstractResourceController
+class StarRatingResultsSummaryController extends AbstractResourceController
 {
     protected function getResourcePath()
     {
