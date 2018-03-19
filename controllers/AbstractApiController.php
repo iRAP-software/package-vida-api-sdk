@@ -1702,4 +1702,28 @@ abstract class AbstractApiController implements ApiInterface
         $starratingresultssummaryController = new StarRatingResultsSummaryController($this->getAuth(), $filter);
         return $starratingresultssummaryController->getResource('for', array('dataset', $id));
     }
+    
+    /**
+     * Get a report filter by ID.
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getReportFilter($id, $filter = null)
+    {
+        $reportFiltersController = new ReportFiltersController($this->getAuth(), $filter);
+        return $reportFiltersController->getResource($id);
+    }
+    
+    /**
+     * Creates a new report filter using the supplied filter json
+     * 
+     * @param json $filter_json
+     * @return object
+     */
+    public function addReportFilter($filter_json)
+    {
+        $reportFiltersController = new ReportFiltersController($this->getAuth());
+        return $reportFiltersController->postResource(array("filter_json"=>$filter_json));
+    }
 }

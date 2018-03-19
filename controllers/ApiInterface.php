@@ -210,4 +210,8 @@ interface ApiInterface
     public function getStarRatingResultsSummaryForProject($id, $filter = null);
     
     public function getStarRatingResultsSummaryForDataset($id, $filter = null);
+    
+    public function getReportFilter($id, $filter = null);
+    
+    public function addReportFilter($filter_json);
 }
