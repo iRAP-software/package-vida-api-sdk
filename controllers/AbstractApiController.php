@@ -339,6 +339,19 @@ abstract class AbstractApiController implements ApiInterface
         return $datasetController->getResource($id, 'process');
     }
     
+    
+    /**
+     * Reprocess a dataset using the data already in ViDA.
+     * @param int $datasetID
+     * @return object
+     */
+    public function reprocessDataset($datasetID)
+    {
+        $datasetController = new DatasetsController($this->getAuth());
+        return $datasetController->getResource($datasetID, 'reprocess');
+    }
+    
+    
     /**
      * Validates the specified dataset and begins processing. Processing data is added to a queue 
      * and a successful response to this request means that the dataset has been added to the queue, 
