@@ -49,6 +49,8 @@ interface ApiInterface
     
     public function processDataset($id, $filter = null);
     
+    public function reprocessDataset($datasetID);
+    
     public function validateAndProcessDataset($id, $filter = null);
     
     public function getProgrammes();
