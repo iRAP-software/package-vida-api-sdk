@@ -159,6 +159,19 @@ abstract class AbstractApiController implements ApiInterface
     }
     
     /**
+     * Fetches a list of all of the users in the system. If you specify an ID, that user will be
+     * returned to you.
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getUserAccess($userID, $filter = null)
+    {
+        $userController = new UsersController($this->getAuth(), $filter);
+        return $userController->getResource($userID, 'user-access');
+    }
+    
+    /**
      * Fetches a list of all of the datasets in the system. If you specify an ID, that dataset will
      * be returned to you.
      * 

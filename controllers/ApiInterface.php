@@ -23,6 +23,8 @@ interface ApiInterface
     
     public function deleteUser($id);
     
+    public function getUserAccess($userID);
+    
     public function getDatasets();
     
     public function addDataset($name, $project_id, $manager_id);
