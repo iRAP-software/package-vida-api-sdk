@@ -185,35 +185,57 @@ abstract class AbstractApiController implements ApiInterface
     }
     
     /**
-     * Creates a new dataset using the supplied data, which should be an array of field name as 
-     * keys and the values you wish to insert, as name-value pairs
-     * 
-     * @param string $name
-     * @param array $road_data
-     * @return object
+     * Creates a new dataset
+     * @param string $name 
+     * @param type $project_id
+     * @param type $manager_id
+     * @param int $type Could be any one of \iRAP\VidaSDK\App::DATASET_TYPE_EXISTING,
+     * \iRAP\VidaSDK\App::DATASET_TYPE_DESIGN, \iRAP\VidaSDK\App::DATASET_TYPE_RESEARCH.
+     * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
+     * @param string $description
+     * @return type
      */
-    public function addDataset($name, $project_id, $manager_id)
+    public function addDataset(string $name, $project_id, $manager_id,
+                               int $type = \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN,
+                               string $description = '')
     {
         $datasetController = new DatasetsController($this->getAuth());
-        return $datasetController->postResource(array("name"=>$name, "project_id"=>$project_id, "manager_id"=>$manager_id));
+        return $datasetController->postResource(array(
+                'name' => $name,
+                'project_id' => $project_id,
+                'manager_id' => $manager_id,
+                'type_id' => $type,
+                'description' => $description
+        ));
     }
-    
+
     /**
-     * Updates a dataset using the supplied data, which should be an array of field name as 
-     * keys and the values you wish to insert, as name-value pairs. The ID of the dataset to update
-     * and a new name should also be supplied
-     * 
-     * @param int $id
+     * Updates a dataset
+     * @param type $id
      * @param string $name
-     * @param array $road_data
-     * @return object
+     * @param type $project_id
+     * @param type $manager_id
+     * @param int $type Could be any one of \iRAP\VidaSDK\App::DATASET_TYPE_EXISTING,
+     * \iRAP\VidaSDK\App::DATASET_TYPE_DESIGN, \iRAP\VidaSDK\App::DATASET_TYPE_RESEARCH.
+     * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
+     * @param string $description
+     * @return type
      */
-    public function updateDataset($id, $name, $project_id, $manager_id)
+    public function updateDataset($id, string $name, $project_id, $manager_id,
+                                  int $type = \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN,
+                                  string $description = '')
     {
         $datasetController = new DatasetsController($this->getAuth());
-        return $datasetController->patchResource($id, array("name"=>$name, "project_id"=>$project_id, "manager_id"=>$manager_id));
+        return $datasetController->patchResource($id,
+                array(
+                    'name' => $name,
+                    'project_id' => $project_id,
+                    'manager_id' => $manager_id,
+                    'type_id' => $type,
+                    'description' => $description
+        ));
     }
-    
+
     /**
      * Updates the status of a dataset, using the following status codes:
      * 
@@ -234,21 +256,32 @@ abstract class AbstractApiController implements ApiInterface
     }
     
     /**
-     * Replaces a dataset using the supplied data, which should be an array of field name as 
-     * keys and the values you wish to insert, as name-value pairs. The ID of the dataset to replace
-     * and a new name should also be supplied
-     * 
-     * @param int $id
+     * Replaces a dataset
+     * @param type $id
      * @param string $name
-     * @param array $road_data
-     * @return object
+     * @param type $project_id
+     * @param type $manager_id
+     * @param int $type Could be any one of \iRAP\VidaSDK\App::DATASET_TYPE_EXISTING,
+     * \iRAP\VidaSDK\App::DATASET_TYPE_DESIGN, \iRAP\VidaSDK\App::DATASET_TYPE_RESEARCH.
+     * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
+     * @param string $description
+     * @return type
      */
-    public function replaceDataset($id, $name, $project_id, $manager_id)
+    public function replaceDataset($id, string $name, $project_id, $manager_id,
+                                   int $type = \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN,
+                                   string $description = '')
     {
         $datasetController = new DatasetsController($this->getAuth());
-        return $datasetController->putResource($id, array("name"=>$name, "project_id"=>$project_id, "manager_id"=>$manager_id));
+        return $datasetController->putResource($id,
+                array(
+                    'name' => $name,
+                    'project_id' => $project_id,
+                    'manager_id' => $manager_id,
+                    'type_id' => $type,
+                    'description' => $description
+        ));
     }
-    
+
     /**
      * Deletes a dataset from the system, using the dataset's ID.
      * 

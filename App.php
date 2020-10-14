@@ -15,7 +15,11 @@ namespace iRAP\VidaSDK;
 class App extends Controllers\AbstractApiController
 {
     private $m_auth;
-    
+    const DATASET_TYPE_UNKNOWN  = 1;
+    const DATASET_TYPE_EXISTING = 2;
+    const DATASET_TYPE_DESIGN   = 3;
+    const DATASET_TYPE_RESEARCH = 4;
+
     /**
      * Start here! The constructor takes the App's authentication credentials, which will be 
      * supplied to you by iRAP. An Authentication object
