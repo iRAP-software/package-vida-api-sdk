@@ -197,6 +197,7 @@ abstract class AbstractApiController implements ApiInterface
      */
     public function addDataset(string $name, $project_id, $manager_id,
                                int $type = \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN,
+                               string $assessment_date = '',
                                string $description = '')
     {
         $datasetController = new DatasetsController($this->getAuth());
@@ -205,7 +206,8 @@ abstract class AbstractApiController implements ApiInterface
                 'project_id' => $project_id,
                 'manager_id' => $manager_id,
                 'type_id' => $type,
-                'description' => $description
+                'description' => $description,
+                'assessment_date' => $assessment_date
         ));
     }
 
@@ -223,6 +225,7 @@ abstract class AbstractApiController implements ApiInterface
      */
     public function updateDataset($id, string $name, $project_id, $manager_id,
                                   int $type = \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN,
+                                  string $assessment_date = '',
                                   string $description = '')
     {
         $datasetController = new DatasetsController($this->getAuth());
@@ -232,7 +235,8 @@ abstract class AbstractApiController implements ApiInterface
                     'project_id' => $project_id,
                     'manager_id' => $manager_id,
                     'type_id' => $type,
-                    'description' => $description
+                    'description' => $description,
+                    'assessment_date' => $assessment_date
         ));
     }
 
@@ -269,6 +273,7 @@ abstract class AbstractApiController implements ApiInterface
      */
     public function replaceDataset($id, string $name, $project_id, $manager_id,
                                    int $type = \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN,
+                                   string $assessment_date = '',
                                    string $description = '')
     {
         $datasetController = new DatasetsController($this->getAuth());
@@ -278,7 +283,8 @@ abstract class AbstractApiController implements ApiInterface
                     'project_id' => $project_id,
                     'manager_id' => $manager_id,
                     'type_id' => $type,
-                    'description' => $description
+                    'description' => $description,
+                    'assessment_date' => $assessment_date
         ));
     }
 
