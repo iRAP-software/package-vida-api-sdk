@@ -27,13 +27,13 @@ interface ApiInterface
     
     public function getDatasets();
     
-    public function addDataset(string $name, $project_id, $manager_id, int $type, string $description);
+    public function addDataset(string $name, $project_id, $manager_id, int $type, string $assessment_date, string $description);
     
-    public function updateDataset($id, string $name, $project_id, $manager_id, int $type, string $description);
+    public function updateDataset($id, string $name, $project_id, $manager_id, int $type, string $assessment_date, string $description);
     
     public function updateDatasetStatus($id, $status_id);
     
-    public function replaceDataset($id, string $name, $project_id, $manager_id, int $type, string $description);
+    public function replaceDataset($id, string $name, $project_id, $manager_id, int $type, string $assessment_date, string $description);
     
     public function deleteDataset($id);
     
