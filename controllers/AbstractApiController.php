@@ -186,14 +186,15 @@ abstract class AbstractApiController implements ApiInterface
     
     /**
      * Creates a new dataset
-     * @param string $name 
+     * @param string $name
      * @param type $project_id
      * @param type $manager_id
      * @param int $type Could be any one of \iRAP\VidaSDK\App::DATASET_TYPE_EXISTING,
      * \iRAP\VidaSDK\App::DATASET_TYPE_DESIGN, \iRAP\VidaSDK\App::DATASET_TYPE_RESEARCH.
      * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
+     * @param string $assessment_date Date format, 'Y-m-d' e.g. 2020-10-22
      * @param string $description
-     * @return type
+     * @return object
      */
     public function addDataset(string $name, $project_id, $manager_id,
                                int $type = \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN,
@@ -220,8 +221,9 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $type Could be any one of \iRAP\VidaSDK\App::DATASET_TYPE_EXISTING,
      * \iRAP\VidaSDK\App::DATASET_TYPE_DESIGN, \iRAP\VidaSDK\App::DATASET_TYPE_RESEARCH.
      * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
+     * @param string $assessment_date Date format, 'Y-m-d' e.g. 2020-10-22
      * @param string $description
-     * @return type
+     * @return object
      */
     public function updateDataset($id, string $name, $project_id, $manager_id,
                                   int $type = \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN,
@@ -268,8 +270,9 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $type Could be any one of \iRAP\VidaSDK\App::DATASET_TYPE_EXISTING,
      * \iRAP\VidaSDK\App::DATASET_TYPE_DESIGN, \iRAP\VidaSDK\App::DATASET_TYPE_RESEARCH.
      * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
+     * @param string $assessment_date Date format, 'Y-m-d' e.g. 2020-10-22
      * @param string $description
-     * @return type
+     * @return object
      */
     public function replaceDataset($id, string $name, $project_id, $manager_id,
                                    int $type = \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN,
