@@ -19,7 +19,7 @@ class InviteController extends AbstractResourceController
 
     public function invite(string $email, string $first_name = null,
                                string $last_name = null,
-                               string $permissions = null)
+                               array $permissions = [])
     {
         $data = ['email' => $email];
 
