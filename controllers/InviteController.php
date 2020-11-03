@@ -17,7 +17,7 @@ class InviteController extends AbstractResourceController
         return 'invites';
     }
 
-    public function inviteUser(string $email, string $first_name = null,
+    public function invite(string $email, string $first_name = null,
                                string $last_name = null,
                                string $permissions = null)
     {
@@ -38,12 +38,12 @@ class InviteController extends AbstractResourceController
         return $this->postResource($data);
     }
 
-    public function getInviteDetails($value)
+    public function details($value)
     {
         return $this->getResource($value);
     }
 
-    public function acceptInvitation(string $token)
+    public function accept(string $token)
     {
         return $this->patchResource('',
                 [
