@@ -1794,4 +1794,44 @@ abstract class AbstractApiController implements ApiInterface
         $reportFiltersController = new ReportFiltersController($this->getAuth());
         return $reportFiltersController->postResource(array("filter_json"=>$filter_json));
     }
+
+    /**
+     * Invite a user
+     * @param string $email
+     * @param string $first_name
+     * @param string $last_name
+     * @param array $permissions List of datasets (IDs) to which the user will be
+     * added as a 'Reader'
+     * @return object A token will also be returned which will be required when
+     * accepting an invitation
+     */
+    public function inviteUser(string $email, string $first_name = null,
+                               string $last_name = null, array $permissions = [])
+    {
+        $inviteCtrl = new InviteController($this->getAuth());
+        return $inviteCtrl->invite($email, $first_name, $last_name, $permissions);
+    }
+
+    /**
+     * Get invitation details
+     * @param mixed $value Invitation ID or email address of the invited user or
+     * token if the user was previously invited
+     * @return object
+     */
+    public function getInviteDetails($value)
+    {
+        $inviteCtrl = new InviteController($this->getAuth());
+        return $inviteCtrl->details($value);
+    }
+
+    /**
+     * Accept an invitation
+     * @param string $token
+     * @return object
+     */
+    public function acceptInvitation(string $token)
+    {
+        $inviteCtrl = new InviteController($this->getAuth());
+        return $inviteCtrl->accept($token);
+    }
 }

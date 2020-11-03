@@ -218,4 +218,10 @@ interface ApiInterface
     public function getReportFilter($id, $filter = null);
     
     public function addReportFilter($filter_json);
+
+    public function inviteUser(string $email, string $first_name = null, string $last_name = null, string $permissions = null);
+
+    public function getInviteDetails($value);
+
+    public function acceptInvitation(string $token);
 }
