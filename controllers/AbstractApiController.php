@@ -198,7 +198,7 @@ abstract class AbstractApiController implements ApiInterface
      */
     public function addDataset(string $name, $project_id, $manager_id,
                                int $type = \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN,
-                               string $assessment_date = '',
+                               string $assessment_date = null,
                                string $description = '')
     {
         $datasetController = new DatasetsController($this->getAuth());
@@ -227,7 +227,7 @@ abstract class AbstractApiController implements ApiInterface
      */
     public function updateDataset($id, string $name, $project_id, $manager_id,
                                   int $type = \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN,
-                                  string $assessment_date = '',
+                                  string $assessment_date = null,
                                   string $description = '')
     {
         $datasetController = new DatasetsController($this->getAuth());
@@ -276,7 +276,7 @@ abstract class AbstractApiController implements ApiInterface
      */
     public function replaceDataset($id, string $name, $project_id, $manager_id,
                                    int $type = \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN,
-                                   string $assessment_date = '',
+                                   string $assessment_date = null,
                                    string $description = '')
     {
         $datasetController = new DatasetsController($this->getAuth());
