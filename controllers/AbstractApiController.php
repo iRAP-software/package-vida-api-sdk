@@ -1834,4 +1834,15 @@ abstract class AbstractApiController implements ApiInterface
         $inviteCtrl = new InviteController($this->getAuth());
         return $inviteCtrl->accept($token);
     }
+
+    /**
+     * Gets data for SRIP (id will always be ignored)
+     * @param int $id
+     * @return object
+     */
+    public function getSRIP($id = null, $filter = null)
+    {
+        $appliedCountermeasuresController = new AppliedCountermeasuresController($this->getAuth(), $filter);
+        return $appliedCountermeasuresController->getResource('get_srip', $id);
+    }
 }
