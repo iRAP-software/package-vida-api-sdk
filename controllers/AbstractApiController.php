@@ -1840,9 +1840,9 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $id
      * @return object
      */
-    public function getSRIP($id = null, $filter = null)
+    public function getSRIP($modelId = 2, $filter = null)
     {
         $appliedCountermeasuresController = new AppliedCountermeasuresController($this->getAuth(), $filter);
-        return $appliedCountermeasuresController->getResource('get_srip', $id);
+        return $appliedCountermeasuresController->getResource('get_srip', $modelId);
     }
 }
