@@ -225,5 +225,5 @@ interface ApiInterface
 
     public function acceptInvitation(string $token);
 
-    public function getSRIP($id = null, $filter = null);
+    public function getSRIP($modelId = 2, $filter = null);
 }
