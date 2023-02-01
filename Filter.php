@@ -37,6 +37,8 @@ class Filter implements FilterInterface
      */
     public function addFilter($field, $value, $operator = '=')
     {
+        //Encode any + signs in the value so we don't lose them in the urlencode/decode process
+        $value = str_replace('+', '%2B', $value);
         $this->m_filter[] = $this->filterItem($field, $value, $operator);
     }
     
