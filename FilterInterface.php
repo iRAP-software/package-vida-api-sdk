@@ -25,5 +25,5 @@ Interface FilterInterface extends \JsonSerializable
     /**
      * All filters need to be serializable
      */
-    public function jsonSerialize();
+    public function jsonSerialize(): mixed ;
 }
