@@ -32,7 +32,7 @@ class FilterGroup implements FilterInterface
      * serializable.
      * @return type
      */
-    public function jsonSerialize() 
+    public function jsonSerialize(): mixed 
     {
         return array(
             'comparison' => (string)$this->m_conjunction,
