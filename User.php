@@ -15,6 +15,7 @@ namespace iRAP\VidaSDK;
 class User extends Controllers\AbstractApiController
 {
     
+    protected $m_auth;
     /**
      * Start here! The constructor takes the App's authentication credentials, which will be 
      * supplied to you by iRAP and the user's authentication details. An Authentication object

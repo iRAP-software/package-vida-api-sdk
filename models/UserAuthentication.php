@@ -19,7 +19,8 @@ class UserAuthentication extends AbstractAuthentication
     protected $m_user_auth_id;
     protected $m_user_api_key;
     protected $m_user_protected_key;
-    
+    protected $m_app_private_key;
+    protected $m_user_private_key;
     
     /**
      * Takes the API token and user token if available and sets up the authentication member variable
