@@ -187,11 +187,11 @@ interface ApiInterface
     
     public function getData($id, $dataset_id);
     
-    public function addData($datas, $dataset_id);
+    public function addData($data, $dataset_id);
     
-    public function updateData($id, $datas, $dataset_id);
+    public function updateData($id, $data, $dataset_id);
     
-    public function replaceData($id, $datas, $dataset_id);
+    public function replaceData($id, $data, $dataset_id);
     
     public function deleteData($id, $dataset_id);
     

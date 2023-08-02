@@ -1,7 +1,7 @@
 <?php
 
 /* 
- * Welcome to the ViDA SDK. This is the primary class for users of the SDK and contains all of the
+ * Welcome to the ViDA SDK. This is the primary class for users of the SDK and contains all the
  * methods intended for use by developers. For help in understanding how to use the SDK, first 
  * look at the README.md file, then read the comments on each of the methods listed below.
  * 
@@ -11,7 +11,10 @@
 
 namespace iRAP\VidaSDK\Controllers;
 
+use iRAP\VidaSDK\App;
+use iRAP\VidaSDK\Models\ImportResponse;
 use iRAP\VidaSDK\Models\Response;
+use stdClass;
 
 abstract class AbstractApiController implements ApiInterface
 {
@@ -29,12 +32,12 @@ abstract class AbstractApiController implements ApiInterface
      * 
      * @param string $email
      * @param string $password
-     * @return \stdClass
+     * @return stdClass
      */
-    public function getUserToken($email, $password)
+    public function getUserToken($email, $password): stdclass
     {
         $userToken = AuthController::getUserToken($this->getAuth(), $email, $password);
-        $token = new \stdClass();
+        $token = new stdClass();
         if ($userToken->code == 200)
         {
             $token->userAuthId = $userToken->response->auth_id;
@@ -52,15 +55,16 @@ abstract class AbstractApiController implements ApiInterface
     }
     
     /**
-     * Checks whether the GET contains the user key. If so, it creates a user token object and 
+     * Checks whether the GET contains the user key. If so, it creates a user token Response and 
      * returns it. If not, the requestUserPermissions method is called, which redirects the user
      * to ViDA.
      * 
      * @param string $returnUrl
      */
-    public function requestUserPermissions($returnUrl)
+    public function requestUserPermissions($returnUrl): stdclass
     {
         $get = filter_input_array(INPUT_GET);
+        $response = null;
         if (
                 isset($get['userAuthId']) &&
                 isset($get['userApiKey']) &&
@@ -68,7 +72,7 @@ abstract class AbstractApiController implements ApiInterface
                 isset($get['userID'])
             )
         {
-            $token = new \stdClass();
+            $token = new stdClass();
             $token->userAuthId = urldecode($get['userAuthId']);
             $token->userApiKey = urldecode($get['userApiKey']);
             $token->userPrivateKey = urldecode($get['userPrivateKey']);
@@ -77,26 +81,26 @@ abstract class AbstractApiController implements ApiInterface
         }
         elseif(isset($get['status']) && $get['status'] == 'rejected')
         {
-            $token = new \stdClass();
+            $token = new stdClass();
             $token->status = 'Rejected';
             $token->code = 401;
             $response = $token;
         }
         else
         {
-            $response = AuthController::requestUserPermissions($this->getAuth(), $returnUrl);
+            AuthController::requestUserPermissions($this->getAuth(), $returnUrl);
         }
         return $response;
     }
-    
+
     /**
-     * Fetches a list of all of the users in the system. If you specify an ID, that user will be
-     * returned to you.
-     * 
-     * @param int $id
-     * @return object
+     * Fetches a list of all the users in the system. If you specify an ID, that user will be
+     * returned to you.     *
+     * @param ?int $id
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getUsers($id = null, $filter = null)
+    public function getUsers(int $id = null, array|string $filter = null): Response
     {
         $userController = new UsersController($this->getAuth(), $filter);
         return $userController->getResource($id);
@@ -108,9 +112,9 @@ abstract class AbstractApiController implements ApiInterface
      * @param string $name
      * @param string $email
      * @param string $password
-     * @return object
+     * @return Response
      */
-    public function addUser($name, $email, $password)
+    public function addUser($name, $email, $password): Response
     {
         $userController = new UsersController($this->getAuth());
         return $userController->postResource(array("name"=>$name,"email"=>$email,"password"=>$password));
@@ -124,9 +128,9 @@ abstract class AbstractApiController implements ApiInterface
      * @param string $name
      * @param string $email
      * @param string $password
-     * @return object
+     * @return Response
      */
-    public function updateUser($id, $name, $email, $password)
+    public function updateUser($id, $name, $email, $password): Response
     {
         $userController = new UsersController($this->getAuth());
         return $userController->patchResource($id, array("name"=>$name,"email"=>$email,"password"=>$password));
@@ -140,9 +144,9 @@ abstract class AbstractApiController implements ApiInterface
      * @param string $name
      * @param string $email
      * @param string $password
-     * @return object
+     * @return Response
      */
-    public function replaceUser($id, $name, $email, $password)
+    public function replaceUser($id, $name, $email, $password): Response
     {
         $userController = new UsersController($this->getAuth());
         return $userController->putResource($id, array("name"=>$name,"email"=>$email,"password"=>$password));
@@ -152,56 +156,58 @@ abstract class AbstractApiController implements ApiInterface
      * Delete a user from the system, using their user id.
      * 
      * @param int $id
-     * @return object
+     * @return Response
      */
-    public function deleteUser($id)
+    public function deleteUser($id): Response
     {
         $userController = new UsersController($this->getAuth());
         return $userController->deleteResource($id);
     }
-    
+
     /**
-     * Fetches a list of all of the users in the system. If you specify an ID, that user will be
+     * Fetches a list of all the users in the system. If you specify an ID, that user will be
      * returned to you.
-     * 
-     * @param int $id
-     * @return object
+     *
+     * @param $userID
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getUserAccess($userID, $filter = null)
+    public function getUserAccess($userID, array|string $filter = null): Response
     {
         $userController = new UsersController($this->getAuth(), $filter);
         return $userController->getResource($userID, 'user-access');
     }
-    
+
     /**
-     * Fetches a list of all of the datasets in the system. If you specify an ID, that dataset will
+     * Fetches a list of all the datasets in the system. If you specify an ID, that dataset will
      * be returned to you.
-     * 
-     * @param int $id
-     * @return object
+     *
+     * @param ?int $id
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getDatasets($id = null, $filter = null)
+    public function getDatasets(int $id = null, array|string $filter = null): Response
     {
         $datasetController = new DatasetsController($this->getAuth(), $filter);
         return $datasetController->getResource($id);
     }
-    
+
     /**
      * Creates a new dataset
      * @param string $name
-     * @param type $project_id
-     * @param type $manager_id
+     * @param int $project_id
+     * @param int $manager_id
      * @param int $type Could be any one of \iRAP\VidaSDK\App::DATASET_TYPE_EXISTING,
      * \iRAP\VidaSDK\App::DATASET_TYPE_DESIGN, \iRAP\VidaSDK\App::DATASET_TYPE_RESEARCH.
      * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
-     * @param string $assessment_date Date format, 'Y-m-d' e.g. 2020-10-22
+     * @param ?string $assessment_date Date format, 'Y-m-d' e.g. 2020-10-22
      * @param string $description
-     * @return object
+     * @return Response
      */
     public function addDataset(string $name, $project_id, $manager_id,
-                               int $type = \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN,
+                               int $type = App::DATASET_TYPE_UNKNOWN,
                                string $assessment_date = null,
-                               string $description = '')
+                               string $description = ''): Response
     {
         $datasetController = new DatasetsController($this->getAuth());
         return $datasetController->postResource(array(
@@ -216,21 +222,21 @@ abstract class AbstractApiController implements ApiInterface
 
     /**
      * Updates a dataset
-     * @param type $id
+     * @param int $id
      * @param string $name
-     * @param type $project_id
-     * @param type $manager_id
+     * @param int $project_id
+     * @param int $manager_id
      * @param int $type Could be any one of \iRAP\VidaSDK\App::DATASET_TYPE_EXISTING,
      * \iRAP\VidaSDK\App::DATASET_TYPE_DESIGN, \iRAP\VidaSDK\App::DATASET_TYPE_RESEARCH.
      * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
-     * @param string $assessment_date Date format, 'Y-m-d' e.g. 2020-10-22
+     * @param ?string $assessment_date Date format, 'Y-m-d' e.g. 2020-10-22
      * @param string $description
-     * @return object
+     * @return Response
      */
     public function updateDataset($id, string $name, $project_id, $manager_id,
-                                  int $type = \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN,
+                                  int $type = App::DATASET_TYPE_UNKNOWN,
                                   string $assessment_date = null,
-                                  string $description = '')
+                                  string $description = ''): Response
     {
         $datasetController = new DatasetsController($this->getAuth());
         return $datasetController->patchResource($id,
@@ -249,15 +255,15 @@ abstract class AbstractApiController implements ApiInterface
      * 
      * - 1 - Draft
      * - 2 - Working
-     * - 3 - Final Hidden
-     * - 4 - Final Unpublished
-     * - 5 - Final Published
+     * - 3 - Final (Private)
+     * - 4 - Final (Limited Access)
+     * - 5 - Final (Public)
      * 
      * @param int $id
      * @param int $status_id
-     * @return object
+     * @return Response
      */
-    public function updateDatasetStatus($id, $status_id)
+    public function updateDatasetStatus($id, $status_id): Response
     {
         $datasetController = new DatasetsController($this->getAuth());
         return $datasetController->patchResource($id, array("status_id"=>$status_id));
@@ -265,21 +271,21 @@ abstract class AbstractApiController implements ApiInterface
     
     /**
      * Replaces a dataset
-     * @param type $id
+     * @param int $id
      * @param string $name
-     * @param type $project_id
-     * @param type $manager_id
+     * @param int $project_id
+     * @param int $manager_id
      * @param int $type Could be any one of \iRAP\VidaSDK\App::DATASET_TYPE_EXISTING,
      * \iRAP\VidaSDK\App::DATASET_TYPE_DESIGN, \iRAP\VidaSDK\App::DATASET_TYPE_RESEARCH.
      * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
-     * @param string $assessment_date Date format, 'Y-m-d' e.g. 2020-10-22
+     * @param ?string $assessment_date Date format, 'Y-m-d' e.g. 2020-10-22
      * @param string $description
-     * @return object
+     * @return Response
      */
     public function replaceDataset($id, string $name, $project_id, $manager_id,
-                                   int $type = \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN,
+                                   int $type = App::DATASET_TYPE_UNKNOWN,
                                    string $assessment_date = null,
-                                   string $description = '')
+                                   string $description = ''): Response
     {
         $datasetController = new DatasetsController($this->getAuth());
         return $datasetController->putResource($id,
@@ -297,21 +303,22 @@ abstract class AbstractApiController implements ApiInterface
      * Deletes a dataset from the system, using the dataset's ID.
      * 
      * @param int $id
-     * @return object
+     * @return Response
      */
-    public function deleteDataset($id)
+    public function deleteDataset($id): Response
     {
         $datasetController = new DatasetsController($this->getAuth());
         return $datasetController->deleteResource($id);
     }
-    
+
     /**
      * Get a list of the users who have access to a dataset, using the dataset's ID.
-     * 
+     *
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getDatasetUsers($id, $filter = null)
+    public function getDatasetUsers($id, array|string $filter = null): Response
     {
         $datasetController = new DatasetsController($this->getAuth(), $filter);
         return $datasetController->getResource($id, 'user-access');
@@ -324,9 +331,9 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $user_id
      * @param int $access_level
      * @param int $user_manager
-     * @return object
+     * @return Response
      */
-    public function addDatasetUser($dataset_id, $user_id, $access_level = 1, $user_manager = 0)
+    public function addDatasetUser($dataset_id, $user_id, int $access_level = 1, int $user_manager = 0): Response
     {
         $datasetController = new DatasetsController($this->getAuth());
         return $datasetController->postResource(array('user_id'=>$user_id, 'access_level'=>$access_level, 'user_manager'=>$user_manager), $dataset_id, 'user-access');
@@ -337,60 +344,64 @@ abstract class AbstractApiController implements ApiInterface
      * 
      * @param int $dataset_id
      * @param int $user_id
-     * @return object
+     * @return Response
      */
-    public function deleteDatasetUser($dataset_id, $user_id)
+    public function deleteDatasetUser($dataset_id, $user_id): Response
     {
         $datasetController = new DatasetsController($this->getAuth());
         return $datasetController->deleteResource($dataset_id, array('user-access',$user_id));
     }
-    
+
     /**
      * Get a list of datasets for a programme, using the programme's ID.
-     * 
+     *
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getDatasetsForProgramme($id, $filter = null)
+    public function getDatasetsForProgramme($id, array|string $filter = null): Response
     {
         $datasetController = new DatasetsController($this->getAuth(), $filter);
         return $datasetController->getResource('for', array('programme', $id));
     }
-    
+
     /**
      * Get a list of datasets for a region, using the region's ID.
-     * 
+     *
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getDatasetsForRegion($id, $filter = null)
+    public function getDatasetsForRegion($id, array|string $filter = null): Response
     {
         $datasetController = new DatasetsController($this->getAuth(), $filter);
         return $datasetController->getResource('for', array('region', $id));
     }
-    
+
     /**
      * Get a list of datasets for a project, using the project's ID.
-     * 
+     *
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getDatasetsForProject($id, $filter = null)
+    public function getDatasetsForProject($id, array|string $filter = null): Response
     {
         $datasetController = new DatasetsController($this->getAuth(), $filter);
         return $datasetController->getResource('for', array('project', $id));
     }
-    
+
     /**
      * Start processing the specified dataset. Processing data is added to a queue and a successful
      * response to this request means that the dataset has been added to the queue, not that
      * processing is complete. To check whether it has finished, call getDataset($id) and examine
      * the returned is_data_processing property.
-     * 
+     *
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function processDataset($id, $filter = null)
+    public function processDataset($id, array|string $filter = null): Response
     {
         $datasetController = new DatasetsController($this->getAuth(), $filter);
         return $datasetController->getResource($id, 'process');
@@ -400,41 +411,43 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Reprocess a dataset using the data already in ViDA.
      * @param int $datasetID
-     * @return object
+     * @return Response
      */
-    public function reprocessDataset($datasetID)
+    public function reprocessDataset($datasetID): Response
     {
         $datasetController = new DatasetsController($this->getAuth());
         return $datasetController->getResource($datasetID, 'reprocess');
     }
-    
-    
+
+
     /**
-     * Validates the specified dataset and begins processing. Processing data is added to a queue 
-     * and a successful response to this request means that the dataset has been added to the queue, 
-     * not that processing is complete. To check whether it has finished, call getDataset($id) and 
+     * Validates the specified dataset and begins processing. Processing data is added to a queue
+     * and a successful response to this request means that the dataset has been added to the queue,
+     * not that processing is complete. To check whether it has finished, call getDataset($id) and
      * examine the returned is_data_processing property.
-     * 
-     * If the data fails to validate, a 400 will be returned. Check the errors property for the 
+     *
+     * If the data fails to validate, a 400 will be returned. Check the errors property for the
      * errors encountered
-     * 
+     *
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function validateAndProcessDataset($id, $filter = null)
+    public function validateAndProcessDataset($id, array|string $filter = null): Response
     {
         $datasetController = new DatasetsController($this->getAuth(), $filter);
         return $datasetController->getResource($id, 'validateandprocess');
     }
-    
+
     /**
-     * Fetches a list of all of the programmes in the system. If you specify an ID, that programme
+     * Fetches a list of all the programmes in the system. If you specify an ID, that programme
      * will be returned to you.
-     * 
-     * @param int $id
-     * @return object
+     *
+     * @param null $id
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getProgrammes($id = null, $filter = null)
+    public function getProgrammes($id = null, array|string $filter = null): Response
     {
         $programmeController = new ProgrammesController($this->getAuth(), $filter);
         return $programmeController->getResource($id);
@@ -446,9 +459,9 @@ abstract class AbstractApiController implements ApiInterface
      * 
      * @param string $name
      * @param int $manager_id
-     * @return object
+     * @return Response
      */
-    public function addProgramme($name, $manager_id)
+    public function addProgramme($name, $manager_id): Response
     {
         $programmeController = new ProgrammesController($this->getAuth());
         return $programmeController->postResource(array("name"=>$name, "manager_id"=>$manager_id));
@@ -461,9 +474,9 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $id
      * @param string $name
      * @param int $manager_id
-     * @return object
+     * @return Response
      */
-    public function updateProgramme($id, $name, $manager_id)
+    public function updateProgramme($id, $name, $manager_id): Response
     {
         $programmeController = new ProgrammesController($this->getAuth());
         return $programmeController->patchResource($id, array("name"=>$name, "manager_id"=>$manager_id));
@@ -476,9 +489,9 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $id
      * @param string $name
      * @param int $manager_id
-     * @return object
+     * @return Response
      */
-    public function replaceProgramme($id, $name, $manager_id)
+    public function replaceProgramme($id, $name, $manager_id): Response
     {
         $programmeController = new ProgrammesController($this->getAuth());
         return $programmeController->putResource($id, array("name"=>$name, "manager_id"=>$manager_id));
@@ -488,21 +501,22 @@ abstract class AbstractApiController implements ApiInterface
      * Deletes a programme from the system, using the programme's ID.
      * 
      * @param int $id
-     * @return object
+     * @return Response
      */
-    public function deleteProgramme($id)
+    public function deleteProgramme($id): Response
     {
         $programmeController = new ProgrammesController($this->getAuth());
         return $programmeController->deleteResource($id);
     }
-    
+
     /**
      * Get a list of the users who have access to a programme, using the programme's ID.
-     * 
+     *
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getProgrammeUsers($id, $filter = null)
+    public function getProgrammeUsers($id, array|string $filter = null): Response
     {
         $programmeController = new ProgrammesController($this->getAuth(), $filter);
         return $programmeController->getResource($id, 'user-access');
@@ -515,9 +529,9 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $user_id
      * @param int $access_level
      * @param int $user_manager
-     * @return object
+     * @return Response
      */
-    public function addProgrammeUser($programme_id, $user_id, $access_level = 1, $user_manager = 0)
+    public function addProgrammeUser($programme_id, $user_id, int $access_level = 1, int $user_manager = 0): Response
     {
         $programmeController = new ProgrammesController($this->getAuth());
         return $programmeController->postResource(array('user_id'=>$user_id, 'access_level'=>$access_level, 'user_manager'=>$user_manager), $programme_id, 'user-access');
@@ -528,22 +542,23 @@ abstract class AbstractApiController implements ApiInterface
      * 
      * @param int $programme_id
      * @param int $user_id
-     * @return object
+     * @return Response
      */
-    public function deleteProgrammeUser($programme_id, $user_id)
+    public function deleteProgrammeUser($programme_id, $user_id): Response
     {
         $programmeController = new ProgrammesController($this->getAuth());
         return $programmeController->deleteResource($programme_id, array('user-access',$user_id));
     }
-    
+
     /**
-     * Fetches a list of all of the regions in the system. If you specify an ID, that region will be
+     * Fetches a list of all the regions in the system. If you specify an ID, that region will be
      * returned to you.
-     * 
-     * @param int $id
-     * @return object
+     *
+     * @param null $id
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getRegions($id = null, $filter = null)
+    public function getRegions($id = null, array|string $filter = null): Response
     {
         $regionController = new RegionsController($this->getAuth(), $filter);
         return $regionController->getResource($id);
@@ -556,9 +571,9 @@ abstract class AbstractApiController implements ApiInterface
      * @param string $name
      * @param int $programme_id
      * @param int $manager_id
-     * @return object
+     * @return Response
      */
-    public function addRegion($name, $programme_id, $manager_id)
+    public function addRegion($name, $programme_id, $manager_id): Response
     {
         $regionController = new RegionsController($this->getAuth());
         return $regionController->postResource(array("name"=>$name, "programme_id"=>$programme_id, "manager_id"=>$manager_id));
@@ -572,9 +587,9 @@ abstract class AbstractApiController implements ApiInterface
      * @param string $name
      * @param int $programme_id
      * @param int $manager_id
-     * @return object
+     * @return Response
      */
-    public function updateRegion($id, $name, $programme_id, $manager_id)
+    public function updateRegion($id, $name, $programme_id, $manager_id): Response
     {
         $regionController = new RegionsController($this->getAuth());
         return $regionController->patchResource($id, array("name"=>$name, "programme_id"=>$programme_id, "manager_id"=>$manager_id));
@@ -588,9 +603,9 @@ abstract class AbstractApiController implements ApiInterface
      * @param string $name
      * @param int $programme_id
      * @param int $manager_id
-     * @return object
+     * @return Response
      */
-    public function replaceRegion($id, $name, $programme_id, $manager_id)
+    public function replaceRegion($id, $name, $programme_id, $manager_id): Response
     {
         $regionController = new RegionsController($this->getAuth());
         return $regionController->putResource($id, array("name"=>$name, "programme_id"=>$programme_id, "manager_id"=>$manager_id));
@@ -600,21 +615,22 @@ abstract class AbstractApiController implements ApiInterface
      * Deletes a region from the system, using the region's ID.
      * 
      * @param int $id
-     * @return object
+     * @return Response
      */
-    public function deleteRegion($id)
+    public function deleteRegion($id): Response
     {
         $regionController = new RegionsController($this->getAuth());
         return $regionController->deleteResource($id);
     }
-    
+
     /**
      * Get a list of the users who have access to a region, using the region's ID.
-     * 
+     *
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getRegionUsers($id, $filter = null)
+    public function getRegionUsers($id, array|string $filter = null): Response
     {
         $regionController = new RegionsController($this->getAuth(), $filter);
         return $regionController->getResource($id, 'user-access');
@@ -627,9 +643,9 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $user_id
      * @param int $access_level
      * @param int $user_manager
-     * @return object
+     * @return Response
      */
-    public function addRegionUser($region_id, $user_id, $access_level = 1, $user_manager = 0)
+    public function addRegionUser($region_id, $user_id, int $access_level = 1, int $user_manager = 0): Response
     {
         $regionController = new RegionsController($this->getAuth());
         return $regionController->postResource(array('user_id'=>$user_id, 'access_level'=>$access_level, 'user_manager'=>$user_manager), $region_id, 'user-access');
@@ -640,34 +656,36 @@ abstract class AbstractApiController implements ApiInterface
      * 
      * @param int $region_id
      * @param int $user_id
-     * @return object
+     * @return Response
      */
-    public function deleteRegionUser($region_id, $user_id)
+    public function deleteRegionUser($region_id, $user_id): Response
     {
         $regionController = new RegionsController($this->getAuth());
         return $regionController->deleteResource($region_id, array('user-access',$user_id));
     }
-    
+
     /**
      * Get a list of regions for a programme, using the programme's ID.
-     * 
+     *
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getRegionsForProgramme($id, $filter = null)
+    public function getRegionsForProgramme($id, array|string $filter = null): Response
     {
         $regionController = new RegionsController($this->getAuth(), $filter);
         return $regionController->getResource('for', array('programme', $id));
     }
-    
+
     /**
-     * Fetches a list of all of the projects in the system. If you specify an ID, that project will
+     * Fetches a list of all the projects in the system. If you specify an ID, that project will
      * be returned to you.
-     * 
-     * @param int $id
-     * @return object
+     *
+     * @param null $id
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getProjects($id = null, $filter = null)
+    public function getProjects($id = null, array|string $filter = null): Response
     {
         $projectController = new ProjectsController($this->getAuth(), $filter);
         return $projectController->getResource($id);
@@ -682,9 +700,9 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $manager_id
      * @param int $model_id
      * @param int $country_id
-     * @return object
+     * @return Response
      */
-    public function addProject($name, $region_id, $manager_id, $model_id, $country_id)
+    public function addProject($name, $region_id, $manager_id, $model_id, $country_id): Response
     {
         $projectController = new ProjectsController($this->getAuth());
         return $projectController->postResource(array("name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id, "model_id"=>$model_id, "country_id"=>$country_id));
@@ -698,9 +716,9 @@ abstract class AbstractApiController implements ApiInterface
      * @param string $name
      * @param int $region_id
      * @param int $manager_id
-     * @return object
+     * @return Response
      */
-    public function updateProject($id, $name, $region_id, $manager_id)
+    public function updateProject($id, $name, $region_id, $manager_id): Response
     {
         $projectController = new ProjectsController($this->getAuth());
         return $projectController->patchResource($id, array("name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id));
@@ -714,9 +732,9 @@ abstract class AbstractApiController implements ApiInterface
      * @param string $name
      * @param int $region_id
      * @param int $manager_id
-     * @return object
+     * @return Response
      */
-    public function replaceProject($id, $name, $region_id, $manager_id)
+    public function replaceProject($id, $name, $region_id, $manager_id): Response
     {
         $projectController = new ProjectsController($this->getAuth());
         return $projectController->putResource($id, array("name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id));
@@ -726,9 +744,9 @@ abstract class AbstractApiController implements ApiInterface
      * Deletes a project from the system, using the project's ID.
      * 
      * @param int $id
-     * @return object
+     * @return Response
      */
-    public function deleteProject($id)
+    public function deleteProject($id): Response
     {
         $projectController = new ProjectsController($this->getAuth());
         return $projectController->deleteResource($id);
@@ -741,9 +759,9 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $user_id
      * @param int $access_level
      * @param int $user_manager
-     * @return object
+     * @return Response
      */
-    public function addProjectUser($project_id, $user_id, $access_level = 1, $user_manager = 0)
+    public function addProjectUser($project_id, $user_id, int $access_level = 1, int $user_manager = 0): Response
     {
         $projectController = new ProjectsController($this->getAuth());
         return $projectController->postResource(array('user_id'=>$user_id, 'access_level'=>$access_level, 'user_manager'=>$user_manager), $project_id, 'user-access');
@@ -754,58 +772,62 @@ abstract class AbstractApiController implements ApiInterface
      * 
      * @param int $project_id
      * @param int $user_id
-     * @return object
+     * @return Response
      */
-    public function deleteProjectUser($project_id, $user_id)
+    public function deleteProjectUser($project_id, $user_id): Response
     {
         $projectController = new ProjectsController($this->getAuth());
         return $projectController->deleteResource($project_id, array('user-access',$user_id));
     }
-    
+
     /**
      * Get a list of the users who have access to a project, using the project's ID.
-     * 
+     *
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getProjectUsers($id, $filter = null)
+    public function getProjectUsers($id, array|string $filter = null): Response
     {
         $projectController = new ProjectsController($this->getAuth(), $filter);
         return $projectController->getResource($id, 'user-access');
     }
-    
+
     /**
      * Get a list of projects for a programme, using the programme's ID.
-     * 
+     *
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getProjectsForProgramme($id, $filter = null)
+    public function getProjectsForProgramme($id, array|string $filter = null): Response
     {
         $projectController = new ProjectsController($this->getAuth(), $filter);
         return $projectController->getResource('for', array('programme', $id));
     }
-    
+
     /**
-     * Get a list of projects for a regions, using the regions's ID.
-     * 
+     * Get a list of projects for a regions, using the region's ID.
+     *
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getProjectsForRegion($id, $filter = null)
+    public function getProjectsForRegion($id, array|string $filter = null): Response
     {
         $projectController = new ProjectsController($this->getAuth(), $filter);
         return $projectController->getResource('for', array('region', $id));
     }
-    
+
     /**
-     * Fetches a list of all of the variables in the system. If you specify an ID, that variable will be
+     * Fetches a list of all the variables in the system. If you specify an ID, that variable will be
      * returned to you.
-     * 
-     * @param int $id
-     * @return object
+     *
+     * @param null $id
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getVariables($id = null, $filter = null)
+    public function getVariables($id = null, array|string $filter = null): Response
     {
         $variableController = new VariablesController($this->getAuth(), $filter);
         return $variableController->getResource($id);
@@ -818,9 +840,9 @@ abstract class AbstractApiController implements ApiInterface
      * 
      * @param int $id
      * @param array $variables
-     * @return object
+     * @return Response
      */
-    public function updateVariable($id, $variables)
+    public function updateVariable($id, $variables): Response
     {
         $variableController = new VariablesController($this->getAuth());
         return $variableController->patchResource($id, $variables);
@@ -833,233 +855,250 @@ abstract class AbstractApiController implements ApiInterface
      * 
      * @param int $id
      * @param array $variables
-     * @return object
+     * @return Response
      */
-    public function replaceVariable($id, $variables)
+    public function replaceVariable($id, $variables): Response
     {
         $variableController = new VariablesController($this->getAuth());
         return $variableController->putResource($id, $variables);
     }
-    
+
     /**
      * Get a list of variables for a dataset, using the dataset's ID.
-     * 
+     *
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getVariablesForDataset($id, $filter = null)
+    public function getVariablesForDataset($id, array|string $filter = null): Response
     {
         $variableController = new VariablesController($this->getAuth(), $filter);
         return $variableController->getResource('for', array('dataset', $id));
     }
-    
-    
+
+
     /**
      * Fetches a road attributes for a specified location. You must specify the location ID,
      * and the ID of the dataset it belongs to.
      * @param int $id - the location ID of the road attributes in the dataset.
      * @param int $dataset_id - the ID of the dataset.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getRoadAttributes($id, $dataset_id, $filter = null)
+    public function getRoadAttributes($id, $dataset_id, array|string $filter = null): Response
     {
         $msg = 'getRoadAttributes is deprecated. ' . 
                'Please use getBeforeRoadAttributes instead.';
-        trigger_error($msg, E_USER_NOTICE);
+        trigger_error($msg);
         return $this->getBeforeRoadAttributes($id, $dataset_id, $filter);
     }
-    
-    
+
+
     /**
      * Fetches a road attributes for a specified location. You must specify the location ID,
      * and the ID of the dataset it belongs to.
      * @param int $id - the location ID of the road attributes in the dataset.
      * @param int $dataset_id - the ID of the dataset.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBeforeRoadAttributes($id, $dataset_id, $filter = null)
+    public function getBeforeRoadAttributes(int $id, int $dataset_id, array|string $filter = null): Response
     {
         $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
         return $roadAttributeController->getResource($id, array('before', $dataset_id));
     }
-    
-    
+
+
     /**
      * Fetches a road attributes for a specified location. You must specify the location ID,
      * and the ID of the dataset it belongs to.
      * @param int $id - the location ID of the road attributes in the dataset.
      * @param int $dataset_id - the ID of the dataset.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getAfterRoadAttributes($id, $dataset_id, $filter = null)
+    public function getAfterRoadAttributes(int $id, int $dataset_id, array|string $filter = null): Response
     {
         $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
         return $roadAttributeController->getResource($id, array('after', $dataset_id));
     }
-    
-    
+
+
     /**
      * Get a list of road attributes for a programme, using the programme's ID.
      * This method is deprecated. Please use getBeforeRoadAttributesForProgramme instead.
      * @param int $id - the ID of the programme.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getRoadAttributesForProgramme($id, $filter = null)
+    public function getRoadAttributesForProgramme($id, array|string $filter = null): Response
     {
         $msg = 'getRoadAttributesForProgramme is deprecated. ' . 
                'Please use getBeforeRoadAttributesForProgramme instead.';
-        trigger_error($msg, E_USER_NOTICE);
+        trigger_error($msg);
         return $this->getBeforeRoadAttributesForProgramme($id, $filter);
     }
-    
-    
+
+
     /**
      * Get a list of road attributes for a programme, using the programme's ID.
      * @param int $id - the ID of the programme.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBeforeRoadAttributesForProgramme($id, $filter = null)
+    public function getBeforeRoadAttributesForProgramme(int $id, array|string $filter = null): Response
     {
         $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
         return $roadAttributeController->getResource('for', array('programme', $id, 'before'));
     }
-    
-    
+
+
     /**
      * Get a list of road attributes for a programme, using the programme's ID.
      * @param int $id - the ID of the programme.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getAfterRoadAttributesForProgramme($id, $filter = null)
+    public function getAfterRoadAttributesForProgramme(int $id, array|string $filter = null): Response
     {
         $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
         return $roadAttributeController->getResource('for', array('programme', $id, 'after'));
     }
-    
-    
+
+
     /**
      * Get a list of road attributes for a region, using the region's ID.
      * @param int $id - the ID of the region.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getRoadAttributesForRegion($id, $filter = null)
+    public function getRoadAttributesForRegion($id, array|string $filter = null): Response
     {
         $msg = 'getRoadAttributesForRegion is deprecated. ' . 
                'Please use getBeforeRoadAttributesForRegion instead.';
-        trigger_error($msg, E_USER_NOTICE);
+        trigger_error($msg);
         return $this->getBeforeRoadAttributesForRegion($id, $filter);
     }
-    
-    
+
+
     /**
      * Get a list of road attributes for a region, using the region's ID.
      * @param int $id - the ID of the region.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBeforeRoadAttributesForRegion($id, $filter = null)
+    public function getBeforeRoadAttributesForRegion(int $id, array|string $filter = null): Response
     {
         $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
         return $roadAttributeController->getResource('for', array('region', $id, 'before'));
     }
-    
-    
+
+
     /**
      * Get a list of road attributes for a region, using the region's ID.
      * @param int $id - the ID of the region.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getAfterRoadAttributesForRegion($id, $filter = null)
+    public function getAfterRoadAttributesForRegion(int $id, array|string $filter = null): Response
     {
         $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
         return $roadAttributeController->getResource('for', array('region', $id, 'after'));
     }
-    
-    
+
+
     /**
      * Get a list of road attributes for a project.
      * This is deprecated, please use getBeforeRoadAttributesForProject instead.
      * @param int $id - the ID of the project to get road attributes for.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getRoadAttributesForProject($id, $filter = null)
+    public function getRoadAttributesForProject($id, array|string $filter = null): Response
     {
         $msg = 'getRoadAttributesForProject is deprecated. ' . 
                'Please use getBeforeRoadAttributesForProject instead.';
-        trigger_error($msg, E_USER_NOTICE);
-        return $this->getBeforeRoadAttributesForProject();
+        trigger_error($msg);
+        return $this->getBeforeRoadAttributesForProject($id, $filter);
     }
-    
-    
+
+
     /**
      * Get a list of road attributes for a project.
      * @param int $id - the ID of the project to get road attributes for.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBeforeRoadAttributesForProject($id, $filter = null)
+    public function getBeforeRoadAttributesForProject(int $id, array|string $filter = null): Response
     {
         $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
         return $roadAttributeController->getResource('for', array('project', $id, 'before'));
     }
-    
-    
+
+
     /**
      * Get a list of road attributes for a project.
      * @param int $id - the ID of the project to get road attributes for.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getAfterRoadAttributesForProject($id, $filter = null)
+    public function getAfterRoadAttributesForProject(int $id, array|string $filter = null): Response
     {
         $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
         return $roadAttributeController->getResource('for', array('project', $id, 'after'));
     }
-    
-    
+
+
     /**
      * Alias for getBeforeRoadAttributesForDataset.
      * This is deprecated, please use getBeforeRoadAttributesForDataset instead.
      * @param int $id - the ID of the dataset
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getRoadAttributesForDataset($id, $filter = null)
+    public function getRoadAttributesForDataset($id, array|string $filter = null): Response
     {
         $msg = 'getBeforeRoadAttributesForDataset is deprecated. ' . 
                'Please use getBeforeRoadAttributesForDataset instead.';
-        trigger_error($msg, E_USER_NOTICE);
+        trigger_error($msg);
         return $this->getBeforeRoadAttributesForDataset($id, $filter);
     }
-    
-    
+
+
     /**
      * Get a list of road attributes for a dataset, using the dataset's ID.
      * @param int $id - the ID of the dataset
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBeforeRoadAttributesForDataset($id, $filter = null)
+    public function getBeforeRoadAttributesForDataset(int $id, array|string $filter = null): Response
     {
         $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
         return $roadAttributeController->getResource('for', array('dataset', $id, 'before'));
     }
-    
-    
+
+
     /**
      * Get a list of road attributes for a dataset, using the dataset's ID.
      * @param int $id - the ID of the dataset
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getAfterRoadAttributesForDataset($id, $filter = null)
+    public function getAfterRoadAttributesForDataset(int $id, array|string $filter = null): Response
     {
         $roadAttributeController = new RoadAttributesController($this->getAuth(), $filter);
         return $roadAttributeController->getResource('for', array('dataset', $id, 'after'));
     }
-    
+
     /**
      * Fetches a locations for a specified location. You must specify the location ID,
      * and the ID of the dataset it belongs to.
      * @param int $id - the location ID of the locations in the dataset.
      * @param int $dataset_id - the ID of the dataset.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBeforeLocations($id, $dataset_id, $filter = null)
+    public function getBeforeLocations($id, $dataset_id, array|string $filter = null): Response
     {
         $locationController = new LocationsController($this->getAuth(), $filter);
         return $locationController->getResource($id, array('before', $dataset_id));
@@ -1069,9 +1108,10 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of locations for a programme, using the programme's ID.
      * @param int $id - the ID of the programme.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBeforeLocationsForProgramme($id, $filter = null)
+    public function getBeforeLocationsForProgramme($id, array|string $filter = null): Response
     {
         $locationController = new LocationsController($this->getAuth(), $filter);
         return $locationController->getResource('for', array('programme', $id, 'before'));
@@ -1081,9 +1121,10 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of locations for a region, using the region's ID.
      * @param int $id - the ID of the region.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBeforeLocationsForRegion($id, $filter = null)
+    public function getBeforeLocationsForRegion($id, array|string $filter = null): Response
     {
         $locationController = new LocationsController($this->getAuth(), $filter);
         return $locationController->getResource('for', array('region', $id, 'before'));
@@ -1092,9 +1133,10 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of locations for a project.
      * @param int $id - the ID of the project to get locations for.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBeforeLocationsForProject($id, $filter = null)
+    public function getBeforeLocationsForProject($id, array|string $filter = null): Response
     {
         $locationController = new LocationsController($this->getAuth(), $filter);
         return $locationController->getResource('for', array('project', $id, 'before'));
@@ -1103,9 +1145,10 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of locations for a dataset, using the dataset's ID.
      * @param int $id - the ID of the dataset
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBeforeLocationsForDataset($id, $filter = null)
+    public function getBeforeLocationsForDataset($id, array|string $filter = null): Response
     {
         $locationController = new LocationsController($this->getAuth(), $filter);
         return $locationController->getResource('for', array('dataset', $id, 'before'));
@@ -1116,9 +1159,10 @@ abstract class AbstractApiController implements ApiInterface
      * and the ID of the dataset it belongs to.
      * @param int $id - the location ID of the locations in the dataset.
      * @param int $dataset_id - the ID of the dataset.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getAfterLocations($id, $dataset_id, $filter = null)
+    public function getAfterLocations($id, $dataset_id, array|string $filter = null): Response
     {
         $locationController = new LocationsController($this->getAuth(), $filter);
         return $locationController->getResource($id, array('after', $dataset_id));
@@ -1128,9 +1172,10 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of locations for a programme, using the programme's ID.
      * @param int $id - the ID of the programme.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getAfterLocationsForProgramme($id, $filter = null)
+    public function getAfterLocationsForProgramme($id, array|string $filter = null): Response
     {
         $locationController = new LocationsController($this->getAuth(), $filter);
         return $locationController->getResource('for', array('programme', $id, 'after'));
@@ -1140,9 +1185,10 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of locations for a region, using the region's ID.
      * @param int $id - the ID of the region.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getAfterLocationsForRegion($id, $filter = null)
+    public function getAfterLocationsForRegion($id, array|string $filter = null): Response
     {
         $locationController = new LocationsController($this->getAuth(), $filter);
         return $locationController->getResource('for', array('region', $id, 'after'));
@@ -1151,9 +1197,10 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of locations for a project.
      * @param int $id - the ID of the project to get locations for.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getAfterLocationsForProject($id, $filter = null)
+    public function getAfterLocationsForProject($id, array|string $filter = null): Response
     {
         $locationController = new LocationsController($this->getAuth(), $filter);
         return $locationController->getResource('for', array('project', $id, 'after'));
@@ -1162,9 +1209,10 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of locations for a dataset, using the dataset's ID.
      * @param int $id - the ID of the dataset
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getAfterLocationsForDataset($id, $filter = null)
+    public function getAfterLocationsForDataset($id, array|string $filter = null): Response
     {
         $locationController = new LocationsController($this->getAuth(), $filter);
         return $locationController->getResource('for', array('dataset', $id, 'after'));
@@ -1173,9 +1221,10 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of bounds for a programme, using the programme's ID.
      * @param int $id - the ID of the programme.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBoundsForProgramme($id, $filter = null)
+    public function getBoundsForProgramme($id, array|string $filter = null): Response
     {
         $boundController = new BoundsController($this->getAuth(), $filter);
         return $boundController->getResource('for', array('programme', $id));
@@ -1185,9 +1234,10 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of bounds for a region, using the region's ID.
      * @param int $id - the ID of the region.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBoundsForRegion($id, $filter = null)
+    public function getBoundsForRegion($id, array|string $filter = null): Response
     {
         $boundController = new BoundsController($this->getAuth(), $filter);
         return $boundController->getResource('for', array('region', $id));
@@ -1196,9 +1246,10 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of bounds for a project.
      * @param int $id - the ID of the project to get bounds for.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBoundsForProject($id, $filter = null)
+    public function getBoundsForProject($id, array|string $filter = null): Response
     {
         $boundController = new BoundsController($this->getAuth(), $filter);
         return $boundController->getResource('for', array('project', $id));
@@ -1207,9 +1258,10 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of bounds for a dataset, using the dataset's ID.
      * @param int $id - the ID of the dataset
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBoundsForDataset($id, $filter = null)
+    public function getBoundsForDataset($id, array|string $filter = null): Response
     {
         $boundController = new BoundsController($this->getAuth(), $filter);
         return $boundController->getResource('for', array('dataset', $id));
@@ -1220,13 +1272,14 @@ abstract class AbstractApiController implements ApiInterface
      * This is deprecated, please use getBeforeFatalities instead.
      * @param int $id - the location ID of the fatalities
      * @param int $dataset_id - the ID of the dataset the fatality row is in.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getFatalities($id, $dataset_id, $filter = null)
+    public function getFatalities($id, $dataset_id, array|string $filter = null): Response
     {
         $msg = 'getFatalities is deprecated. ' . 
                'Please use getBeforeFatalities instead.';
-        trigger_error($msg, E_USER_NOTICE);
+        trigger_error($msg);
         return $this->getBeforeFatalities($id, $dataset_id, $filter);
     }
     
@@ -1236,9 +1289,10 @@ abstract class AbstractApiController implements ApiInterface
      * and the ID of the dataset it belongs to.
      * @param int $id - the location ID of the fatalities
      * @param int $dataset_id - the ID of the dataset the fatality row is in.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBeforeFatalities($id, $dataset_id, $filter = null)
+    public function getBeforeFatalities(int $id, int $dataset_id, array|string $filter = null): Response
     {
         $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
         return $fatalitiesController->getResource($id, array('before', $dataset_id));
@@ -1250,9 +1304,10 @@ abstract class AbstractApiController implements ApiInterface
      * and the ID of the dataset it belongs to.
      * @param int $id - the location ID of the fatalities
      * @param int $dataset_id - the ID of the dataset the fatality row is in.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getAfterFatalities($id, $dataset_id, $filter = null)
+    public function getAfterFatalities(int $id, int $dataset_id, array|string $filter = null): Response
     {
         $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
         return $fatalitiesController->getResource($id, array('after', $dataset_id));
@@ -1262,13 +1317,14 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of fatalities for a programme, using the programme's ID.
      * @param int $id - the ID of the programme.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getFatalitiesForProgramme($id, $filter = null)
+    public function getFatalitiesForProgramme($id, array|string $filter = null): Response
     {
         $msg = 'getFatalitiesForProgramme is deprecated. ' . 
                'Please use getBeforeFatalitiesForProgramme instead.';
-        trigger_error($msg, E_USER_NOTICE);
+        trigger_error($msg);
         return $this->getBeforeFatalitiesForProgramme($id, $filter);
     }
     
@@ -1276,9 +1332,10 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of "before" fatalities for a programme, using the programme's ID.
      * @param int $id - the ID of the programme.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBeforeFatalitiesForProgramme($id, $filter = null)
+    public function getBeforeFatalitiesForProgramme(int $id, array|string $filter = null): Response
     {
         $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
         return $fatalitiesController->getResource('for', array('programme', $id, 'before'));
@@ -1288,9 +1345,10 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of "after" fatalities for a programme, using the programme's ID.
      * @param int $id - the ID of the programme.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getAfterFatalitiesForProgramme($id, $filter = null)
+    public function getAfterFatalitiesForProgramme(int $id, array|string $filter = null): Response
     {
         $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
         return $fatalitiesController->getResource('for', array('programme', $id, 'after'));
@@ -1300,13 +1358,14 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of fatalities for a region, using the region's ID.
      * @param int $id - the ID of the region.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getFatalitiesForRegion($id, $filter = null)
+    public function getFatalitiesForRegion($id, array|string $filter = null): Response
     {
         $msg = 'getFatalitiesForRegion is deprecated. ' . 
                'Please use getBeforeFatalitiesForRegion instead.';
-        trigger_error($msg, E_USER_NOTICE);
+        trigger_error($msg);
         return $this->getBeforeFatalitiesForRegion($id, $filter);
     }
     
@@ -1314,9 +1373,10 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of "before" fatalities for a region, using the region's ID.
      * @param int $id - the ID of the region.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBeforeFatalitiesForRegion($id, $filter = null)
+    public function getBeforeFatalitiesForRegion(int $id, array|string $filter = null): Response
     {
         $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
         return $fatalitiesController->getResource('for', array('region', $id, 'before'));
@@ -1326,9 +1386,10 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of "after" fatalities for a region, using the region's ID.
      * @param int $id - the ID of the region.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getAfterFatalitiesForRegion($id, $filter = null)
+    public function getAfterFatalitiesForRegion(int $id, array|string $filter = null): Response
     {
         $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
         return $fatalitiesController->getResource('for', array('region', $id, 'after'));
@@ -1338,13 +1399,14 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of fatalities for a project, using the project's ID.
      * @param int $id - the ID of the project.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getFatalitiesForProject($id, $filter = null)
+    public function getFatalitiesForProject($id, array|string $filter = null): Response
     {
         $msg = 'getFatalitiesForProject is deprecated. ' . 
                'Please use getBeforeFatalitiesForProject instead.';
-        trigger_error($msg, E_USER_NOTICE);
+        trigger_error($msg);
         return $this->getBeforeFatalitiesForProject($id, $filter);
     }
     
@@ -1352,9 +1414,10 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of "before" fatalities for a project, using the project's ID.
      * @param int $id - the ID of the project we are getting fatalities for.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBeforeFatalitiesForProject($id, $filter = null)
+    public function getBeforeFatalitiesForProject(int $id, array|string $filter = null): Response
     {
         $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
         return $fatalitiesController->getResource('for', array('project', $id, 'before'));
@@ -1364,9 +1427,10 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of "after" fatalities for a project, using the project's ID.
      * @param int $id - the ID of the project we are getting fatalities for.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getAfterFatalitiesForProject($id, $filter = null)
+    public function getAfterFatalitiesForProject(int $id, array|string $filter = null): Response
     {
         $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
         return $fatalitiesController->getResource('for', array('project', $id, 'after'));
@@ -1378,13 +1442,14 @@ abstract class AbstractApiController implements ApiInterface
      * This is deprecated, please use getBeforeFatalitiesForDataset instead.
      * 
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getFatalitiesForDataset($id, $filter = null)
+    public function getFatalitiesForDataset($id, array|string $filter = null): Response
     {
         $msg = 'getFatalitiesForDataset is deprecated. ' . 
                'Please use getBeforeFatalitiesForDataset instead.';
-        trigger_error($msg, E_USER_NOTICE);
+        trigger_error($msg);
         return $this->getBeforeFatalitiesForDataset($id, $filter);
     }
     
@@ -1392,9 +1457,10 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of the before fatalities for a dataset, using the dataset's ID.
      * @param int $id - the ID of the dataset we are getting fatalities for.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBeforeFatalitiesForDataset($id, $filter = null)
+    public function getBeforeFatalitiesForDataset(int $id, array|string $filter = null): Response
     {
         $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
         return $fatalitiesController->getResource('for', array('dataset', $id, 'before'));
@@ -1404,9 +1470,10 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Get a list of the after fatalities for a dataset, using the dataset's ID.
      * @param int $id - the ID of the dataset we are getting fatalities for.
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getAfterFatalitiesForDataset($id, $filter = null)
+    public function getAfterFatalitiesForDataset(int $id, array|string $filter = null): Response
     {
         $fatalitiesController = new FatalitiesController($this->getAuth(), $filter);
         return $fatalitiesController->getResource('for', array('dataset', $id, 'after'));
@@ -1419,12 +1486,13 @@ abstract class AbstractApiController implements ApiInterface
      * 
      * @param int $id
      * @param int $dataset_id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBeforeStarRatings($id, $dataset_id, $filter = null)
+    public function getBeforeStarRatings($id, $dataset_id, array|string $filter = null): Response
     {
         $starRatingController = new StarRatingsController($this->getAuth());
-        $request = $starRatingController->getBeforeStarRatingsRequest($id, $dataset_id, $filter);
+        $request = $starRatingController->getBeforeStarRatingsRequest($id, $dataset_id);
         $request->send();
         return $request->getResponse();
     }
@@ -1433,9 +1501,10 @@ abstract class AbstractApiController implements ApiInterface
      * Get a list of star ratings for a programme, using the programme's ID.
      * 
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBeforeStarRatingsForProgramme($id, $filter = null)
+    public function getBeforeStarRatingsForProgramme($id, array|string $filter = null): Response
     {
         $starRatingController = new StarRatingsController($this->getAuth(), $filter);
         return $starRatingController->getResource('for', array('programme', $id, 'before'));
@@ -1445,9 +1514,10 @@ abstract class AbstractApiController implements ApiInterface
      * Get a list of star ratings for a region, using the region's ID.
      * 
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBeforeStarRatingsForRegion($id, $filter = null)
+    public function getBeforeStarRatingsForRegion($id, array|string $filter = null): Response
     {
         $starRatingController = new StarRatingsController($this->getAuth(), $filter);
         return $starRatingController->getResource('for', array('region', $id, 'before'));
@@ -1457,9 +1527,10 @@ abstract class AbstractApiController implements ApiInterface
      * Get a list of star ratings for a project, using the project's ID.
      * 
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBeforeStarRatingsForProject($id, $filter = null)
+    public function getBeforeStarRatingsForProject($id, array|string $filter = null): Response
     {
         $starRatingController = new StarRatingsController($this->getAuth(), $filter);
         return $starRatingController->getResource('for', array('project', $id, 'before'));
@@ -1469,9 +1540,10 @@ abstract class AbstractApiController implements ApiInterface
      * Get a list of star ratings for a dataset, using the dataset's ID.
      * 
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getBeforeStarRatingsForDataset($id, $filter = null)
+    public function getBeforeStarRatingsForDataset($id, array|string $filter = null): Response
     {
         $starRatingController = new StarRatingsController($this->getAuth(), $filter);
         $request = $starRatingController->getBeforeStarRatingsForDatasetRequest($id, $filter);
@@ -1485,9 +1557,10 @@ abstract class AbstractApiController implements ApiInterface
      * 
      * @param int $id
      * @param int $dataset_id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getAfterStarRatings($id, $dataset_id, $filter = null)
+    public function getAfterStarRatings($id, $dataset_id, array|string $filter = null): Response
     {
         $starRatingController = new StarRatingsController($this->getAuth(), $filter);
         return $starRatingController->getResource($id, array('after', $dataset_id));
@@ -1497,9 +1570,10 @@ abstract class AbstractApiController implements ApiInterface
      * Get a list of star ratings for a programme, using the programme's ID.
      * 
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getAfterStarRatingsForProgramme($id, $filter = null)
+    public function getAfterStarRatingsForProgramme($id, array|string $filter = null): Response
     {
         $starRatingController = new StarRatingsController($this->getAuth(), $filter);
         return $starRatingController->getResource('for', array('programme', $id, 'after'));
@@ -1509,9 +1583,10 @@ abstract class AbstractApiController implements ApiInterface
      * Get a list of star ratings for a region, using the region's ID.
      * 
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getAfterStarRatingsForRegion($id, $filter = null)
+    public function getAfterStarRatingsForRegion($id, array|string $filter = null): Response
     {
         $starRatingController = new StarRatingsController($this->getAuth(), $filter);
         return $starRatingController->getResource('for', array('region', $id, 'after'));
@@ -1521,9 +1596,10 @@ abstract class AbstractApiController implements ApiInterface
      * Get a list of star ratings for a project, using the project's ID.
      * 
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getAfterStarRatingsForProject($id, $filter = null)
+    public function getAfterStarRatingsForProject($id, array|string $filter = null): Response
     {
         $starRatingController = new StarRatingsController($this->getAuth(), $filter);
         return $starRatingController->getResource('for', array('project', $id, 'after'));
@@ -1533,9 +1609,10 @@ abstract class AbstractApiController implements ApiInterface
      * Get a list of star ratings for a dataset, using the dataset's ID.
      * 
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getAfterStarRatingsForDataset($id, $filter = null)
+    public function getAfterStarRatingsForDataset($id, array|string $filter = null): Response
     {
         $starRatingController = new StarRatingsController($this->getAuth(), $filter);
         $request = $starRatingController->getAfterStarRatingsForDatasetRequest($id, $filter);
@@ -1549,9 +1626,10 @@ abstract class AbstractApiController implements ApiInterface
      * 
      * @param int $id
      * @param int $dataset_id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getData($id, $dataset_id, $filter = null)
+    public function getData($id, $dataset_id, array|string $filter = null): Response
     {
         $dataController = new DataController($this->getAuth(), $filter);
         return $dataController->getResource($id, $dataset_id);
@@ -1564,26 +1642,11 @@ abstract class AbstractApiController implements ApiInterface
      * 
      * @param array $data
      * @param int $dataset_id
-     * @return object
+     * @return Response
      */
-    public function addData($data, $dataset_id)
+    public function addData($data, $dataset_id): Response
     {
-        if (
-                $data !== array_values($data) || 
-                (
-                    isset($data[0]) && 
-                    is_array($data[0]) && 
-                    $data[0] !== array_values($data[0])
-                )
-            )
-        {
-            // $data has keys, encode as JSON
-            $dataArray = array('data' => $data);
-        }
-        else
-        {
-            $dataArray = array('data' => $data);
-        }
+        $dataArray = array('data' => $data);
         $dataController = new DataController($this->getAuth());
         return $dataController->postResource($dataArray, $dataset_id);
     }
@@ -1597,9 +1660,9 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $id
      * @param array $data
      * @param int $dataset_id
-     * @return object
+     * @return Response
      */
-    public function updateData($id, $data, $dataset_id)
+    public function updateData($id, $data, $dataset_id): Response
     {
         $dataArray = array('data' => $data);
         $dataController = new DataController($this->getAuth());
@@ -1615,22 +1678,23 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $id
      * @param array $data
      * @param int $dataset_id
-     * @return object
+     * @return Response
      */
-    public function replaceData($id, $data, $dataset_id)
+    public function replaceData($id, $data, $dataset_id): Response
     {
         $dataArray = array('data' => $data);
         $dataController = new DataController($this->getAuth());
         return $dataController->putResource($id, $dataArray, $dataset_id);
     }
-    
+
     /**
      * Deletes a set of data from the system, using the set of data's ID.
-     * 
+     *
      * @param int $id
-     * @return object
+     * @param $dataset_id
+     * @return Response
      */
-    public function deleteData($id, $dataset_id)
+    public function deleteData($id, $dataset_id): Response
     {
         $dataController = new DataController($this->getAuth());
         return $dataController->deleteResource($id, $dataset_id);
@@ -1640,12 +1704,12 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Imports a CSV file from the specified url. The CSV file is expected to have a header
      * row that will be ignored.
-     * @param type $dataset_id - the ID of the dataset we wish to import for.
+     * @param int $dataset_id - the ID of the dataset we wish to import for.
      * @param string $url - the url to the CSV file we wish to import. Temporary pre-signed s3 urls
      *                      recommended.
-     * @return \iRAP\VidaSDK\Models\ImportResponse
+     * @return ImportResponse
      */
-    public function importData($dataset_id, $url)
+    public function importData(int $dataset_id, string $url): Response
     {
         $dataController = new DataController($this->getAuth());
         return $dataController->importData($dataset_id, $url);
@@ -1656,9 +1720,10 @@ abstract class AbstractApiController implements ApiInterface
      * Get a list of data for a programme, using the programme's ID.
      * 
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getDataForProgramme($id, $filter = null)
+    public function getDataForProgramme($id, array|string $filter = null): Response
     {
         $dataController = new DataController($this->getAuth(), $filter);
         return $dataController->getResource('for', array('programme', $id));
@@ -1668,9 +1733,10 @@ abstract class AbstractApiController implements ApiInterface
      * Get a list of data for a region, using the region's ID.
      * 
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getDataForRegion($id, $filter = null)
+    public function getDataForRegion($id, array|string $filter = null): Response
     {
         $dataController = new DataController($this->getAuth(), $filter);
         return $dataController->getResource('for', array('region', $id));
@@ -1680,9 +1746,10 @@ abstract class AbstractApiController implements ApiInterface
      * Get a list of data for a project, using the project's ID.
      * 
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getDataForProject($id, $filter = null)
+    public function getDataForProject($id, array|string $filter = null): Response
     {
         $dataController = new DataController($this->getAuth(), $filter);
         return $dataController->getResource('for', array('project', $id));
@@ -1692,34 +1759,36 @@ abstract class AbstractApiController implements ApiInterface
      * Get a list of data for a dataset, using the dataset's ID.
      * 
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getDataForDataset($id, $filter = null)
+    public function getDataForDataset($id, array|string $filter = null): Response
     {
         $dataController = new DataController($this->getAuth(), $filter);
         return $dataController->getResource('for', array('dataset', $id));
     }
     
     /**
-     * Fetches a list of all of the countries in the system. If you specify an ID, that country
+     * Fetches a list of all the countries in the system. If you specify an ID, that country
      * will be returned to you.
      * 
-     * @param int $id
-     * @return object
+     * @param int|null $id
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getCountries($id = null, $filter = null)
+    public function getCountries(int $id = null, array|string $filter = null): Response
     {
         $countriesController = new CountriesController($this->getAuth(), $filter);
         return $countriesController->getResource($id);
     }
     
     /**
-     * Fetches the permissions for the user. If this is called on an app object, it fetches
+     * Fetches the permissions for the user. If this is called on an app Response, it fetches
      * the permissions for the app.
-     * 
-     * @return object
+     * @param ?array|string $filter     *
+     * @return Response
      */
-    public function getPermissions($filter = null)
+    public function getPermissions(array|string $filter = null): Response
     {
         $permissionsController = new PermissionsController($this->getAuth(), $filter);
         return $permissionsController->getResource();
@@ -1729,9 +1798,10 @@ abstract class AbstractApiController implements ApiInterface
      * Get a list of star rating results summary for a programme, using the programme's ID.
      * 
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getStarRatingResultsSummaryForProgramme($id, $filter = null)
+    public function getStarRatingResultsSummaryForProgramme($id, array|string $filter = null): Response
     {
         $starratingresultssummaryController = new StarRatingResultsSummaryController($this->getAuth(), $filter);
         return $starratingresultssummaryController->getResource('for', array('programme', $id));
@@ -1741,9 +1811,10 @@ abstract class AbstractApiController implements ApiInterface
      * Get a list of star rating results summary for a region, using the region's ID.
      * 
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getStarRatingResultsSummaryForRegion($id, $filter = null)
+    public function getStarRatingResultsSummaryForRegion($id, array|string $filter = null): Response
     {
         $starratingresultssummaryController = new StarRatingResultsSummaryController($this->getAuth(), $filter);
         return $starratingresultssummaryController->getResource('for', array('region', $id));
@@ -1753,9 +1824,10 @@ abstract class AbstractApiController implements ApiInterface
      * Get a list of star rating results summary for a project, using the project's ID.
      * 
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getStarRatingResultsSummaryForProject($id, $filter = null)
+    public function getStarRatingResultsSummaryForProject($id, array|string $filter = null): Response
     {
         $starratingresultssummaryController = new StarRatingResultsSummaryController($this->getAuth(), $filter);
         return $starratingresultssummaryController->getResource('for', array('project', $id));
@@ -1765,9 +1837,10 @@ abstract class AbstractApiController implements ApiInterface
      * Get a list of star rating results summary for a dataset, using the dataset's ID.
      * 
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getStarRatingResultsSummaryForDataset($id, $filter = null)
+    public function getStarRatingResultsSummaryForDataset($id, array|string $filter = null): Response
     {
         $starratingresultssummaryController = new StarRatingResultsSummaryController($this->getAuth(), $filter);
         return $starratingresultssummaryController->getResource('for', array('dataset', $id));
@@ -1777,9 +1850,10 @@ abstract class AbstractApiController implements ApiInterface
      * Get a report filter by ID.
      * 
      * @param int $id
-     * @return object
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getReportFilter($id, $filter = null)
+    public function getReportFilter($id, array|string $filter = null): Response
     {
         $reportFiltersController = new ReportFiltersController($this->getAuth(), $filter);
         return $reportFiltersController->getResource($id);
@@ -1788,10 +1862,10 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Creates a new report filter using the supplied filter json
      * 
-     * @param json $filter_json
-     * @return object
+     * @param string $filter_json JSON encoded filter
+     * @return Response
      */
-    public function addReportFilter($filter_json)
+    public function addReportFilter($filter_json): Response
     {
         $reportFiltersController = new ReportFiltersController($this->getAuth());
         return $reportFiltersController->postResource(array("filter_json"=>$filter_json));
@@ -1800,15 +1874,15 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Invite a user
      * @param string $email
-     * @param string $first_name
-     * @param string $last_name
+     * @param ?string $first_name
+     * @param ?string $last_name
      * @param array $permissions List of datasets (IDs) to which the user will be
      * added as a 'Reader'
-     * @return object A token will also be returned which will be required when
+     * @return Response A token will also be returned which will be required when
      * accepting an invitation
      */
     public function inviteUser(string $email, string $first_name = null,
-                               string $last_name = null, array $permissions = [])
+                               string $last_name = null, array $permissions = []): Response
     {
         $inviteCtrl = new InviteController($this->getAuth());
         return $inviteCtrl->invite($email, $first_name, $last_name, $permissions);
@@ -1818,9 +1892,9 @@ abstract class AbstractApiController implements ApiInterface
      * Get invitation details
      * @param mixed $value Invitation ID or email address of the invited user or
      * token if the user was previously invited
-     * @return object
+     * @return Response
      */
-    public function getInviteDetails($value)
+    public function getInviteDetails($value): Response
     {
         $inviteCtrl = new InviteController($this->getAuth());
         return $inviteCtrl->details($value);
@@ -1829,9 +1903,9 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Accept an invitation
      * @param string $token
-     * @return object
+     * @return Response
      */
-    public function acceptInvitation(string $token)
+    public function acceptInvitation(string $token): Response
     {
         $inviteCtrl = new InviteController($this->getAuth());
         return $inviteCtrl->accept($token);
@@ -1839,10 +1913,11 @@ abstract class AbstractApiController implements ApiInterface
 
     /**
      * Gets data for SRIP (id will always be ignored)
-     * @param int $id
-     * @return object
+     * @param int $modelId
+     * @param ?array|string $filter
+     * @return Response
      */
-    public function getSRIP($modelId = 2, $filter = null)
+    public function getSRIP($modelId = 2, array|string $filter = null): Response
     {
         $appliedCountermeasuresController = new AppliedCountermeasuresController($this->getAuth(), $filter);
         return $appliedCountermeasuresController->getResource('get_srip', $modelId);
