@@ -11,6 +11,8 @@
 
 namespace iRAP\VidaSDK\Controllers;
 
+use iRAP\VidaSDK\Models\Response;
+
 abstract class AbstractApiController implements ApiInterface
 {
      
@@ -1844,5 +1846,31 @@ abstract class AbstractApiController implements ApiInterface
     {
         $appliedCountermeasuresController = new AppliedCountermeasuresController($this->getAuth(), $filter);
         return $appliedCountermeasuresController->getResource('get_srip', $modelId);
+    }
+
+    /**
+     * Add new access type
+     * @param string $identifier A new unique access identifier
+     * @param string $name A human friendly name for this access, will be helpful for managers
+     * @return Response
+     */
+    public function addAccess(string $identifier, string $name): Response
+    {
+        $accessController = new AccessController($this->getAuth());
+        return $accessController->postResource([
+            'identifier' => $identifier,
+            'name' => $name
+        ]);
+    }
+
+    /**
+     * Deletes existing access type from the system, using the unique identifier. All related permission will also be deleted
+     * @param string $identifier
+     * @return Response
+     */
+    public function deleteAccess(string $identifier): Response
+    {
+        $accessController = new AccessController($this->getAuth());
+        return $accessController->deleteResource($identifier);
     }
 }
