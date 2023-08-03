@@ -13,7 +13,7 @@ interface ApiInterface
     
     public function requestUserPermissions($returnUrl);
     
-    public function getUsers();
+    public function getUsers(int $id = null, array|string $filter = null);
     
     public function addUser($name, $email, $password);
     
@@ -23,39 +23,39 @@ interface ApiInterface
     
     public function deleteUser($id);
     
-    public function getUserAccess($userID);
+    public function getUserAccess($userID, array|string $filter = null);
     
-    public function getDatasets();
+    public function getDatasets(int $id = null, array|string $filter = null);
     
-    public function addDataset(string $name, $project_id, $manager_id, int $type, string $assessment_date, string $description);
+    public function addDataset(string $name, $project_id, $manager_id, int $type, string $assessment_date = null, string $description = '');
     
-    public function updateDataset($id, string $name, $project_id, $manager_id, int $type, string $assessment_date, string $description);
+    public function updateDataset($id, string $name, $project_id, $manager_id, int $type, string $assessment_date = null, string $description = '');
     
     public function updateDatasetStatus($id, $status_id);
     
-    public function replaceDataset($id, string $name, $project_id, $manager_id, int $type, string $assessment_date, string $description);
+    public function replaceDataset($id, string $name, $project_id, $manager_id, int $type, string $assessment_date = null, string $description = '');
     
     public function deleteDataset($id);
     
-    public function getDatasetUsers($id);
+    public function getDatasetUsers($id, array|string $filter = null);
     
-    public function addDatasetUser($dataset_id, $user_id);
+    public function addDatasetUser($dataset_id, $user_id, int $access_level = 1, int $user_manager = 0);
     
     public function deleteDatasetUser($dataset_id, $user_id);
     
-    public function getDatasetsForProgramme($id);
+    public function getDatasetsForProgramme($id, array|string $filter = null);
     
-    public function getDatasetsForRegion($id);
+    public function getDatasetsForRegion($id, array|string $filter = null);
     
-    public function getDatasetsForProject($id);
+    public function getDatasetsForProject($id, array|string $filter = null);
     
-    public function processDataset($id, $filter = null);
+    public function processDataset($id, array|string $filter = null);
     
     public function reprocessDataset($datasetID);
     
-    public function validateAndProcessDataset($id, $filter = null);
+    public function validateAndProcessDataset($id, array|string $filter = null);
     
-    public function getProgrammes();
+    public function getProgrammes(int $id = null, array|string $filter = null);
     
     public function addProgramme($name, $manager_id);
     
@@ -65,13 +65,13 @@ interface ApiInterface
     
     public function deleteProgramme($id);
     
-    public function getProgrammeUsers($id);
+    public function getProgrammeUsers($id, array|string $filter = null);
     
-    public function addProgrammeUser($programme_id, $user_id);
+    public function addProgrammeUser($programme_id, $user_id, int $access_level = 1, int $user_manager = 0);
     
     public function deleteProgrammeUser($programme_id, $user_id);
     
-    public function getRegions();
+    public function getRegions(int $id = null, array|string $filter = null);
     
     public function addRegion($name, $programme_id, $manager_id);
     
@@ -81,15 +81,15 @@ interface ApiInterface
     
     public function deleteRegion($id);
     
-    public function getRegionUsers($id);
+    public function getRegionUsers($id, array|string $filter = null);
     
-    public function addRegionUser($region_id, $user_id);
+    public function addRegionUser($region_id, $user_id, int $access_level = 1, int $user_manager = 0);
     
     public function deleteRegionUser($region_id, $user_id);
     
-    public function getRegionsForProgramme($id);
+    public function getRegionsForProgramme($id, array|string $filter = null);
     
-    public function getProjects();
+    public function getProjects(int $id = null, array|string $filter = null);
     
     public function addProject($name, $region_id, $manager_id, $model_id, $country_id);
         
@@ -99,93 +99,93 @@ interface ApiInterface
     
     public function deleteProject($id);
     
-    public function getProjectUsers($id);
+    public function getProjectUsers($id, array|string $filter = null);
     
-    public function addProjectUser($project_id, $user_id);
+    public function addProjectUser($project_id, $user_id, int $access_level = 1, int $user_manager = 0);
     
     public function deleteProjectUser($project_id, $user_id);
     
-    public function getProjectsForProgramme($id);
+    public function getProjectsForProgramme($id, array|string $filter = null);
     
-    public function getProjectsForRegion($id);
+    public function getProjectsForRegion($id, array|string $filter = null);
     
-    public function getVariables();
+    public function getVariables(int $id = null, array|string $filter = null);
     
     public function updateVariable($id, $variables);
     
     public function replaceVariable($id, $variables);
     
-    public function getVariablesForDataset($id);
+    public function getVariablesForDataset($id, array|string $filter = null);
     
-    public function getRoadAttributes($id, $dataset_id);
+    public function getRoadAttributes($id, $dataset_id, array|string $filter = null);
     
-    public function getRoadAttributesForProgramme($id);
+    public function getRoadAttributesForProgramme($id, array|string $filter = null);
     
-    public function getRoadAttributesForRegion($id);
+    public function getRoadAttributesForRegion($id, array|string $filter = null);
     
-    public function getRoadAttributesForProject($id);
+    public function getRoadAttributesForProject($id, array|string $filter = null);
     
-    public function getRoadAttributesForDataset($id);
+    public function getRoadAttributesForDataset($id, array|string $filter = null);
     
-    public function getBeforeLocations($id, $dataset_id, $filter = null);
+    public function getBeforeLocations($id, $dataset_id, array|string $filter = null);
     
-    public function getBeforeLocationsForProgramme($id, $filter = null);
+    public function getBeforeLocationsForProgramme($id, array|string $filter = null);
     
-    public function getBeforeLocationsForRegion($id, $filter = null);
+    public function getBeforeLocationsForRegion($id, array|string $filter = null);
     
-    public function getBeforeLocationsForProject($id, $filter = null);
+    public function getBeforeLocationsForProject($id, array|string $filter = null);
     
-    public function getBeforeLocationsForDataset($id, $filter = null);
+    public function getBeforeLocationsForDataset($id, array|string $filter = null);
             
-    public function getAfterLocations($id, $dataset_id, $filter = null);
+    public function getAfterLocations($id, $dataset_id, array|string $filter = null);
     
-    public function getAfterLocationsForProgramme($id, $filter = null);
+    public function getAfterLocationsForProgramme($id, array|string $filter = null);
     
-    public function getAfterLocationsForRegion($id, $filter = null);
+    public function getAfterLocationsForRegion($id, array|string $filter = null);
     
-    public function getAfterLocationsForProject($id, $filter = null);
+    public function getAfterLocationsForProject($id, array|string $filter = null);
     
-    public function getAfterLocationsForDataset($id, $filter = null);
+    public function getAfterLocationsForDataset($id, array|string $filter = null);
     
-    public function getBoundsForProgramme($id, $filter = null);
+    public function getBoundsForProgramme($id, array|string $filter = null);
     
-    public function getBoundsForRegion($id, $filter = null);
+    public function getBoundsForRegion($id, array|string $filter = null);
     
-    public function getBoundsForProject($id, $filter = null);
+    public function getBoundsForProject($id, array|string $filter = null);
     
-    public function getBoundsForDataset($id, $filter = null);
+    public function getBoundsForDataset($id, array|string $filter = null);
     
-    public function getFatalities($id, $dataset_id);
+    public function getFatalities($id, $dataset_id, array|string $filter = null);
     
-    public function getFatalitiesForProgramme($id);
+    public function getFatalitiesForProgramme($id, array|string $filter = null);
     
-    public function getFatalitiesForRegion($id);
+    public function getFatalitiesForRegion($id, array|string $filter = null);
     
-    public function getFatalitiesForProject($id);
+    public function getFatalitiesForProject($id, array|string $filter = null);
     
-    public function getFatalitiesForDataset($id);
+    public function getFatalitiesForDataset($id, array|string $filter = null);
     
-    public function getBeforeStarRatings($id, $dataset_id);
+    public function getBeforeStarRatings($id, $dataset_id, array|string $filter = null);
     
-    public function getBeforeStarRatingsForProgramme($id);
+    public function getBeforeStarRatingsForProgramme($id, array|string $filter = null);
     
-    public function getBeforeStarRatingsForRegion($id);
+    public function getBeforeStarRatingsForRegion($id, array|string $filter = null);
     
-    public function getBeforeStarRatingsForProject($id);
+    public function getBeforeStarRatingsForProject($id, array|string $filter = null);
     
-    public function getBeforeStarRatingsForDataset($id);
+    public function getBeforeStarRatingsForDataset($id, array|string $filter = null);
     
-    public function getAfterStarRatings($id, $dataset_id);
+    public function getAfterStarRatings($id, $dataset_id, array|string $filter = null);
     
-    public function getAfterStarRatingsForProgramme($id);
+    public function getAfterStarRatingsForProgramme($id, array|string $filter = null);
     
-    public function getAfterStarRatingsForRegion($id);
+    public function getAfterStarRatingsForRegion($id, array|string $filter = null);
     
-    public function getAfterStarRatingsForProject($id);
+    public function getAfterStarRatingsForProject($id, array|string $filter = null);
     
-    public function getAfterStarRatingsForDataset($id);
+    public function getAfterStarRatingsForDataset($id, array|string $filter = null);
     
-    public function getData($id, $dataset_id);
+    public function getData($id, $dataset_id, array|string $filter = null);
     
     public function addData($data, $dataset_id);
     
@@ -195,27 +195,27 @@ interface ApiInterface
     
     public function deleteData($id, $dataset_id);
     
-    public function getDataForProgramme($id);
+    public function getDataForProgramme($id, array|string $filter = null);
     
-    public function getDataForRegion($id);
+    public function getDataForRegion($id, array|string $filter = null);
     
-    public function getDataForProject($id);
+    public function getDataForProject($id, array|string $filter = null);
     
-    public function getDataForDataset($id);
+    public function getDataForDataset($id, array|string $filter = null);
     
-    public function getCountries();
+    public function getCountries(int $id = null, array|string $filter = null);
     
-    public function getPermissions();
+    public function getPermissions(array|string $filter = null);
     
-    public function getStarRatingResultsSummaryForProgramme($id, $filter = null);
+    public function getStarRatingResultsSummaryForProgramme($id, array|string $filter = null);
     
-    public function getStarRatingResultsSummaryForRegion($id, $filter = null);
+    public function getStarRatingResultsSummaryForRegion($id, array|string $filter = null);
     
-    public function getStarRatingResultsSummaryForProject($id, $filter = null);
+    public function getStarRatingResultsSummaryForProject($id, array|string $filter = null);
     
-    public function getStarRatingResultsSummaryForDataset($id, $filter = null);
+    public function getStarRatingResultsSummaryForDataset($id, array|string $filter = null);
     
-    public function getReportFilter($id, $filter = null);
+    public function getReportFilter($id, array|string $filter = null);
     
     public function addReportFilter($filter_json);
 
@@ -225,7 +225,7 @@ interface ApiInterface
 
     public function acceptInvitation(string $token);
 
-    public function getSRIP($modelId = 2, $filter = null);
+    public function getSRIP($modelId = 2, array|string $filter = null);
 
     public function addAccess(string $identifier, string $name);
 

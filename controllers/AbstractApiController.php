@@ -443,11 +443,11 @@ abstract class AbstractApiController implements ApiInterface
      * Fetches a list of all the programmes in the system. If you specify an ID, that programme
      * will be returned to you.
      *
-     * @param null $id
+     * @param ?int $id
      * @param ?array|string $filter
      * @return Response
      */
-    public function getProgrammes($id = null, array|string $filter = null): Response
+    public function getProgrammes(int $id = null, array|string $filter = null): Response
     {
         $programmeController = new ProgrammesController($this->getAuth(), $filter);
         return $programmeController->getResource($id);
@@ -554,11 +554,11 @@ abstract class AbstractApiController implements ApiInterface
      * Fetches a list of all the regions in the system. If you specify an ID, that region will be
      * returned to you.
      *
-     * @param null $id
+     * @param ?int $id
      * @param ?array|string $filter
      * @return Response
      */
-    public function getRegions($id = null, array|string $filter = null): Response
+    public function getRegions(int $id = null, array|string $filter = null): Response
     {
         $regionController = new RegionsController($this->getAuth(), $filter);
         return $regionController->getResource($id);
@@ -681,11 +681,11 @@ abstract class AbstractApiController implements ApiInterface
      * Fetches a list of all the projects in the system. If you specify an ID, that project will
      * be returned to you.
      *
-     * @param null $id
+     * @param ?int $id
      * @param ?array|string $filter
      * @return Response
      */
-    public function getProjects($id = null, array|string $filter = null): Response
+    public function getProjects(int $id = null, array|string $filter = null): Response
     {
         $projectController = new ProjectsController($this->getAuth(), $filter);
         return $projectController->getResource($id);
@@ -823,11 +823,11 @@ abstract class AbstractApiController implements ApiInterface
      * Fetches a list of all the variables in the system. If you specify an ID, that variable will be
      * returned to you.
      *
-     * @param null $id
+     * @param ?int $id
      * @param ?array|string $filter
      * @return Response
      */
-    public function getVariables($id = null, array|string $filter = null): Response
+    public function getVariables(int $id = null, array|string $filter = null): Response
     {
         $variableController = new VariablesController($this->getAuth(), $filter);
         return $variableController->getResource($id);
@@ -1772,7 +1772,7 @@ abstract class AbstractApiController implements ApiInterface
      * Fetches a list of all the countries in the system. If you specify an ID, that country
      * will be returned to you.
      * 
-     * @param int|null $id
+     * @param ?int $id
      * @param ?array|string $filter
      * @return Response
      */
