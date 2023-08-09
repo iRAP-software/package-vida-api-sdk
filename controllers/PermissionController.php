@@ -86,7 +86,7 @@ class PermissionController extends AbstractResourceController
                 }
             }
 
-            return new Response(200, $this->response->getStatus(), "$hasPermission", $this->response->getError());
+            return new Response(200, $this->response->getStatus(), $hasPermission ? 'true' : 'false', $this->response->getError());
         } else {
             return $this->response;
         }
@@ -108,7 +108,7 @@ class PermissionController extends AbstractResourceController
                 }
             }
 
-            return new Response(200, $this->response->getStatus(), "$isManager", $this->response->getError());
+            return new Response(200, $this->response->getStatus(), $isManager ? 'true' : 'false', $this->response->getError());
         } else {
             return $this->response;
         }
