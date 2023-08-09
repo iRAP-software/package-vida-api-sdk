@@ -129,12 +129,12 @@ class PermissionController extends AbstractResourceController
 
     private function checkPermission(int $userId, string $identifier): bool
     {
-        return in_array($userId, self::$permission[$identifier]);
+        return array_key_exists($identifier, self::$permission) && in_array($userId, self::$permission[$identifier]);
     }
 
     private function checkManager(int $userId, string $identifier): bool
     {
-        return in_array($userId, self::$manager[$identifier]);
+        return array_key_exists($identifier, self::$manager) && in_array($userId, self::$manager[$identifier]);
     }
 
     private function setValues(array &$variableToAlter, string $identifier, int $userId, ?bool $variableToCheck = null): void
