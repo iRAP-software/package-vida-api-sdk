@@ -48,6 +48,12 @@ class PermissionController extends AbstractResourceController
             }
 
             foreach ($permissions as $permission) {
+                if (!array_key_exists($id, self::$permission)) {
+                    self::$permission[$id] = [];
+                }
+                if (!array_key_exists($id, self::$manager)) {
+                    self::$manager[$id] = [];
+                }
                 if ($permission->read && !in_array($permission->user_id, self::$permission[$id])) {
                     self::$permission[$id][] = $permission->user_id;
                 }
