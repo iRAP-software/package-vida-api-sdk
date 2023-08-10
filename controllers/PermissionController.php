@@ -20,7 +20,7 @@ class PermissionController extends AbstractResourceController
      */
     private static array $permission = [];
     private static array $manager = [];
-    private Response $response;
+    private static ?Response $response = null;
 
     protected function getResourcePath(): string
     {
@@ -38,10 +38,10 @@ class PermissionController extends AbstractResourceController
 
     public function getResource($id = null, $args = null): void
     {
-        $this->response = parent::getResource($id, $args);
+        self::$response = parent::getResource($id, $args);
 
-        if ($this->response->getCode() === 200) {
-            $permissions = $this->response->getResponse();
+        if (self::$response->getCode() === 200) {
+            $permissions = self::$response->getResponse();
 
             if (!is_array($permissions)) {
                 $permissions = [$permissions];
@@ -72,7 +72,7 @@ class PermissionController extends AbstractResourceController
 
     public function hasPermission(int $userId, string $identifier = null): Response
     {
-        if ($this->response->getCode() === 200) {
+        if (self::$response->getCode() === 200) {
             $hasPermission = false;
 
             if (!is_null($identifier)) {
@@ -86,15 +86,15 @@ class PermissionController extends AbstractResourceController
                 }
             }
 
-            return new Response(200, $this->response->getStatus(), $hasPermission ? 'true' : 'false', $this->response->getError());
+            return new Response(200, self::$response->getStatus(), $hasPermission ? 'true' : 'false', self::$response->getError());
         } else {
-            return $this->response;
+            return self::$response;
         }
     }
 
     public function isManager(int $userId, string $identifier = null): Response
     {
-        if ($this->response->getCode() === 200) {
+        if (self::$response->getCode() === 200) {
             $isManager = false;
 
             if (!is_null($identifier)) {
@@ -108,9 +108,9 @@ class PermissionController extends AbstractResourceController
                 }
             }
 
-            return new Response(200, $this->response->getStatus(), $isManager ? 'true' : 'false', $this->response->getError());
+            return new Response(200, self::$response->getStatus(), $isManager ? 'true' : 'false', self::$response->getError());
         } else {
-            return $this->response;
+            return self::$response;
         }
     }
 
