@@ -1933,7 +1933,7 @@ abstract class AbstractApiController implements ApiInterface
      */
     public function deletePermission(string $identifier, int $userId): Response
     {
-        return $this->setPermission($identifier, $userId, true);
+        return $this->setPermission($identifier, $userId, false);
     }
 
     /**

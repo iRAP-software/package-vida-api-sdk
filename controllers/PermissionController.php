@@ -48,23 +48,23 @@ class PermissionController extends AbstractResourceController
             }
 
             foreach ($permissions as $permission) {
-                if (!array_key_exists($id, self::$permission)) {
-                    self::$permission[$id] = [];
+                if (!array_key_exists($permission->access_identifier, self::$permission)) {
+                    self::$permission[$permission->access_identifier] = [];
                 }
-                if (!array_key_exists($id, self::$manager)) {
-                    self::$manager[$id] = [];
+                if (!array_key_exists($permission->access_identifier, self::$manager)) {
+                    self::$manager[$permission->access_identifier] = [];
                 }
-                if ($permission->read && !in_array($permission->user_id, self::$permission[$id])) {
-                    self::$permission[$id][] = $permission->user_id;
+                if ($permission->read && !in_array($permission->user_id, self::$permission[$permission->access_identifier])) {
+                    self::$permission[$permission->access_identifier][] = $permission->user_id;
                 }
-                if (!$permission->read && in_array($permission->user_id, self::$permission[$id])) {
-                    self::$permission[$id] = array_filter(self::$permission[$id], fn($v) => $v !== $permission->user_id);
+                if (!$permission->read && in_array($permission->user_id, self::$permission[$permission->access_identifier])) {
+                    self::$permission[$permission->access_identifier] = array_filter(self::$permission[$permission->access_identifier], fn($v) => $v !== $permission->user_id);
                 }
-                if ($permission->manager && !in_array($permission->user_id, self::$manager[$id])) {
-                    self::$manager[$id][] = $permission->user_id;
+                if ($permission->manager && !in_array($permission->user_id, self::$manager[$permission->access_identifier])) {
+                    self::$manager[$permission->access_identifier][] = $permission->user_id;
                 }
-                if (!$permission->manager && in_array($permission->user_id, self::$manager[$id])) {
-                    self::$manager[$id] = array_filter(self::$manager[$id], fn($v) => $v !== $permission->user_id);
+                if (!$permission->manager && in_array($permission->user_id, self::$manager[$permission->access_identifier])) {
+                    self::$manager[$permission->access_identifier] = array_filter(self::$manager[$permission->access_identifier], fn($v) => $v !== $permission->user_id);
                 }
             }
         }
@@ -140,6 +140,9 @@ class PermissionController extends AbstractResourceController
     private function setValues(array &$variableToAlter, string $identifier, int $userId, ?bool $variableToCheck = null): void
     {
         if (!is_null($variableToCheck)) {
+            if (!array_key_exists($identifier, $variableToAlter)) {
+                $variableToAlter[$identifier] = [];
+            }
             if ($variableToCheck && !in_array($userId, $variableToAlter[$identifier])) {
                 $variableToAlter[$identifier][] = $userId;
             }
