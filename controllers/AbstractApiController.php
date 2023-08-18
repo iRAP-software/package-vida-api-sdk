@@ -1873,4 +1873,128 @@ abstract class AbstractApiController implements ApiInterface
         $accessController = new AccessController($this->getAuth());
         return $accessController->deleteResource($identifier);
     }
+
+    /**
+     * Check if a user has permission for an access, using the unique identifier and user id
+     * @param string $identifier
+     * @param int $userId
+     * @return Response
+     */
+    public function hasPermission(string $identifier, int $userId): Response
+    {
+        $permissionController = new PermissionController($this->getAuth());
+        return $permissionController->hasPermission($userId, $identifier);
+    }
+
+    /**
+     * Check if a user has permission for any access, using user's id
+     * @param int $userId
+     * @return Response
+     */
+    public function hasAnyPermission(int $userId): Response
+    {
+        $permissionController = new PermissionController($this->getAuth());
+        return $permissionController->hasPermission($userId);
+    }
+
+    /**
+     * Set/Unset permission of a user for an access
+     * @param string $identifier
+     * @param int $userId
+     * @param bool $permission Set this as false to remove permission
+     * @return Response
+     */
+    public function setPermission(string $identifier, int $userId, bool $permission): Response
+    {
+        $permissionController = new PermissionController($this->getAuth());
+        return $permissionController->setPermission(...[
+            'identifier' => $identifier,
+            'userId' => $userId,
+            'hasPermission' => $permission
+        ]);
+    }
+
+    /**
+     * Add permission for an access to a user
+     * @param string $identifier
+     * @param int $userId
+     * @return Response
+     */
+    public function addPermission(string $identifier, int $userId): Response
+    {
+        return $this->setPermission($identifier, $userId, true);
+    }
+
+    /**
+     * Delete permission for an access of a user
+     * @param string $identifier
+     * @param int $userId
+     * @return Response
+     */
+    public function deletePermission(string $identifier, int $userId): Response
+    {
+        return $this->setPermission($identifier, $userId, false);
+    }
+
+    /**
+     * Check if a user is manager for an access, using the unique identifier and user id
+     * @param string $identifier
+     * @param int $userId
+     * @return Response
+     */
+    public function isManager(string $identifier, int $userId): Response
+    {
+        $permissionController = new PermissionController($this->getAuth());
+        return $permissionController->isManager($userId, $identifier);
+    }
+
+    /**
+     * Check if a user is manager for any access, using user's id
+     * @param int $userId
+     * @return Response
+     */
+    public function isAnyManager(int $userId): Response
+    {
+        $permissionController = new PermissionController($this->getAuth());
+        return $permissionController->isManager($userId);
+    }
+
+    /**
+     * Set/Unset a user as manager for an access
+     * @param string $identifier
+     * @param int $userId
+     * @param bool $manager Set this as false to remove user as manager
+     * @return Response
+     */
+    public function setManager(string $identifier, int $userId, bool $manager): Response
+    {
+        $permissionController = new PermissionController($this->getAuth());
+        return $permissionController->setPermission(...[
+            'identifier' => $identifier,
+            'userId' => $userId,
+            'isManager' => $manager
+        ]);
+    }
+
+    /**
+     * Add a user as manager for an access
+     * @param string $identifier
+     * @param int $userId
+     * @return Response
+     */
+    public function addManager(string $identifier, int $userId): Response
+    {
+        return $this->setManager($identifier, $userId, true);
+    }
+
+    /**
+     * Remove a user as manager for an access
+     * @param string $identifier
+     * @param int $userId
+     * @return Response
+     */
+    public function deleteManager(string $identifier, int $userId): Response
+    {
+        return $this->setManager($identifier, $userId, false);
+    }
 }
