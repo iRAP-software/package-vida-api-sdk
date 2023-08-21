@@ -3,10 +3,10 @@
 /**************************************************************************************************
  * This file is for internal use by the ViDA SDK. It should not be altered by users
  **************************************************************************************************
- * 
+ *
  * Contains the authentication methods used to request and set tokens. Also handles encryption
  * of the user password, before it is transmitted to the API
- * 
+ *
  */
 
 namespace iRAP\VidaSDK\Controllers;
@@ -17,12 +17,12 @@ class AuthController extends AbstractResourceController
     {
         return 'auth';
     }
-    
+
     /**
-     * Sends the user's email and password to the API and gets a user token back. The user token 
+     * Sends the user's email and password to the API and gets a user token back. The user token
      * should be stored locally and used for all future requests. Email and password should NOT
      * be stored locally. The password is encrypted using the APP_PRIVATE KEY before transmission.
-     * 
+     *
      * @param string $email
      * @param string $password
      * @return object
@@ -36,11 +36,11 @@ class AuthController extends AbstractResourceController
         $request->send();
         return parent::response($request);
     }
-    
+
     /**
-     * Builds query parameters to sign, signs them and then sends the query to ViDA, so that the 
+     * Builds query parameters to sign, signs them and then sends the query to ViDA, so that the
      * user can view and accept/reject the permissions that the app is asking for.
-     * 
+     *
      * @param \iRAP\VidaSDK\Models\AbstractAuthentication $auth
      * @param type $returnUrl
      */
@@ -50,7 +50,7 @@ class AuthController extends AbstractResourceController
         $headers['return_url'] = urlencode($returnUrl);
         $signature = $auth->getSignatures($headers);
         $query = array_merge($headers, $signature);
-        
+
         if (defined('\iRAP\VidaSDK\IRAP_PERMISSIONS_URL'))
         {
             $url = \iRAP\VidaSDK\IRAP_PERMISSIONS_URL;
@@ -59,7 +59,7 @@ class AuthController extends AbstractResourceController
         {
             $url = \iRAP\VidaSDK\Defines::IRAP_PERMISSIONS_LIVE_URL;
         }
-        
+
         header('Location: ' . $url . '?' . http_build_query($query));
         die();
     }
