@@ -251,5 +251,5 @@ interface ApiInterface
 
     public function deleteManager(string $identifier, int $userId);
 
-    public function getResource($id = null, $args = null);
+    public function getRoadClassificationRulesets(int $userId, int $id = Null);
 }
