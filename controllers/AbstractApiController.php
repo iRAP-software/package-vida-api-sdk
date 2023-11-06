@@ -2009,4 +2009,15 @@ abstract class AbstractApiController implements ApiInterface
         $controller = new RoadClassificationController($this->getAuth());
         return $controller->getResource($id, [$userId]);
     }
+
+    /**
+     * Delete a ruleset
+     * @param int $id
+     * @return Response
+     */
+    public function deleteRoadClassificationRuleset(int $id): Response
+    {
+        $controller = new RoadClassificationController($this->getAuth());
+        return $controller->deleteResource($id);
+    }
 }
