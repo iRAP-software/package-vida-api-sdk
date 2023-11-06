@@ -17,10 +17,10 @@ class RoadClassificationController extends AbstractResourceController
         return 'road_classifications';
     }
 
-    public function getResource(int $userId, int $id = Null)
+    public function getResource($id = null, $args = null)
     {        
         $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
-        $request->setUrl($this->getResourcePath(), $userId, $id);
+        $request->setUrl($this->getResourcePath(), $args[0], $id);
         $request->send();
         return $this->response($request);
     }
