@@ -2030,6 +2030,6 @@ abstract class AbstractApiController implements ApiInterface
     public function updateRoadClassificationStatus(int $id, string $status): Response
     {
         $controller = new RoadClassificationController($this->getAuth());
-        return $controller->patchResource($id, ['status' => $status]);
+        return $controller->patchResource($id, ['status', $status]);
     }
 }
