@@ -2020,4 +2020,16 @@ abstract class AbstractApiController implements ApiInterface
         $controller = new RoadClassificationController($this->getAuth());
         return $controller->deleteResource($id);
     }
+
+    /**
+     * Update ruleset status
+     * @param int $id
+     * @param string $status (draft | final)
+     * @return Response
+     */
+    public function updateRoadClassificationStatus(int $id, string $status): Response
+    {
+        $controller = new RoadClassificationController($this->getAuth());
+        return $controller->patchResource($id, ['status' => $status]);
+    }
 }
