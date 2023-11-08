@@ -2000,7 +2000,6 @@ abstract class AbstractApiController implements ApiInterface
 
     /**
      * Fetch one or more road classification rulesets
-     * @param int $userId
      * @param int $id
      * @return Response
      */
