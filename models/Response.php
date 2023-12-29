@@ -89,8 +89,10 @@ class Response
     /**
      * Fetch the response object from the API. This is the response after it has
      * been json decoded. If json decode failed, then this will be NULL.
-     * @return \stdClass
+     * @return ?mixed
+     * @TODO Attribute ReturnTypeWillChange requires updating once PHP requirement for this package is at least 8
      */
+    #[\ReturnTypeWillChange]
     public function getResponse()
     {
         return $this->response;

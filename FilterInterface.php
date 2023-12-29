@@ -24,6 +24,9 @@ Interface FilterInterface extends \JsonSerializable
     
     /**
      * All filters need to be serializable
+     * @return mixed
+     * @TODO Attribute ReturnTypeWillChange requires updating once PHP requirement for this package is at least 8
      */
-    public function jsonSerialize() ;
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize();
 }
