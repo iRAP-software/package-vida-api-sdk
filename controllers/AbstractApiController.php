@@ -84,7 +84,8 @@ abstract class AbstractApiController implements ApiInterface
         }
         else
         {
-            $response = AuthController::requestUserPermissions($this->getAuth(), $returnUrl);
+            AuthController::requestUserPermissions($this->getAuth(), $returnUrl);
+            $response = new \stdClass();
         }
         return $response;
     }
@@ -189,8 +190,8 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Creates a new dataset
      * @param string $name
-     * @param type $project_id
-     * @param type $manager_id
+     * @param $project_id
+     * @param $manager_id
      * @param int $type Could be any one of \iRAP\VidaSDK\App::DATASET_TYPE_EXISTING,
      * \iRAP\VidaSDK\App::DATASET_TYPE_DESIGN, \iRAP\VidaSDK\App::DATASET_TYPE_RESEARCH.
      * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
@@ -216,10 +217,10 @@ abstract class AbstractApiController implements ApiInterface
 
     /**
      * Updates a dataset
-     * @param type $id
+     * @param $id
      * @param string $name
-     * @param type $project_id
-     * @param type $manager_id
+     * @param $project_id
+     * @param $manager_id
      * @param int $type Could be any one of \iRAP\VidaSDK\App::DATASET_TYPE_EXISTING,
      * \iRAP\VidaSDK\App::DATASET_TYPE_DESIGN, \iRAP\VidaSDK\App::DATASET_TYPE_RESEARCH.
      * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
@@ -265,10 +266,10 @@ abstract class AbstractApiController implements ApiInterface
 
     /**
      * Replaces a dataset
-     * @param type $id
+     * @param $id
      * @param string $name
-     * @param type $project_id
-     * @param type $manager_id
+     * @param $project_id
+     * @param $manager_id
      * @param int $type Could be any one of \iRAP\VidaSDK\App::DATASET_TYPE_EXISTING,
      * \iRAP\VidaSDK\App::DATASET_TYPE_DESIGN, \iRAP\VidaSDK\App::DATASET_TYPE_RESEARCH.
      * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
@@ -986,7 +987,7 @@ abstract class AbstractApiController implements ApiInterface
         $msg = 'getRoadAttributesForProject is deprecated. ' .
             'Please use getBeforeRoadAttributesForProject instead.';
         trigger_error($msg, E_USER_NOTICE);
-        return $this->getBeforeRoadAttributesForProject();
+        return $this->getBeforeRoadAttributesForProject($id);
     }
 
 
@@ -1640,7 +1641,7 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Imports a CSV file from the specified url. The CSV file is expected to have a header
      * row that will be ignored.
-     * @param type $dataset_id - the ID of the dataset we wish to import for.
+     * @param $dataset_id - the ID of the dataset we wish to import for.
      * @param string $url - the url to the CSV file we wish to import. Temporary pre-signed s3 urls
      *                      recommended.
      * @return \iRAP\VidaSDK\Models\ImportResponse
@@ -1788,7 +1789,7 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Creates a new report filter using the supplied filter json
      *
-     * @param json $filter_json
+     * @param $filter_json
      * @return object
      */
     public function addReportFilter($filter_json)

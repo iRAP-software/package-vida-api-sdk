@@ -10,6 +10,8 @@
 
 namespace iRAP\VidaSDK\Controllers;
 
+use iRAP\VidaSDK\Filter;
+
 class StarRatingsController extends AbstractResourceController
 {
     protected function getResourcePath()

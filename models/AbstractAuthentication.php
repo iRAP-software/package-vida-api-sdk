@@ -58,7 +58,7 @@ abstract class AbstractAuthentication
      */
     protected function generateSignature($parameters, $secretKey)
     {
-        array_change_key_case($parameters, CASE_LOWER); # just in case user forgets
+        $parameters = array_change_key_case($parameters); # lower case keys, just in case user forgets
         ksort($parameters, SORT_STRING); # order matters when producing a hash signature.
         $jsonString = json_encode($parameters, JSON_NUMERIC_CHECK);
         $signature = hash_hmac('sha256', $jsonString, $secretKey);
@@ -67,7 +67,7 @@ abstract class AbstractAuthentication
     
     
     /**
-     * Return an assosciative array of all necessary signatures for the given data.
+     * Return an associative array of all necessary signatures for the given data.
      * @return array - array of signatures to include in the header of the request.
      */
     abstract public function getSignatures(array $data);

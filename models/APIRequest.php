@@ -30,7 +30,7 @@ class APIRequest
     
     /**
      * The constructor feeds the authentication information into the request headers.
-     * @param \iRAP\VidaSDK\Models\Authentication $auth
+     * @param \iRAP\VidaSDK\Models\AbstractAuthentication $auth
      */
     public function __construct(AbstractAuthentication $auth)
     {
@@ -73,7 +73,7 @@ class APIRequest
      * authentication
      * This is public because it is needed by the AsyncRequester class for sending lots of requests
      * asynchronously
-     * @return the curl handle for sending a curl request.
+     * @return \CurlHandle|resource|false curl handle for sending a curl request.
      */
     public function getCurlHandleForSending()
     {
@@ -229,13 +229,13 @@ class APIRequest
     {
         curl_setopt($this->m_ch, CURLOPT_CUSTOMREQUEST, "DELETE");
     }
-    
-    
+
+
     /**
      * Takes the response from CURL and splits the header from the body. Splits out the header into
      * HTTP Code, Status and Error message, for return to the developer.
      * This is public so that the AsyncRequester class can use it
-     * @param object $response
+     * @param $response
      */
     public function processResponse($response, $curlHandle)
     {

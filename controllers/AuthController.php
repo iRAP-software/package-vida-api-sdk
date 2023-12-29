@@ -42,7 +42,7 @@ class AuthController extends AbstractResourceController
      * user can view and accept/reject the permissions that the app is asking for.
      *
      * @param \iRAP\VidaSDK\Models\AbstractAuthentication $auth
-     * @param type $returnUrl
+     * @param string $returnUrl
      */
     public static function requestUserPermissions(\iRAP\VidaSDK\Models\AbstractAuthentication $auth, $returnUrl)
     {

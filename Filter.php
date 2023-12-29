@@ -68,7 +68,7 @@ class Filter implements FilterInterface
      * serialized, it will come through correctly.
      * @return array
      */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize()
     {
         return $this->m_filter;
     }

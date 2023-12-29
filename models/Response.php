@@ -27,7 +27,7 @@ class Response
      * @param string $status - the status message from the response header.
      * @param string $rawResponseBody - the string response body.
      * @param mixed $error - the error message from the API response header (if there was one)
-     * @throws Exception
+     * @throws \Exception
      */
     public function __construct($code, $status, $rawResponseBody, $error = null)
     {
@@ -67,7 +67,7 @@ class Response
     /**
      * Get the status of the response. Every response from the API has a status message in the h
      * header. This always "success" or "error".
-     * @return type
+     * @return string
      */
     public function getStatus()
     {

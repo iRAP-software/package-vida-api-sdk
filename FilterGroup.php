@@ -30,9 +30,9 @@ class FilterGroup implements FilterInterface
     /**
      * Method for JsonSerializable interface. Converts this object into a form that is json
      * serializable.
-     * @return type
+     * @return array
      */
-    public function jsonSerialize(): mixed 
+    public function jsonSerialize()
     {
         return array(
             'comparison' => (string)$this->m_conjunction,
@@ -57,7 +57,7 @@ class FilterGroup implements FilterInterface
      * A copy of the same method on the filter object, to ensure that it is still available to 
      * the APIRequest if the filter group is passed in.
      * 
-     * @return json
+     * @return false|string
      */
     public function getFilter()
     {
