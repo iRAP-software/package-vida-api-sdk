@@ -1,7 +1,7 @@
 <?php
 
 /* 
- * Welcome to the ViDA SDK. This is the primary class for users of the SDK and contains all of the
+ * Welcome to the ViDA SDK. This is the primary class for users of the SDK and contains all the
  * methods intended for use by developers. For help in understanding how to use the SDK, first
  * look at the README.md file, then read the comments on each of the methods listed below.
  *
@@ -96,7 +96,7 @@ abstract class AbstractApiController implements ApiInterface
     }
 
     /**
-     * Fetches a list of all of the users in the system. If you specify an ID, that user will be
+     * Fetches a list of all the users in the system. If you specify an ID, that user will be
      * returned to you.
      *
      * @param ?int $id
@@ -173,7 +173,7 @@ abstract class AbstractApiController implements ApiInterface
     }
 
     /**
-     * Fetches a list of all of the users in the system. If you specify an ID, that user will be
+     * Fetches a list of all the users in the system. If you specify an ID, that user will be
      * returned to you.
      *
      * @param $userID
@@ -188,7 +188,7 @@ abstract class AbstractApiController implements ApiInterface
     }
 
     /**
-     * Fetches a list of all of the datasets in the system. If you specify an ID, that dataset will
+     * Fetches a list of all the datasets in the system. If you specify an ID, that dataset will
      * be returned to you.
      *
      * @param ?int $id
@@ -464,7 +464,7 @@ abstract class AbstractApiController implements ApiInterface
     }
 
     /**
-     * Fetches a list of all of the programmes in the system. If you specify an ID, that programme
+     * Fetches a list of all the programmes in the system. If you specify an ID, that programme
      * will be returned to you.
      *
      * @param ?int $id
@@ -583,7 +583,7 @@ abstract class AbstractApiController implements ApiInterface
     }
 
     /**
-     * Fetches a list of all of the regions in the system. If you specify an ID, that region will be
+     * Fetches a list of all the regions in the system. If you specify an ID, that region will be
      * returned to you.
      *
      * @param ?int $id
@@ -719,7 +719,7 @@ abstract class AbstractApiController implements ApiInterface
     }
 
     /**
-     * Fetches a list of all of the projects in the system. If you specify an ID, that project will
+     * Fetches a list of all the projects in the system. If you specify an ID, that project will
      * be returned to you.
      *
      * @param ?int $id
@@ -857,7 +857,7 @@ abstract class AbstractApiController implements ApiInterface
     }
 
     /**
-     * Get a list of projects for a regions, using the regions's ID.
+     * Get a list of projects for a regions, using the region's ID.
      *
      * @param int $id
      * @param null $filter
@@ -871,7 +871,7 @@ abstract class AbstractApiController implements ApiInterface
     }
 
     /**
-     * Fetches a list of all of the variables in the system. If you specify an ID, that variable will be
+     * Fetches a list of all the variables in the system. If you specify an ID, that variable will be
      * returned to you.
      *
      * @param ?int $id
@@ -1890,7 +1890,7 @@ abstract class AbstractApiController implements ApiInterface
     }
 
     /**
-     * Fetches a list of all of the countries in the system. If you specify an ID, that country
+     * Fetches a list of all the countries in the system. If you specify an ID, that country
      * will be returned to you.
      *
      * @param ?int $id
@@ -2065,7 +2065,7 @@ abstract class AbstractApiController implements ApiInterface
 
     /**
      * Add new access type
-     * @param string $identifier A new unique access identifier
+     * @param string $identifier New unique access identifier
      * @param string $name A human friendly name for this access, will be helpful for managers
      * @return Response
      * @throws Exception
@@ -2123,7 +2123,7 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Set/Unset permission of a user for an access
      * @param string $identifier
-     * @param int $userId
+     * @param int|int[] $userId
      * @param bool $permission Set this as false to remove permission
      * @return Response
      * @throws Exception
@@ -2131,7 +2131,7 @@ abstract class AbstractApiController implements ApiInterface
      * @throws Exception
      * @throws Exception
      */
-    public function setPermission(string $identifier, int $userId, bool $permission): Response
+    public function setPermission(string $identifier, $userId, bool $permission): Response
     {
         $permissionController = new PermissionController($this->getAuth());
         return $permissionController->setPermission(...[
@@ -2144,11 +2144,11 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Add permission for an access to a user
      * @param string $identifier
-     * @param int $userId
+     * @param int ...$userId
      * @return Response
      * @throws Exception
      */
-    public function addPermission(string $identifier, int $userId): Response
+    public function addPermission(string $identifier, int ...$userId): Response
     {
         return $this->setPermission($identifier, $userId, true);
     }
@@ -2156,11 +2156,11 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Delete permission for an access of a user
      * @param string $identifier
-     * @param int $userId
+     * @param int ...$userId
      * @return Response
      * @throws Exception
      */
-    public function deletePermission(string $identifier, int $userId): Response
+    public function deletePermission(string $identifier, int ...$userId): Response
     {
         return $this->setPermission($identifier, $userId, false);
     }
@@ -2197,7 +2197,7 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Set/Unset a user as manager for an access
      * @param string $identifier
-     * @param int $userId
+     * @param int|int[] $userId
      * @param bool $manager Set this as false to remove user as manager
      * @return Response
      * @throws Exception
@@ -2205,7 +2205,7 @@ abstract class AbstractApiController implements ApiInterface
      * @throws Exception
      * @throws Exception
      */
-    public function setManager(string $identifier, int $userId, bool $manager): Response
+    public function setManager(string $identifier, $userId, bool $manager): Response
     {
         $permissionController = new PermissionController($this->getAuth());
         return $permissionController->setPermission(...[
@@ -2218,11 +2218,11 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Add a user as manager for an access
      * @param string $identifier
-     * @param int $userId
+     * @param int ...$userId
      * @return Response
      * @throws Exception
      */
-    public function addManager(string $identifier, int $userId): Response
+    public function addManager(string $identifier, int ...$userId): Response
     {
         return $this->setManager($identifier, $userId, true);
     }
@@ -2230,11 +2230,11 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Remove a user as manager for an access
      * @param string $identifier
-     * @param int $userId
+     * @param int ...$userId
      * @return Response
      * @throws Exception
      */
-    public function deleteManager(string $identifier, int $userId): Response
+    public function deleteManager(string $identifier, int ...$userId): Response
     {
         return $this->setManager($identifier, $userId, false);
     }

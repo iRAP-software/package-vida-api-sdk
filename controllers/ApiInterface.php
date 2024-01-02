@@ -235,19 +235,19 @@ interface ApiInterface
 
     public function hasAnyPermission(int $userId);
 
-    public function setPermission(string $identifier, int $userId, bool $permission);
+    public function setPermission(string $identifier, $userId, bool $permission);
 
-    public function addPermission(string $identifier, int $userId);
+    public function addPermission(string $identifier, int ...$userId);
 
-    public function deletePermission(string $identifier, int $userId);
+    public function deletePermission(string $identifier, int ...$userId);
 
     public function isManager(string $identifier, int $userId);
 
     public function isAnyManager(int $userId);
 
-    public function setManager(string $identifier, int $userId, bool $manager);
+    public function setManager(string $identifier, $userId, bool $manager);
 
-    public function addManager(string $identifier, int $userId);
+    public function addManager(string $identifier, int ...$userId);
 
-    public function deleteManager(string $identifier, int $userId);
+    public function deleteManager(string $identifier, int ...$userId);
 }

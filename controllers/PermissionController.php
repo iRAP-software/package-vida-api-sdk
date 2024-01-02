@@ -127,9 +127,14 @@ class PermissionController extends AbstractResourceController
     }
 
     /**
+     * @param string $identifier
+     * @param int|int[] $userId
+     * @param bool|null $hasPermission
+     * @param bool|null $isManager
+     * @return Response
      * @throws Exception
      */
-    public function setPermission(string $identifier, int $userId, ?bool $hasPermission = null, ?bool $isManager = null): Response
+    public function setPermission(string $identifier, $userId, ?bool $hasPermission = null, ?bool $isManager = null): Response
     {
         $response = $this->postResource([
             'identifier' => $identifier,

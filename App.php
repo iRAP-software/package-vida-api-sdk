@@ -1,7 +1,7 @@
 <?php
 
 /* 
- * Welcome to the ViDA SDK. This is the primary class for users of the SDK and contains all of the
+ * Welcome to the ViDA SDK. This is the primary class for users of the SDK and contains all the
  * methods intended for use by developers. For help in understanding how to use the SDK, first 
  * look at the README.md file, then read the comments on each of the methods listed below.
  * 
