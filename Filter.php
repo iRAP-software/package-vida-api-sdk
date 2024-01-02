@@ -9,9 +9,11 @@
 
 namespace iRAP\VidaSDK;
 
+use stdClass;
+
 class Filter implements FilterInterface
 {
-    private $m_filter = array();
+    private array $m_filter = array();
     
     /**
      * Your initial filter criteria goes into the constructor. $field is the name of the field 
@@ -22,7 +24,7 @@ class Filter implements FilterInterface
      * @param string $value
      * @param string $operator
      */
-    public function __construct($field, $value, $operator = '=')
+    public function __construct(string $field, string $value, string $operator = '=')
     {
         $this->m_filter[] = $this->filterItem($field, $value, $operator);
     }
@@ -35,7 +37,7 @@ class Filter implements FilterInterface
      * @param string $value
      * @param string $operator
      */
-    public function addFilter($field, $value, $operator = '=')
+    public function addFilter(string $field, string $value, string $operator = '=')
     {
         $this->m_filter[] = $this->filterItem($field, $value, $operator);
     }
@@ -46,7 +48,7 @@ class Filter implements FilterInterface
      * 
      * @return string
      */
-    public function buildFilter()
+    public function buildFilter(): string
     {
         return urlencode(json_encode($this->m_filter));
     }
@@ -56,7 +58,7 @@ class Filter implements FilterInterface
      * 
      * @return string
      */
-    public function getFilter()
+    public function getFilter(): string
     {
         return json_encode($this->m_filter);
     }
@@ -68,7 +70,7 @@ class Filter implements FilterInterface
      * serialized, it will come through correctly.
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->m_filter;
     }
@@ -80,11 +82,11 @@ class Filter implements FilterInterface
      * @param string $field
      * @param string $value
      * @param string $operator
-     * @return \stdClass
+     * @return stdClass
      */
-    private function filterItem($field, $value, $operator)
+    private function filterItem(string $field, string $value, string $operator): stdClass
     {
-        $filter = new \stdClass();
+        $filter = new stdClass();
         $filter->field = $field;
         $filter->value = $value;
         $filter->operator = $operator;

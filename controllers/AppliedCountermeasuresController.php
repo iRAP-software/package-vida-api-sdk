@@ -12,7 +12,7 @@ namespace iRAP\VidaSDK\Controllers;
 
 class AppliedCountermeasuresController extends AbstractResourceController
 {
-    protected function getResourcePath()
+    protected function getResourcePath(): string
     {
         return 'applied-countermeasures';
     }

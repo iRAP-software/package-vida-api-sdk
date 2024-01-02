@@ -11,6 +11,9 @@
  */
 namespace iRAP\VidaSDK\Models;
 
+use Exception;
+use iRAP\VidaSDK\Defines;
+
 class APIRequest
 {
     public $m_result;
@@ -18,19 +21,18 @@ class APIRequest
     public $m_status;
     public $m_error;
     
-    private static $s_version = \iRAP\VidaSDK\Defines::IRAP_API_VERSION;
-    private $m_urlWithouFilter; // url that will never have any ?filter within it
-    private $m_url; // url request will be sent to
+    private static string $s_version = Defines::IRAP_API_VERSION;
+    private $m_urlWithoutFilter; // url that will never have any ?filter within it
     private $m_baseUrl; // the url of where the API is. e.g. https://api.vida.irap.org (no end slash)
     private $m_ch;
-    private $m_headers;
-    private $m_auth;  /* @var $m_auth AbstractAuthentication */
+    private array $m_headers;
+    private AbstractAuthentication $m_auth;  /* @var $m_auth AbstractAuthentication */
     private $m_data; /* array of data to send off in the body of the request */
     
     
     /**
      * The constructor feeds the authentication information into the request headers.
-     * @param \iRAP\VidaSDK\Models\AbstractAuthentication $auth
+     * @param AbstractAuthentication $auth
      */
     public function __construct(AbstractAuthentication $auth)
     {
@@ -42,7 +44,7 @@ class APIRequest
         }
         else
         {
-            $this->m_baseUrl = \iRAP\VidaSDK\Defines::IRAP_API_LIVE_URL;
+            $this->m_baseUrl = Defines::IRAP_API_LIVE_URL;
         }
         
         $this->m_headers = array();
@@ -62,7 +64,7 @@ class APIRequest
         
         if (defined('\iRAP\VidaSDK\IRAP_DIAGNOSTICS'))
         {
-            echo 'Target: ' . $this->m_urlWithouFilter . PHP_EOL;
+            echo 'Target: ' . $this->m_urlWithoutFilter . PHP_EOL;
             echo $response;
         }
     }
@@ -91,7 +93,7 @@ class APIRequest
         $headers = array_merge($this->m_headers, $this->m_auth->getAuthHeaders(), $lastSecondHeaders);
         
         $allDataToSign = array_merge($headers, $this->m_data);
-        $allDataToSign['auth_url'] = $this->m_urlWithouFilter;
+        $allDataToSign['auth_url'] = $this->m_urlWithoutFilter;
         
         $signatures = $this->m_auth->getSignatures($allDataToSign);
         // Add signatures to the headers
@@ -103,18 +105,19 @@ class APIRequest
         curl_setopt($handle, CURLOPT_HTTPHEADER, $formattedHeaders);
         return $handle;
     }
-    
-    
+
+
     /**
-     * Builds the URL and uses it to initiate CURL. The $resource and $id make up the first two 
+     * Builds the URL and uses it to initiate CURL. The $resource and $id make up the first two
      * parts of the URL, are $args can either be a third element, or an array of elements, each of which will
      * be separated with a '/'
-     * 
+     *
      * @param string $resource
      * @param mixed $id
      * @param mixed $args
+     * @param null $filter
      */
-    public function setUrl($resource, $id = null, $args = null, $filter = null)
+    public function setUrl(string $resource, $id = null, $args = null, $filter = null)
     {
         $url = $this->m_baseUrl;
         
@@ -142,15 +145,14 @@ class APIRequest
             }
         }
         
-        $this->m_urlWithouFilter = $url;
+        $this->m_urlWithoutFilter = $url;
         
         if (!empty($filter))
         {
             $this->m_headers['filter'] = $filter->getFilter();
         }
-        
-        $this->m_url = $url;
-        $this->m_ch = curl_init($this->m_url);
+
+        $this->m_ch = curl_init($url);
     }
     
     
@@ -159,7 +161,7 @@ class APIRequest
      * Authentication headers will automatically be appended to these
      * @param array $headers
      */
-    public function setHeaders($headers)
+    public function setHeaders(array $headers)
     {
         $this->m_headers = $headers;
     }
@@ -171,7 +173,7 @@ class APIRequest
      * 
      * @return array;
      */
-    private function formatHeaders($inputHeaders) 
+    private function formatHeaders($inputHeaders): array
     {
         $outputHeaders = array();
         
@@ -189,7 +191,7 @@ class APIRequest
      * 
      * @param array $data
      */
-    public function setPostData($data)
+    public function setPostData(array $data)
     {
         $this->m_data = $data;
         curl_setopt($this->m_ch, CURLOPT_POST, true);
@@ -202,7 +204,7 @@ class APIRequest
      * 
      * @param array $data
      */
-    public function setPutData($data)
+    public function setPutData(array $data)
     {
         $this->m_data = $data;
         curl_setopt($this->m_ch, CURLOPT_CUSTOMREQUEST, "PUT");
@@ -214,7 +216,7 @@ class APIRequest
      * Adds the supplied array to the request as POST Fields and sets the request to a PATCH request.
      * @param array $data
      */
-    public function setPatchData($data)
+    public function setPatchData(array $data)
     {
         $this->m_data = $data;
         curl_setopt($this->m_ch, CURLOPT_CUSTOMREQUEST, "PATCH");
@@ -236,6 +238,7 @@ class APIRequest
      * HTTP Code, Status and Error message, for return to the developer.
      * This is public so that the AsyncRequester class can use it
      * @param $response
+     * @param $curlHandle
      */
     public function processResponse($response, $curlHandle)
     {
@@ -262,7 +265,7 @@ class APIRequest
         }
         
         // In the transition to NGINX we have to switch from Status to API_STATUS, but unsure
-        // if we will get Stutus back from fpm or whether nginx will strip this out, so having
+        // if we will get Status back from fpm or whether nginx will strip this out, so having
         // API_STATUS override Status, if it exists.
         if (isset($headers['API_STATUS']))
         {
@@ -278,16 +281,17 @@ class APIRequest
             $this->m_error = $headers['Error'];
         }
     }
-    
-    
+
+
     /**
      * Get a response object for this request.
      * This relies on the request having already been sent.
-     * @return \iRAP\VidaSDK\Models\Response
+     * @return Response
+     * @throws Exception
      */
-    public function getResponse()
+    public function getResponse(): Response
     {
-        return new \iRAP\VidaSDK\Models\Response(
+        return new Response(
             $this->m_httpCode,
             $this->m_status,
             $this->m_result,
@@ -297,8 +301,8 @@ class APIRequest
     
     
     # Accessors
-    # In future use these rather than accesssing member vars directly.
-    public function getUrl() { return $this->m_urlWithouFilter; }
+    # In future use these rather than accessing member vars directly.
+    public function getUrl() { return $this->m_urlWithoutFilter; }
     public function getResult() { return $this->m_result; }
     public function getHttpCode() { return $this->m_httpCode; }
     public function getStatus() { return $this->m_status; }

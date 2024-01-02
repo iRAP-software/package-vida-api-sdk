@@ -9,17 +9,23 @@
 
 namespace iRAP\VidaSDK\Controllers;
 
+use Exception;
+use iRAP\VidaSDK\Models\Response;
+
 class InviteController extends AbstractResourceController
 {
 
-    protected function getResourcePath()
+    protected function getResourcePath(): string
     {
         return 'invites';
     }
 
+    /**
+     * @throws Exception
+     */
     public function invite(string $email, string $first_name = null,
-                               string $last_name = null,
-                               array $permissions = [])
+                           string $last_name = null,
+                           array  $permissions = []): Response
     {
         $data = ['email' => $email];
 
@@ -38,12 +44,18 @@ class InviteController extends AbstractResourceController
         return $this->postResource($data);
     }
 
-    public function details($value)
+    /**
+     * @throws Exception
+     */
+    public function details($value): Response
     {
         return $this->getResource($value);
     }
 
-    public function accept(string $token)
+    /**
+     * @throws Exception
+     */
+    public function accept(string $token): Response
     {
         return $this->patchResource('',
                 [

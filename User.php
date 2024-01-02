@@ -15,7 +15,7 @@ namespace iRAP\VidaSDK;
 class User extends Controllers\AbstractApiController
 {
     
-    protected $m_auth;
+    protected Models\UserAuthentication $m_auth;
     /**
      * Start here! The constructor takes the App's authentication credentials, which will be 
      * supplied to you by iRAP and the user's authentication details. An Authentication object
@@ -28,12 +28,12 @@ class User extends Controllers\AbstractApiController
      * @param string $userAPIKey
      * @param string $userPrivateKey
      */
-    public function __construct($appAuthID, $appAPIKey, $appPrivateKey, $userAuthID, $userAPIKey, $userPrivateKey)
+    public function __construct(int $appAuthID, string $appAPIKey, string $appPrivateKey, int $userAuthID, string $userAPIKey, string $userPrivateKey)
     {
         $this->m_auth = new Models\UserAuthentication($appAuthID, $appAPIKey, $appPrivateKey, $userAuthID, $userAPIKey, $userPrivateKey);
     }
     
-    protected function getAuth()
+    protected function getAuth(): Models\UserAuthentication
     {
         return $this->m_auth;
     }

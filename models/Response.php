@@ -12,12 +12,14 @@
 
 namespace iRAP\VidaSDK\Models;
 
+use Exception;
+
 class Response
 {
-    public $status;
-    public $code;
+    public string $status;
+    public int $code;
     public $response;
-    public $rawResponse;
+    public string $rawResponse;
     public $error;
     
     
@@ -27,11 +29,11 @@ class Response
      * @param string $status - the status message from the response header.
      * @param string $rawResponseBody - the string response body.
      * @param mixed $error - the error message from the API response header (if there was one)
-     * @throws \Exception
+     * @throws Exception
      */
-    public function __construct($code, $status, $rawResponseBody, $error = null)
+    public function __construct(int $code, string $status, string $rawResponseBody, $error = null)
     {
-        if ($status === null || $status === "")
+        if ($status === "")
         {
             // if status is not set, something went wrong.
             $status = "Error";
@@ -44,7 +46,7 @@ class Response
         
         if (!in_array($status, array("Success", "Error")))
         {
-            throw new \Exception("Unrecognized status: " . $status);
+            throw new Exception("Unrecognized status: " . $status);
         }
         
         $this->status = $status;
@@ -69,7 +71,7 @@ class Response
      * header. This always "success" or "error".
      * @return string
      */
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->status;
     }
@@ -80,7 +82,7 @@ class Response
      * or could be 404 for a not found etc.
      * @return int - the HTTP response code.
      */
-    public function getCode()
+    public function getCode(): int
     {
         return $this->code;
     }
@@ -101,10 +103,10 @@ class Response
     
     /**
      * Fetch the raw response from the API. This should be a JSON string, but this
-     * method can be useful if something wen't wrong and we didn't recieve a JSON response
+     * method can be useful if something went wrong, and we didn't receive a JSON response
      * @return string
      */
-    public function getRawResponse()
+    public function getRawResponse(): string
     {
         return $this->rawResponse;
     }

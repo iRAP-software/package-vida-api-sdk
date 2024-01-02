@@ -13,7 +13,7 @@ namespace iRAP\VidaSDK\Models;
 
 abstract class AbstractAuthentication
 {
-    protected $m_authHeaders = array();
+    protected array $m_authHeaders = array();
     
     
     /**
@@ -21,7 +21,7 @@ abstract class AbstractAuthentication
      * Note: this does not return the signature, use the getSignature method for that.
      * @return array - name value pairs. e.g. (auth_id => 5)
      */
-    public function getAuthHeaders()
+    public function getAuthHeaders(): array
     {
         return $this->m_authHeaders;
     }
@@ -29,11 +29,11 @@ abstract class AbstractAuthentication
     
     /**
      * Encrypt a String
-     * @param String $message - the message to encrypt
-     * @param String $key - the key to encrypt and then decrypt the message.
-     * @return String - the encrypted form of the string
+     * @param string $message - the message to encrypt
+     * @param string $key - the key to encrypt and then decrypt the message.
+     * @return string - the encrypted form of the string
      */
-    protected function encrypt($message, $key)
+    protected function encrypt(string $message, string $key): string
     {
         $md5Key = md5($key);
         
@@ -42,9 +42,8 @@ abstract class AbstractAuthentication
                                     $message, 
                                     MCRYPT_MODE_CBC, 
                                     md5($md5Key));
-        
-        $encoded_encryption = base64_encode($encrypted);
-        return $encoded_encryption;
+
+        return base64_encode($encrypted);
     }
     
     
@@ -56,13 +55,12 @@ abstract class AbstractAuthentication
      * @param string $secretKey
      * @return string
      */
-    protected function generateSignature($parameters, $secretKey)
+    protected function generateSignature(array $parameters, string $secretKey): string
     {
         $parameters = array_change_key_case($parameters); # lower case keys, just in case user forgets
         ksort($parameters, SORT_STRING); # order matters when producing a hash signature.
         $jsonString = json_encode($parameters, JSON_NUMERIC_CHECK);
-        $signature = hash_hmac('sha256', $jsonString, $secretKey);
-        return $signature;
+        return hash_hmac('sha256', $jsonString, $secretKey);
     }
     
     
@@ -70,5 +68,5 @@ abstract class AbstractAuthentication
      * Return an associative array of all necessary signatures for the given data.
      * @return array - array of signatures to include in the header of the request.
      */
-    abstract public function getSignatures(array $data);
+    abstract public function getSignatures(array $data): array;
 }
