@@ -9,6 +9,7 @@
 
 namespace iRAP\VidaSDK\Controllers;
 
+use Exception;
 use iRAP\VidaSDK\Models\Response;
 
 class PermissionController extends AbstractResourceController
@@ -27,6 +28,9 @@ class PermissionController extends AbstractResourceController
         return 'permission';
     }
 
+    /**
+     * @throws Exception
+     */
     public function __construct($auth, $filter = null)
     {
         parent::__construct($auth, $filter);
@@ -36,7 +40,7 @@ class PermissionController extends AbstractResourceController
         }
     }
 
-    public function getResource($id = null, $args = null): void
+    public function getResource($id = null, $args = null): Response
     {
         self::$response = parent::getResource($id, $args);
 
@@ -68,8 +72,13 @@ class PermissionController extends AbstractResourceController
                 }
             }
         }
+
+        return self::$response;
     }
 
+    /**
+     * @throws Exception
+     */
     public function hasPermission(int $userId, string $identifier = null): Response
     {
         if (self::$response->getCode() === 200) {
@@ -92,6 +101,9 @@ class PermissionController extends AbstractResourceController
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function isManager(int $userId, string $identifier = null): Response
     {
         if (self::$response->getCode() === 200) {
@@ -114,7 +126,15 @@ class PermissionController extends AbstractResourceController
         }
     }
 
-    public function setPermission(string $identifier, int $userId, ?bool $hasPermission = null, ?bool $isManager = null): Response
+    /**
+     * @param string $identifier
+     * @param int|int[] $userId
+     * @param bool|null $hasPermission
+     * @param bool|null $isManager
+     * @return Response
+     * @throws Exception
+     */
+    public function setPermission(string $identifier, $userId, ?bool $hasPermission = null, ?bool $isManager = null): Response
     {
         $response = $this->postResource([
             'identifier' => $identifier,

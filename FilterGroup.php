@@ -9,16 +9,16 @@ namespace iRAP\VidaSDK;
 
 class FilterGroup implements FilterInterface
 {
-    private $m_conjunction; 
-    private $m_filtersArray = array();
-    
-    
+    private Conjunction $m_conjunction;
+    private array $m_filtersArray;
+
+
     /**
      * Builds the group using an array of filter objects and a comparison string to explain how
      * to compare the filters. Acceptable comparisons are "AND" and "OR".
-     * 
+     *
+     * @param Conjunction $conjunction
      * @param array $filters
-     * @param string $comparison
      */
     public function __construct(Conjunction $conjunction, FilterInterface ...$filters)
     {
@@ -30,9 +30,9 @@ class FilterGroup implements FilterInterface
     /**
      * Method for JsonSerializable interface. Converts this object into a form that is json
      * serializable.
-     * @return type
+     * @return array
      */
-    public function jsonSerialize(): mixed 
+    public function jsonSerialize(): array
     {
         return array(
             'comparison' => (string)$this->m_conjunction,
@@ -47,7 +47,7 @@ class FilterGroup implements FilterInterface
      * 
      * @return string
      */
-    public function buildFilter()
+    public function buildFilter(): string
     {
         return urlencode(json_encode($this));
     }
@@ -57,9 +57,9 @@ class FilterGroup implements FilterInterface
      * A copy of the same method on the filter object, to ensure that it is still available to 
      * the APIRequest if the filter group is passed in.
      * 
-     * @return json
+     * @return string
      */
-    public function getFilter()
+    public function getFilter(): string
     {
         return json_encode($this);
     }

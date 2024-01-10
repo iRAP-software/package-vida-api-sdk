@@ -12,12 +12,14 @@
 
 namespace iRAP\VidaSDK\Models;
 
+use Exception;
+
 class Response
 {
-    public $status;
-    public $code;
+    public string $status;
+    public int $code;
     public $response;
-    public $rawResponse;
+    public string $rawResponse;
     public $error;
     
     
@@ -29,9 +31,9 @@ class Response
      * @param mixed $error - the error message from the API response header (if there was one)
      * @throws Exception
      */
-    public function __construct($code, $status, $rawResponseBody, $error = null)
+    public function __construct(int $code, string $status, string $rawResponseBody, $error = null)
     {
-        if ($status === null || $status === "")
+        if ($status === "")
         {
             // if status is not set, something went wrong.
             $status = "Error";
@@ -44,7 +46,7 @@ class Response
         
         if (!in_array($status, array("Success", "Error")))
         {
-            throw new \Exception("Unrecognized status: " . $status);
+            throw new Exception("Unrecognized status: " . $status);
         }
         
         $this->status = $status;
@@ -67,9 +69,9 @@ class Response
     /**
      * Get the status of the response. Every response from the API has a status message in the h
      * header. This always "success" or "error".
-     * @return type
+     * @return string
      */
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->status;
     }
@@ -80,7 +82,7 @@ class Response
      * or could be 404 for a not found etc.
      * @return int - the HTTP response code.
      */
-    public function getCode()
+    public function getCode(): int
     {
         return $this->code;
     }
@@ -89,8 +91,10 @@ class Response
     /**
      * Fetch the response object from the API. This is the response after it has
      * been json decoded. If json decode failed, then this will be NULL.
-     * @return \stdClass
+     * @return ?mixed
+     * @TODO Attribute ReturnTypeWillChange requires updating once PHP requirement for this package is at least 8
      */
+    #[\ReturnTypeWillChange]
     public function getResponse()
     {
         return $this->response;
@@ -99,10 +103,10 @@ class Response
     
     /**
      * Fetch the raw response from the API. This should be a JSON string, but this
-     * method can be useful if something wen't wrong and we didn't recieve a JSON response
+     * method can be useful if something went wrong, and we didn't receive a JSON response
      * @return string
      */
-    public function getRawResponse()
+    public function getRawResponse(): string
     {
         return $this->rawResponse;
     }

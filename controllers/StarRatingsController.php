@@ -10,53 +10,57 @@
 
 namespace iRAP\VidaSDK\Controllers;
 
+use iRAP\VidaSDK\FilterInterface;
+use iRAP\VidaSDK\Models\APIRequest;
+
 class StarRatingsController extends AbstractResourceController
 {
-    protected function getResourcePath()
+    protected function getResourcePath(): string
     {
         return 'star-ratings';
     }
-    
-    
+
+
     /**
-     * Fetches a before countermeasures star rating for a specified location. You must specify the 
+     * Fetches a before countermeasures star rating for a specified location. You must specify the
      * location ID, and the ID of the dataset it belongs to.
      * @param int $id - the ID of the location
      * @param int $dataset_id - the ID of the dataset the location relates to
-     * @param Filter $filter
-     * @return \iRAP\VidaSDK\Models\APIRequest
+     * @return APIRequest
      */
-    public function getBeforeStarRatingsRequest($id, $dataset_id)
+    public function getBeforeStarRatingsRequest(int $id, int $dataset_id): APIRequest
     {
-        $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
+        $request = new APIRequest($this->m_auth);
         $args = array('before', $dataset_id);
         $request->setUrl($this->getResourcePath(), $id, $args);
         return $request;
     }
-    
-    
+
+
     /**
      * Get a list of star ratings for a dataset, using the dataset's ID.
      * @param int $datasetID
-     * @return \iRAP\VidaSDK\Models\APIRequest
+     * @param FilterInterface|null $filter
+     * @return APIRequest
      */
-    public function getBeforeStarRatingsForDatasetRequest($datasetID, \iRAP\VidaSDK\FilterInterface $filter = null)
+    public function getBeforeStarRatingsForDatasetRequest(int $datasetID, FilterInterface $filter = null): APIRequest
     {
-        $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
+        $request = new APIRequest($this->m_auth);
         $args = array('dataset', $datasetID, 'before');
         $request->setUrl($this->getResourcePath(), 'for', $args, $filter);
         return $request;
     }
-    
-    
+
+
     /**
      * Get a list of star ratings for a dataset, using the dataset's ID.
      * @param int $datasetID
-     * @return \iRAP\VidaSDK\Models\APIRequest
+     * @param FilterInterface|null $filter
+     * @return APIRequest
      */
-    public function getAfterStarRatingsForDatasetRequest($datasetID, \iRAP\VidaSDK\FilterInterface $filter = null)
+    public function getAfterStarRatingsForDatasetRequest(int $datasetID, FilterInterface $filter = null): APIRequest
     {
-        $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
+        $request = new APIRequest($this->m_auth);
         $args = array('dataset', $datasetID, 'after');
         $request->setUrl($this->getResourcePath(), 'for', $args, $filter);
         return $request;

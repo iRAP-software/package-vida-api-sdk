@@ -88,7 +88,7 @@ $response->userAuthId;
 $response->userApiKey;
 $response->userPrivateKey;
 ```
-These should be saved in your app for use in all future API calls, and can be used to instatiate a User object as follows:
+These should be saved in your app for use in all future API calls, and can be used to instantiate a User object as follows:
 
 ```php
 $api = new User(

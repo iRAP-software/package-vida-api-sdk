@@ -6,12 +6,14 @@
 
 namespace iRAP\VidaSDK;
 
+use iRAP\VidaSDK\Models\APIRequest;
+
 class AsyncRequester
 {
-    private $m_requests;
+    private array $m_requests;
     
     
-    function __construct(\iRAP\VidaSDK\Models\APIRequest ...$requests)
+    function __construct(APIRequest ...$requests)
     {
         $this->m_requests = $requests;   
         $this->run();
@@ -25,7 +27,6 @@ class AsyncRequester
         
         foreach ($this->m_requests as $i => $request)
         {
-            /* @var $request \iRAP\VidaSDK\Models\APIRequest */
             $curlHandles[$i] = $request->getCurlHandleForSending();
             curl_multi_add_handle($curlMultiHandle, $curlHandles[$i]);
         }

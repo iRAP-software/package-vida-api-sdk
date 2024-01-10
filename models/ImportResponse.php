@@ -16,6 +16,7 @@ class ImportResponse extends Response
     
     public function __construct(Response $response)
     {
+        parent::__construct($response->code, $response->status, $response->rawResponse, $response->error ?? null);
         $this->status = $response->status;
         $this->code = $response->code;
         $this->response = $response->response;

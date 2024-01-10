@@ -16,8 +16,10 @@ class Conjunction
         $this->m_conjunction = $conjunction;
     }
     
-    public static function createAnd() { return new Conjunction('AND'); }
-    public static function createOr() { return new Conjunction('OR'); }
+    public static function createAnd(): Conjunction
+    { return new Conjunction('AND'); }
+    public static function createOr(): Conjunction
+    { return new Conjunction('OR'); }
     
     public function __toString() { return $this->m_conjunction; }
 }

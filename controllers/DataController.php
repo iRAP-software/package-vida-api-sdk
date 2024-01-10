@@ -10,29 +10,34 @@
 
 namespace iRAP\VidaSDK\Controllers;
 
+use Exception;
+use iRAP\VidaSDK\Models\APIRequest;
+use iRAP\VidaSDK\Models\ImportResponse;
+
 class DataController extends AbstractResourceController
 {
-    protected function getResourcePath()
+    protected function getResourcePath(): string
     {
         return 'data';
     }
-    
-    
+
+
     /**
      * Imports a CSV file from the specified url. The CSV file is expected to have a header
      * row that will be ignored.
      * @param int $datasetID - the ID of the dataset we wish to import for.
      * @param string $url - the url to the CSV file we wish to import. Temporary pre-signed s3 urls
      *                      recommended.
-     * @return \iRAP\VidaSDK\Models\ImportResponse
+     * @return ImportResponse
+     * @throws Exception
      */
-    public function importData($datasetID, $url)
+    public function importData(int $datasetID, string $url): ImportResponse
     {
-        $request = new \iRAP\VidaSDK\Models\APIRequest($this->m_auth);
+        $request = new APIRequest($this->m_auth);
         $args = array('import');
         $request->setUrl($this->getResourcePath(), $datasetID, $args);
         $request->setPostData(array('url' => $url));
         $request->send();
-        return new \iRAP\VidaSDK\Models\ImportResponse($this->response($request));
+        return new ImportResponse($this->response($request));
     }
 }

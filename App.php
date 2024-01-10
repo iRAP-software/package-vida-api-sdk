@@ -1,7 +1,7 @@
 <?php
 
 /* 
- * Welcome to the ViDA SDK. This is the primary class for users of the SDK and contains all of the
+ * Welcome to the ViDA SDK. This is the primary class for users of the SDK and contains all the
  * methods intended for use by developers. For help in understanding how to use the SDK, first 
  * look at the README.md file, then read the comments on each of the methods listed below.
  * 
@@ -14,7 +14,7 @@ namespace iRAP\VidaSDK;
 
 class App extends Controllers\AbstractApiController
 {
-    private $m_auth;
+    private Models\AppAuthentication $m_auth;
     const DATASET_TYPE_UNKNOWN  = 1;
     const DATASET_TYPE_EXISTING = 2;
     const DATASET_TYPE_DESIGN   = 3;
@@ -29,7 +29,7 @@ class App extends Controllers\AbstractApiController
      * @param string $appAPIKey
      * @param string $appPrivateKey
      */
-    public function __construct($appAuthID, $appAPIKey, $appPrivateKey)
+    public function __construct(int $appAuthID, string $appAPIKey, string $appPrivateKey)
     {
         $this->m_auth = new Models\AppAuthentication($appAuthID, $appAPIKey, $appPrivateKey);
     }
@@ -38,7 +38,7 @@ class App extends Controllers\AbstractApiController
      * 
      * @return Models\AppAuthentication
      */
-    protected function getAuth()
+    protected function getAuth(): Models\AppAuthentication
     {
         return $this->m_auth;
     }
