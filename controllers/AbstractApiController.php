@@ -2254,8 +2254,9 @@ abstract class AbstractApiController implements ApiInterface
         int $datasetId,
         string $filename,
         string $language = 'en-gb') : Response
-{
-    $downloadsController = new DownloadsController($this->getAuth());
-    
-    return $downloadsController->requestDownloadFile($type, $datasetId, $filename, $language);
+    {
+        $downloadsController = new DownloadsController($this->getAuth());
+        
+        return $downloadsController->requestDownloadFile($type, $datasetId, $filename, $language);
+    }
 }
