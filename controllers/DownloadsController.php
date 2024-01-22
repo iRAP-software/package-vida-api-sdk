@@ -8,6 +8,9 @@
 
 namespace iRAP\VidaSDK\Controllers;
 
+use iRAP\VidaSDK\Models\Response;
+use iRAP\VidaSDK\Models\APIRequest;
+
 class DownloadsController extends AbstractResourceController
 {
     protected function getResourcePath()
