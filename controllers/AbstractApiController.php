@@ -2249,7 +2249,7 @@ abstract class AbstractApiController implements ApiInterface
      * @param string $language Language code (defaults to en-gb)
      * @return Response (Includes a URL for the file's location)
      */
-    public function requestDownloadFile(
+    public function requestDownloadFileExternal(
         string $type,
         int $datasetId,
         string $filename,
@@ -2257,6 +2257,6 @@ abstract class AbstractApiController implements ApiInterface
     {
         $downloadsController = new DownloadsController($this->getAuth());
         
-        return $downloadsController->requestDownloadFile($type, $datasetId, $filename, $language);
+        return $downloadsController->requestDownloadFileExternal($type, $datasetId, $filename, $language);
     }
 }

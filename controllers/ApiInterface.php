@@ -251,5 +251,5 @@ interface ApiInterface
 
     public function deleteManager(string $identifier, int ...$userId);
 
-    public function requestDownloadFile(string $type, int $datasetId, string $filename, string $language = 'en-gb');
+    public function requestDownloadFileExternal(string $type, int $datasetId, string $filename, string $language = 'en-gb');
 }

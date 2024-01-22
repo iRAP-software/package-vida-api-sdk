@@ -25,7 +25,7 @@ class DownloadsController extends AbstractResourceController
      * @param string $filename Language code (Defaults to en-gb)
      * @return \iRAP\VidaSDK\Models\Response
      */
-    public function requestDownloadFile(string $type, int $datasetId, string $filename, string $language): Response
+    public function requestDownloadFileExternal(string $type, int $datasetId, string $filename, string $language): Response
     {
         $request = new APIRequest($this->m_auth);
         
