@@ -2238,4 +2238,24 @@ abstract class AbstractApiController implements ApiInterface
     {
         return $this->setManager($identifier, $userId, false);
     }
+
+    /**
+     * Request for a file download (This only adds a file to the downloads queue, the file will not be available at the returned
+     * URL immediately)
+     * @param string $type could be any one of (core_before, core_before_endgps, core_after, core_after_endgps, complete_before, 
+     * complete_after, fe_before, fe_after, countermeasures, countermeasures_partial, chainages, upload)
+     * @param int $datasetId
+     * @param string $filename Name of the file (not including extension)
+     * @param string $language Language code (defaults to en-gb)
+     * @return Response (Includes a URL for the file's location)
+     */
+    public function requestDownloadFile(
+        string $type,
+        int $datasetId,
+        string $filename,
+        string $language = 'en-gb') : Response
+{
+    $downloadsController = new DownloadsController($this->getAuth());
+    
+    return $downloadsController->requestDownloadFile($type, $datasetId, $filename, $language);
 }
