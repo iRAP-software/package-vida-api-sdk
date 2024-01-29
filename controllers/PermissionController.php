@@ -157,17 +157,33 @@ class PermissionController extends AbstractResourceController
         return array_key_exists($identifier, self::$manager) && in_array($userId, self::$manager[$identifier]);
     }
 
-    private function setValues(array &$variableToAlter, string $identifier, int $userId, ?bool $variableToCheck = null): void
+    /**
+     * Set values locally, so won't have to send multiple requests to the API
+     * @param array $variableToAlter Private attributes of this class that holds permission details
+     * @param string $identifier Access identifier
+     * @param int|int[] $userId
+     * @param ?bool $valueToCheck Based on this, the values will alter for this identifier in the private attributes
+     * @return void
+     */
+    private function setValues(array &$variableToAlter, string $identifier, $userId, ?bool $valueToCheck = null): void
     {
-        if (!is_null($variableToCheck)) {
+        if (!is_null($valueToCheck)) {
             if (!array_key_exists($identifier, $variableToAlter)) {
                 $variableToAlter[$identifier] = [];
             }
-            if ($variableToCheck && !in_array($userId, $variableToAlter[$identifier])) {
-                $variableToAlter[$identifier][] = $userId;
+
+            if (!is_array($userId)) {
+                $userId = [$userId];
             }
-            if (!$variableToCheck && in_array($userId, $variableToAlter[$identifier])) {
-                $variableToAlter[$identifier] = array_filter($variableToAlter[$identifier], fn($v) => $v !== $userId);
+
+            foreach ($userId as $uId) {
+                if ($valueToCheck && !in_array($uId, $variableToAlter[$identifier])) {
+                    $variableToAlter[$identifier][] = $uId;
+                }
+
+                if (!$valueToCheck && in_array($uId, $variableToAlter[$identifier])) {
+                    $variableToAlter[$identifier] = array_filter($variableToAlter[$identifier], fn($v) => $v !== $uId);
+                }
             }
         }
     }

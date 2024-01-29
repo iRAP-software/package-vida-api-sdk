@@ -39,8 +39,6 @@ abstract class AbstractResourceController
      * @param mixed $args
      * @return Response
      * @throws Exception
-     * @throws Exception
-     * @throws Exception
      */
     public function getResource($id = null, $args = null): Response
     {
@@ -126,8 +124,6 @@ abstract class AbstractResourceController
      * @param mixed $id
      * @param mixed $args
      * @return Response
-     * @throws Exception
-     * @throws Exception
      * @throws Exception
      */
     public function deleteResource($id, $args = null): Response
