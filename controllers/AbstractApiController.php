@@ -1823,8 +1823,6 @@ abstract class AbstractApiController implements ApiInterface
      *                      recommended.
      * @return ImportResponse
      * @throws Exception
-     * @throws Exception
-     * @throws Exception
      */
     public function importData($dataset_id, string $url): ImportResponse
     {
@@ -2011,8 +2009,6 @@ abstract class AbstractApiController implements ApiInterface
      * @return object A token will also be returned which will be required when
      * accepting an invitation
      * @throws Exception
-     * @throws Exception
-     * @throws Exception
      */
     public function inviteUser(string $email, string $first_name = null,
                                string $last_name = null, array $permissions = []): object
@@ -2027,8 +2023,6 @@ abstract class AbstractApiController implements ApiInterface
      * token if the user was previously invited
      * @return object
      * @throws Exception
-     * @throws Exception
-     * @throws Exception
      */
     public function getInviteDetails($value): object
     {
@@ -2040,8 +2034,6 @@ abstract class AbstractApiController implements ApiInterface
      * Accept an invitation
      * @param string $token
      * @return object
-     * @throws Exception
-     * @throws Exception
      * @throws Exception
      */
     public function acceptInvitation(string $token): object
@@ -2097,8 +2089,6 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $userId
      * @return Response
      * @throws Exception
-     * @throws Exception
-     * @throws Exception
      */
     public function hasPermission(string $identifier, int $userId): Response
     {
@@ -2110,8 +2100,6 @@ abstract class AbstractApiController implements ApiInterface
      * Check if a user has permission for any access, using user's id
      * @param int $userId
      * @return Response
-     * @throws Exception
-     * @throws Exception
      * @throws Exception
      */
     public function hasAnyPermission(int $userId): Response
@@ -2126,9 +2114,6 @@ abstract class AbstractApiController implements ApiInterface
      * @param int|int[] $userId
      * @param bool $permission Set this as false to remove permission
      * @return Response
-     * @throws Exception
-     * @throws Exception
-     * @throws Exception
      * @throws Exception
      */
     public function setPermission(string $identifier, $userId, bool $permission): Response
@@ -2171,8 +2156,6 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $userId
      * @return Response
      * @throws Exception
-     * @throws Exception
-     * @throws Exception
      */
     public function isManager(string $identifier, int $userId): Response
     {
@@ -2184,8 +2167,6 @@ abstract class AbstractApiController implements ApiInterface
      * Check if a user is manager for any access, using user's id
      * @param int $userId
      * @return Response
-     * @throws Exception
-     * @throws Exception
      * @throws Exception
      */
     public function isAnyManager(int $userId): Response
@@ -2200,9 +2181,6 @@ abstract class AbstractApiController implements ApiInterface
      * @param int|int[] $userId
      * @param bool $manager Set this as false to remove user as manager
      * @return Response
-     * @throws Exception
-     * @throws Exception
-     * @throws Exception
      * @throws Exception
      */
     public function setManager(string $identifier, $userId, bool $manager): Response
