@@ -212,23 +212,25 @@ abstract class AbstractApiController implements ApiInterface
      * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
      * @param ?string $assessment_date Date format, 'Y-m-d' e.g. 2020-10-22
      * @param string $description
+     * @param int $country_id
      * @return object
      * @throws Exception
      */
     public function addDataset(string $name, $project_id, $manager_id,
                                int $type = App::DATASET_TYPE_UNKNOWN,
                                string $assessment_date = null,
-                               string $description = ''): object
+                               string $description = '',
+                               int $country_id): object
     {
         $datasetController = new DatasetsController($this->getAuth());
-        return $datasetController->postResource(array(
-            'name' => $name,
+        return $datasetController->postResource(
+            ['name' => $name,
             'project_id' => $project_id,
             'manager_id' => $manager_id,
             'type_id' => $type,
             'description' => $description,
-            'assessment_date' => $assessment_date
-        ));
+            'assessment_date' => $assessment_date,
+            'country_id' => $countryId]);
     }
 
     /**
@@ -242,24 +244,25 @@ abstract class AbstractApiController implements ApiInterface
      * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
      * @param ?string $assessment_date Date format, 'Y-m-d' e.g. 2020-10-22
      * @param string $description
+     * @param int $country_id
      * @return object
      * @throws Exception
      */
     public function updateDataset($id, string $name, $project_id, $manager_id,
                                   int $type = App::DATASET_TYPE_UNKNOWN,
                                   string $assessment_date = null,
-                                  string $description = ''): object
+                                  string $description = '',
+                                  int $country_id): object
     {
         $datasetController = new DatasetsController($this->getAuth());
         return $datasetController->patchResource($id,
-            array(
-                'name' => $name,
+                ['name' => $name,
                 'project_id' => $project_id,
                 'manager_id' => $manager_id,
                 'type_id' => $type,
                 'description' => $description,
-                'assessment_date' => $assessment_date
-            ));
+                'assessment_date' => $assessment_date,
+                'country_id' => $countryId]);
     }
 
     /**
@@ -741,14 +744,13 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $region_id
      * @param int $manager_id
      * @param int $model_id
-     * @param int $country_id
      * @return object
      * @throws Exception
      */
-    public function addProject($name, $region_id, $manager_id, $model_id, $country_id): object
+    public function addProject($name, $region_id, $manager_id, $model_id): object
     {
         $projectController = new ProjectsController($this->getAuth());
-        return $projectController->postResource(array("name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id, "model_id"=>$model_id, "country_id"=>$country_id));
+        return $projectController->postResource(["name"=>$name, "region_id"=>$region_id, "manager_id"=>$manager_id, "model_id"=>$model_id]);
     }
 
     /**
