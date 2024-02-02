@@ -230,7 +230,7 @@ abstract class AbstractApiController implements ApiInterface
             'type_id' => $type,
             'description' => $description,
             'assessment_date' => $assessment_date,
-            'country_id' => $countryId]);
+            'country_id' => $country_id]);
     }
 
     /**
