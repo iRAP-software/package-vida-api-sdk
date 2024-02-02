@@ -210,9 +210,9 @@ abstract class AbstractApiController implements ApiInterface
      * @param int $type Could be any one of \iRAP\VidaSDK\App::DATASET_TYPE_EXISTING,
      * \iRAP\VidaSDK\App::DATASET_TYPE_DESIGN, \iRAP\VidaSDK\App::DATASET_TYPE_RESEARCH.
      * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
+     * @param int $country_id
      * @param ?string $assessment_date Date format, 'Y-m-d' e.g. 2020-10-22
      * @param string $description
-     * @param int $country_id
      * @return object
      * @throws Exception
      */
