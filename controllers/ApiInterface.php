@@ -27,9 +27,9 @@ interface ApiInterface
 
     public function getDatasets();
 
-    public function addDataset(string $name, $project_id, $manager_id, int $type, int $country_id, string $assessment_date = Null, string $description = '');
+    public function addDataset(string $name, $project_id, $manager_id, int $country_id, int $type, string $assessment_date, string $description);
 
-    public function updateDataset($id, string $name, $project_id, $manager_id, int $type, string $assessment_date, string $description, int $country_id);
+    public function updateDataset($id, string $name, $project_id, $manager_id, int $country_id, int $type, string $assessment_date, string $description);
 
     public function updateDatasetStatus($id, $status_id);
 

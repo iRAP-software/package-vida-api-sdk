@@ -207,18 +207,18 @@ abstract class AbstractApiController implements ApiInterface
      * @param string $name
      * @param $project_id
      * @param $manager_id
+     * @param int $country_id
      * @param int $type Could be any one of \iRAP\VidaSDK\App::DATASET_TYPE_EXISTING,
      * \iRAP\VidaSDK\App::DATASET_TYPE_DESIGN, \iRAP\VidaSDK\App::DATASET_TYPE_RESEARCH.
      * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
-     * @param int $country_id
      * @param ?string $assessment_date Date format, 'Y-m-d' e.g. 2020-10-22
      * @param string $description
      * @return object
      * @throws Exception
      */
     public function addDataset(string $name, $project_id, $manager_id,
-                               int $type = App::DATASET_TYPE_UNKNOWN,
                                int $country_id,
+                               int $type = App::DATASET_TYPE_UNKNOWN,
                                string $assessment_date = null,
                                string $description = ''): object
     {
@@ -239,20 +239,20 @@ abstract class AbstractApiController implements ApiInterface
      * @param string $name
      * @param $project_id
      * @param $manager_id
+     * @param int $country_id
      * @param int $type Could be any one of \iRAP\VidaSDK\App::DATASET_TYPE_EXISTING,
      * \iRAP\VidaSDK\App::DATASET_TYPE_DESIGN, \iRAP\VidaSDK\App::DATASET_TYPE_RESEARCH.
      * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
      * @param ?string $assessment_date Date format, 'Y-m-d' e.g. 2020-10-22
      * @param string $description
-     * @param int $country_id
      * @return object
      * @throws Exception
      */
     public function updateDataset($id, string $name, $project_id, $manager_id,
+,                                 int $country_id,
                                   int $type = App::DATASET_TYPE_UNKNOWN,
                                   string $assessment_date = null,
-                                  string $description = '',
-                                  int $country_id): object
+                                  string $description = ''): object
     {
         $datasetController = new DatasetsController($this->getAuth());
         return $datasetController->patchResource($id,
