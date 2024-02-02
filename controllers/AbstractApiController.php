@@ -218,9 +218,9 @@ abstract class AbstractApiController implements ApiInterface
      */
     public function addDataset(string $name, $project_id, $manager_id,
                                int $type = App::DATASET_TYPE_UNKNOWN,
+                               int $country_id,
                                string $assessment_date = null,
-                               string $description = '',
-                               int $country_id): object
+                               string $description = ''): object
     {
         $datasetController = new DatasetsController($this->getAuth());
         return $datasetController->postResource(
