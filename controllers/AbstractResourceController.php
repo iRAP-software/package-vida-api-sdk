@@ -12,12 +12,13 @@
 namespace iRAP\VidaSDK\Controllers;
 
 use Exception;
+use iRAP\VidaSDK\Models\AbstractAuthentication;
 use iRAP\VidaSDK\Models\APIRequest;
 use iRAP\VidaSDK\Models\Response;
 
 abstract class AbstractResourceController
 {
-    protected $m_auth;
+    protected AbstractAuthentication $m_auth;
     protected $m_filter;
     
     
