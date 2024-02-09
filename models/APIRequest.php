@@ -293,8 +293,8 @@ class APIRequest
     {
         return new Response(
             $this->m_httpCode,
-            $this->m_status,
             $this->m_result,
+            $this->m_status,
             (isset($this->m_error)) ? $this->m_error : null
         );
     }

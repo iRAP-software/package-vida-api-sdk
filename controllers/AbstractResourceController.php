@@ -147,8 +147,8 @@ abstract class AbstractResourceController
     {
         return new Response(
             $request->m_httpCode,
-            $request->m_status,
             $request->m_result,
+            $request->m_status,
             (isset($request->m_error)) ? $request->m_error : null
         );
     }
