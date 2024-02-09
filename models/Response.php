@@ -35,6 +35,7 @@ class Response
     {
         if (!$status)
         {
+            trigger_error("API response: $code - " . htmlentities($rawResponseBody), E_USER_WARNING);
             // if status is not set, something went wrong.
             $status = "Error";
             
