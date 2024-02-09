@@ -33,7 +33,7 @@ class Response
      */
     public function __construct(int $code, string $rawResponseBody, ?string $status = null, $error = null)
     {
-        if ($status === "")
+        if (!$status)
         {
             // if status is not set, something went wrong.
             $status = "Error";
