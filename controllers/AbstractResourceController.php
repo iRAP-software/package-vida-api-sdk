@@ -12,12 +12,13 @@
 namespace iRAP\VidaSDK\Controllers;
 
 use Exception;
+use iRAP\VidaSDK\Models\AbstractAuthentication;
 use iRAP\VidaSDK\Models\APIRequest;
 use iRAP\VidaSDK\Models\Response;
 
 abstract class AbstractResourceController
 {
-    protected $m_auth;
+    protected AbstractAuthentication $m_auth;
     protected $m_filter;
     
     
@@ -147,8 +148,8 @@ abstract class AbstractResourceController
     {
         return new Response(
             $request->m_httpCode,
-            $request->m_status,
             $request->m_result,
+            $request->m_status,
             (isset($request->m_error)) ? $request->m_error : null
         );
     }

@@ -16,14 +16,17 @@ use iRAP\VidaSDK\Defines;
 
 class APIRequest
 {
-    public $m_result;
-    public $m_httpCode;
-    public $m_status;
+    public string $m_result;
+    public int $m_httpCode;
+    public ?string $m_status = null;
     public $m_error;
     
     private static string $s_version = Defines::IRAP_API_VERSION;
-    private $m_urlWithoutFilter; // url that will never have any ?filter within it
-    private $m_baseUrl; // the url of where the API is. e.g. https://api.vida.irap.org (no end slash)
+    private string $m_urlWithoutFilter; // url that will never have any ?filter within it
+    private string $m_baseUrl; // the url of where the API is. e.g. https://api.vida.irap.org (no end slash)
+    /**
+     * @var \CurlHandle|resource|false
+     */
     private $m_ch;
     private array $m_headers;
     private AbstractAuthentication $m_auth;  /* @var $m_auth AbstractAuthentication */
@@ -293,8 +296,8 @@ class APIRequest
     {
         return new Response(
             $this->m_httpCode,
-            $this->m_status,
             $this->m_result,
+            $this->m_status,
             (isset($this->m_error)) ? $this->m_error : null
         );
     }
@@ -302,9 +305,9 @@ class APIRequest
     
     # Accessors
     # In future use these rather than accessing member vars directly.
-    public function getUrl() { return $this->m_urlWithoutFilter; }
-    public function getResult() { return $this->m_result; }
-    public function getHttpCode() { return $this->m_httpCode; }
-    public function getStatus() { return $this->m_status; }
+    public function getUrl(): string { return $this->m_urlWithoutFilter; }
+    public function getResult(): string { return $this->m_result; }
+    public function getHttpCode(): int { return $this->m_httpCode; }
+    public function getStatus(): ?string { return $this->m_status; }
     public function getError() { return $this->m_error; }
 }
