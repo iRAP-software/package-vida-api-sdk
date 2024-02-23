@@ -26,15 +26,16 @@ class Response
     /**
      * Create the response object from an API response.
      * @param int $code - the HTTP response code.
-     * @param string $status - the status message from the response header.
      * @param string $rawResponseBody - the string response body.
+     * @param ?string $status - the status message from the response header.
      * @param mixed $error - the error message from the API response header (if there was one)
      * @throws Exception
      */
-    public function __construct(int $code, string $status, string $rawResponseBody, $error = null)
+    public function __construct(int $code, string $rawResponseBody, ?string $status = null, $error = null)
     {
-        if ($status === "")
+        if (!$status)
         {
+            trigger_error("API response: $code - " . htmlentities($rawResponseBody), E_USER_WARNING);
             // if status is not set, something went wrong.
             $status = "Error";
             
