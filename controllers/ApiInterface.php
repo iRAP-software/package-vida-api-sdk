@@ -27,9 +27,9 @@ interface ApiInterface
 
     public function getDatasets();
 
-    public function addDataset(string $name, $project_id, $manager_id, int $type, string $assessment_date, string $description);
+    public function addDataset(string $name, $project_id, $manager_id, int $country_id, int $type, string $assessment_date, string $description);
 
-    public function updateDataset($id, string $name, $project_id, $manager_id, int $type, string $assessment_date, string $description);
+    public function updateDataset($id, string $name, $project_id, $manager_id, int $country_id, int $type, string $assessment_date, string $description);
 
     public function updateDatasetStatus($id, $status_id);
 
@@ -91,7 +91,7 @@ interface ApiInterface
 
     public function getProjects();
 
-    public function addProject($name, $region_id, $manager_id, $model_id, $country_id);
+    public function addProject($name, $region_id, $manager_id, $model_id);
 
     public function updateProject($id, $name, $region_id, $manager_id);
 
