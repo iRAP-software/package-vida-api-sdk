@@ -250,4 +250,6 @@ interface ApiInterface
     public function addManager(string $identifier, int ...$userId);
 
     public function deleteManager(string $identifier, int ...$userId);
+
+    public function requestDownloadFileExternal(string $type, int $datasetId, string $filename, string $language = 'en-gb');
 }
