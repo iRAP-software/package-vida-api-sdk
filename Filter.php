@@ -80,11 +80,11 @@ class Filter implements FilterInterface
      * Helper method that creates a filter object from the StdClass.
      * 
      * @param string $field
-     * @param string $value
+     * @param mixed $value
      * @param string $operator
      * @return stdClass
      */
-    private function filterItem(string $field, string $value, string $operator): stdClass
+    private function filterItem(string $field, $value, string $operator): stdClass
     {
         $filter = new stdClass();
         $filter->field = $field;
