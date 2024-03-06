@@ -14,17 +14,17 @@ use stdClass;
 class Filter implements FilterInterface
 {
     private array $m_filter = array();
-    
+
     /**
-     * Your initial filter criteria goes into the constructor. $field is the name of the field 
-     * that appears in the return data. This is the field that will be tested by the filter. $value 
+     * Your initial filter criteria goes into the constructor. $field is the name of the field
+     * that appears in the return data. This is the field that will be tested by the filter. $value
      * is the value you wish to test for and $operator is the test to apply.
-     * 
+     *
      * @param string $field
-     * @param string $value
+     * @param mixed $value
      * @param string $operator
      */
-    public function __construct(string $field, string $value, string $operator = '=')
+    public function __construct(string $field, $value, string $operator = '=')
     {
         $this->m_filter[] = $this->filterItem($field, $value, $operator);
     }
