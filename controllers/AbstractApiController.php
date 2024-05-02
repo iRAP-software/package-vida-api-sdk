@@ -23,40 +23,6 @@ abstract class AbstractApiController implements ApiInterface
     abstract protected function getAuth();
 
     /**
-     ******* This method requires special permission from iRAP and is not available to all ********
-     *
-     * Takes the user's email address and password and returns the user authentication token needed
-     * to complete all future requests made on behalf of that user. The email address and password
-     * should not be stored in your app as they are no longer needed. The returned token can be used
-     * by calling the setUserToken() method below, and should be stored for future use, to avoid
-     * having to ask the user to sign in again.
-     *
-     * @param string $email
-     * @param string $password
-     * @return stdClass
-     * @throws Exception
-     */
-    public function getUserToken($email, $password): stdClass
-    {
-        $userToken = AuthController::getUserToken($this->getAuth(), $email, $password);
-        $token = new stdClass();
-        if ($userToken->code == 200)
-        {
-            $token->userAuthId = $userToken->response->auth_id;
-            $token->userApiKey = $userToken->response->api_key;
-            $token->userPrivateKey = $userToken->response->api_secret;
-            $token->userID = $userToken->response->user_id;
-        }
-        $token->status = $userToken->status;
-        $token->code = $userToken->code;
-        if (!empty($userToken->error))
-        {
-            $token->error = $userToken->error;
-        }
-        return $token;
-    }
-
-    /**
      * Checks whether the GET contains the user key. If so, it creates a user token object and
      * returns it. If not, the requestUserPermissions method is called, which redirects the user
      * to ViDA.

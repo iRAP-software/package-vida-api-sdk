@@ -9,8 +9,6 @@ namespace iRAP\VidaSDK\Controllers;
 
 interface ApiInterface
 {
-    public function getUserToken($email, $password);
-
     public function requestUserPermissions($returnUrl);
 
     public function getUsers();
