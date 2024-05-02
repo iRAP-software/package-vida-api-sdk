@@ -76,7 +76,7 @@ $response->error = 'Authentication failure - You do not have permission to acces
 If you feel that you need access to a resource or method that you do not have permission to access, you can email iRAP on support@irap.org to request permission. Please provide an explanation of what you are trying to achieve.
 
 ### Getting a user token
-To make a request on user's behalf, this would require user token which can be fetched with the following request:
+To make a request on a user's behalf requires a user token which can be fetched with the following request:
 
 ```php
 $api->requestUserPermissions($returnUrl);
