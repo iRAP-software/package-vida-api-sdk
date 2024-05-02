@@ -24,27 +24,6 @@ class AuthController extends AbstractResourceController
     }
 
     /**
-     * Sends the user's email and password to the API and gets a user token back. The user token
-     * should be stored locally and used for all future requests. Email and password should NOT
-     * be stored locally. The password is encrypted using the APP_PRIVATE KEY before transmission.
-     *
-     * @param AbstractAuthentication $auth
-     * @param string $email
-     * @param string $password
-     * @return object
-     * @throws Exception
-     */
-    public static function getUserToken(AbstractAuthentication $auth, string $email, string $password): object
-    {
-        $encrypted_password = $auth->getEncryption($password);
-        $request = new APIRequest($auth);
-        $request->setUrl("auth/register");
-        $request->setPostData(array("email"=>$email,"password"=>$encrypted_password));
-        $request->send();
-        return parent::response($request);
-    }
-
-    /**
      * Builds query parameters to sign, signs them and then sends the query to ViDA, so that the
      * user can view and accept/reject the permissions that the app is asking for.
      *

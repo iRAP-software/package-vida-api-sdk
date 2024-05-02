@@ -76,12 +76,12 @@ $response->error = 'Authentication failure - You do not have permission to acces
 If you feel that you need access to a resource or method that you do not have permission to access, you can email iRAP on support@irap.org to request permission. Please provide an explanation of what you are trying to achieve.
 
 ### Getting a user token
-If your app has permission to request a user token by supplying the user's email address and password, this can be done with the following request:
+If your app needs to make a request on user's behalf, this would require user token which can be fetched with the following request:
 
 ```php
-$api->getUserToken($email, $password);
+$api->requestUserPermissions($returnUrl);
 ```
-This will return the following response on success:
+This will redirect the user to the SSO service, where after successful login and granting permissions will redirect back you to the specified `$returnUrl` url with the following response on success:
 
 ```php
 $response->userAuthId;
@@ -100,7 +100,6 @@ $api = new User(
   $user_private_key
 );
 ```
-**Please Note: It is strictly against the API Terms of Use to store the user's password locally in your application. Once the user token has been received, you will have no further need for the password.**
 
 ### Accessing and adding Resources
 Accessing a resource can be as easy as:
