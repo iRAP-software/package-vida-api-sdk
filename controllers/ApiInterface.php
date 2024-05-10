@@ -173,6 +173,8 @@ interface ApiInterface
 
     public function getBeforeStarRatingsForDataset($id);
 
+    public function getBeforeDecimalStarRatingsForDataset(int $id, $filter = null);
+
     public function getAfterStarRatings($id, $dataset_id);
 
     public function getAfterStarRatingsForProgramme($id);
@@ -182,6 +184,8 @@ interface ApiInterface
     public function getAfterStarRatingsForProject($id);
 
     public function getAfterStarRatingsForDataset($id);
+
+    public function getAfterDecimalStarRatingsForDataset(int $id, $filter = null);
 
     public function getData($id, $dataset_id);
 

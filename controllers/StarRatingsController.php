@@ -65,4 +65,32 @@ class StarRatingsController extends AbstractResourceController
         $request->setUrl($this->getResourcePath(), 'for', $args, $filter);
         return $request;
     }
+
+    /**
+     * Get a list of (before) decimal star ratings for a dataset, using the dataset's ID.
+     * @param int $datasetID
+     * @param FilterInterface|null $filter
+     * @return APIRequest
+     */
+    public function getBeforeDecimalStarRatingsForDatasetRequest(int $datasetID, FilterInterface $filter = null): APIRequest
+    {
+        $request = new APIRequest($this->m_auth);
+        $args = ['for', 'dataset', $datasetID, 'before'];
+        $request->setUrl($this->getResourcePath(), 'decimal', $args, $filter);
+        return $request;
+    }
+
+    /**
+     * Get a list of (after) decimal star ratings for a dataset, using the dataset's ID.
+     * @param int $datasetID
+     * @param FilterInterface|null $filter
+     * @return APIRequest
+     */
+    public function getAfterDecimalStarRatingsForDatasetRequest(int $datasetID, FilterInterface $filter = null): APIRequest
+    {
+        $request = new APIRequest($this->m_auth);
+        $args = ['for', 'dataset', $datasetID, 'after'];
+        $request->setUrl($this->getResourcePath(), 'decimal', $args, $filter);
+        return $request;
+    }
 }
