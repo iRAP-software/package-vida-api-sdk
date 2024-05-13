@@ -2238,6 +2238,16 @@ abstract class AbstractApiController implements ApiInterface
         return $downloadsController->requestDownloadFileExternal($type, $datasetId, $filename, $language);
     }
 
+    /**
+     * Gets speeds (codes) required to achieve 3/4/5* for a dataset
+     * If a user group is specified the speeds for that user group will be returned, speeds for all
+     * user groups returned otherwise
+     * @param int $datasetId
+     * @param array|null $userGroup
+     * @param $filter
+     * @return Response
+     * @throws Exception
+     */
     public function getRequiredSpeedsForDataset(int $datasetId, ?array $userGroup = null, $filter = null)
     {
         $speedsController = new SpeedsController($this->getAuth(), $filter);
@@ -2245,6 +2255,15 @@ abstract class AbstractApiController implements ApiInterface
         return $speedsController->getResource($datasetId, $userGroup);
     }
 
+    /**
+     * Applies ruleset_id to dataset_id and stores the results in the database. To get the results
+     * use getRoadClassificationsForDataset
+     * @param int $datasetId
+     * @param int $rulesetId
+     * @param $filter
+     * @return Response
+     * @throws Exception
+     */
     public function calculateRoadClassificationsForDataset(int $datasetId, int $rulesetId, $filter = null)
     {
         $roadClassificationsController = new RoadClassificationsController($this->getAuth(), $filter);
@@ -2252,6 +2271,13 @@ abstract class AbstractApiController implements ApiInterface
         return $roadClassificationsController->postResource([], 'results', [$datasetId, $rulesetId]);
     }
 
+    /**
+     * Fetches the road classification results for a dataset
+     * @param int $datasetId
+     * @param $filter
+     * @return Response
+     * @throws Exception
+     */
     public function getRoadClassificationsForDataset(int $datasetId, $filter = null)
     {
         $roadClassificationsController = new RoadClassificationsController($this->getAuth(), $filter);
@@ -2259,6 +2285,12 @@ abstract class AbstractApiController implements ApiInterface
         return $roadClassificationsController->getResource('results', [$datasetId]);
     }
 
+    /**
+     * Fetches the list of road classification rulesets that the user has access to
+     * @param $filter
+     * @return Response
+     * @throws Exception
+     */
     public function getRoadClassificationsRulesets($filter = null)
     {
         $roadClassificationsController = new RoadClassificationsController($this->getAuth(), $filter);
@@ -2266,6 +2298,13 @@ abstract class AbstractApiController implements ApiInterface
         return $roadClassificationsController->getResource(null, ['rulesets']);
     }
 
+    /**
+     * Fetches the list of functions for a road classification ruleset
+     * @param $rulesetId
+     * @param $filter
+     * @return Response
+     * @throws Exception
+     */
     public function getRoadClassificationsRulesetFunctions($rulesetId, $filter = null)
     {
         $roadClassificationsController = new RoadClassificationsController($this->getAuth(), $filter);
