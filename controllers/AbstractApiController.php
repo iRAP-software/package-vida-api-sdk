@@ -2237,4 +2237,39 @@ abstract class AbstractApiController implements ApiInterface
         
         return $downloadsController->requestDownloadFileExternal($type, $datasetId, $filename, $language);
     }
+
+    public function getRequiredSpeedsForDataset(int $datasetId, ?array $userGroup = null, $filter = null)
+    {
+        $speedsController = new SpeedsController($this->getAuth(), $filter);
+
+        return $speedsController->getResource($datasetId, $userGroup);
+    }
+
+    public function calculateRoadClassificationsForDataset(int $datasetId, int $rulesetId, $filter = null)
+    {
+        $roadClassificationsController = new RoadClassificationsController($this->getAuth(), $filter);
+
+        return $roadClassificationsController->postResource([], 'results', [$datasetId, $rulesetId]);
+    }
+
+    public function getRoadClassificationsForDataset(int $datasetId, $filter = null)
+    {
+        $roadClassificationsController = new RoadClassificationsController($this->getAuth(), $filter);
+
+        return $roadClassificationsController->getResource('results', [$datasetId]);
+    }
+
+    public function getRoadClassificationsRulesets($filter = null)
+    {
+        $roadClassificationsController = new RoadClassificationsController($this->getAuth(), $filter);
+
+        return $roadClassificationsController->getResource(null, ['rulesets']);
+    }
+
+    public function getRoadClassificationsRulesetFunctions($rulesetId, $filter = null)
+    {
+        $roadClassificationsController = new RoadClassificationsController($this->getAuth(), $filter);
+
+        return $roadClassificationsController->getResource('rulesets', [$rulesetId, 'functions']);
+    }
 }
