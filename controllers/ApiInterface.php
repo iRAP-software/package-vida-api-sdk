@@ -254,4 +254,14 @@ interface ApiInterface
     public function deleteManager(string $identifier, int ...$userId);
 
     public function requestDownloadFileExternal(string $type, int $datasetId, string $filename, string $language = 'en-gb');
+
+    public function getRequiredSpeedsForDataset(int $datasetId, ?array $userGroup = null, $filter = null);
+
+    public function calculateRoadClassificationsForDataset(int $datasetId, int $rulesetId, $filter = null);
+
+    public function getRoadClassificationsForDataset(int $datasetId, $filter = null);
+
+    public function getRoadClassificationsRulesets($filter = null);
+
+    public function getRoadClassificationsRulesetFunctions($rulesetId, $filter = null);
 }
