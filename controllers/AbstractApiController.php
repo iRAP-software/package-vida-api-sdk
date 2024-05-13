@@ -1624,6 +1624,22 @@ abstract class AbstractApiController implements ApiInterface
     }
 
     /**
+     * Get a list of (before) decimal star ratings for a dataset, using the dataset's ID.
+     *
+     * @param int $id
+     * @param null $filter
+     * @return object
+     * @throws Exception
+     */
+    public function getBeforeDecimalStarRatingsForDataset(int $id, $filter = null): object
+    {
+        $starRatingController = new StarRatingsController($this->getAuth(), $filter);
+        $request = $starRatingController->getBeforeDecimalStarRatingsForDatasetRequest($id, $filter);
+        $request->send();
+        return $request->getResponse();
+    }
+
+    /**
      * Fetches an after countermeasures star rating for a specified location. You must specify the
      * location ID, and the ID of the dataset it belongs to.
      *
@@ -1693,6 +1709,22 @@ abstract class AbstractApiController implements ApiInterface
     {
         $starRatingController = new StarRatingsController($this->getAuth(), $filter);
         $request = $starRatingController->getAfterStarRatingsForDatasetRequest($id, $filter);
+        $request->send();
+        return $request->getResponse();
+    }
+
+    /**
+     * Get a list of (after) decimal star ratings for a dataset, using the dataset's ID.
+     *
+     * @param int $id
+     * @param null $filter
+     * @return object
+     * @throws Exception
+     */
+    public function getAfterDecimalStarRatingsForDataset(int $id, $filter = null): object
+    {
+        $starRatingController = new StarRatingsController($this->getAuth(), $filter);
+        $request = $starRatingController->getAfterDecimalStarRatingsForDatasetRequest($id, $filter);
         $request->send();
         return $request->getResponse();
     }
