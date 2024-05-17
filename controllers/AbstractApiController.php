@@ -2248,7 +2248,7 @@ abstract class AbstractApiController implements ApiInterface
      * @return Response
      * @throws Exception
      */
-    public function getRequiredSpeedsForDataset(int $datasetId, ?array $userGroup = null, $filter = null)
+    public function getRequiredSpeedsForDataset(int $datasetId, ?array $userGroup = null, $filter = null): Response
     {
         $speedsController = new SpeedsController($this->getAuth(), $filter);
 
@@ -2264,7 +2264,7 @@ abstract class AbstractApiController implements ApiInterface
      * @return Response
      * @throws Exception
      */
-    public function calculateRoadClassificationsForDataset(int $datasetId, int $rulesetId, $filter = null)
+    public function calculateRoadClassificationsForDataset(int $datasetId, int $rulesetId, $filter = null): Response
     {
         $roadClassificationsController = new RoadClassificationsController($this->getAuth(), $filter);
 
@@ -2278,7 +2278,7 @@ abstract class AbstractApiController implements ApiInterface
      * @return Response
      * @throws Exception
      */
-    public function getRoadClassificationsForDataset(int $datasetId, $filter = null)
+    public function getRoadClassificationsForDataset(int $datasetId, $filter = null): Response
     {
         $roadClassificationsController = new RoadClassificationsController($this->getAuth(), $filter);
 
@@ -2291,7 +2291,7 @@ abstract class AbstractApiController implements ApiInterface
      * @return Response
      * @throws Exception
      */
-    public function getRoadClassificationsRulesets($filter = null)
+    public function getRoadClassificationsRulesets($filter = null): Response
     {
         $roadClassificationsController = new RoadClassificationsController($this->getAuth(), $filter);
 
@@ -2305,7 +2305,7 @@ abstract class AbstractApiController implements ApiInterface
      * @return Response
      * @throws Exception
      */
-    public function getRoadClassificationsRulesetFunctions($rulesetId, $filter = null)
+    public function getRoadClassificationsRulesetFunctions($rulesetId, $filter = null): Response
     {
         $roadClassificationsController = new RoadClassificationsController($this->getAuth(), $filter);
 
