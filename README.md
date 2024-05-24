@@ -104,39 +104,41 @@ $api = new User(
 ### Accessing and adding Resources
 Accessing a resource can be as easy as:
 ```php
-$users = $api->getUsers();
+$datasets = $api->getDatasets();
 ```
 
 ...while adding a resource can be done like this:
 
 ```php
-$response = $api->addUser(
-  $name,
-  $email,
-  $password
-);
+$response = $api->addDataset($name, 
+  $project_id, 
+  $manager_id,
+  $country_id,
+  $type,
+  $assessment_date,
+  $description);
 ```
 
 If you wish to access a specific resource, you should pass the
 resource ID to the method being called, e.g.
 
 ```php
-$user_details = $api->getUsers(1);
+$dataset_details = $api->getDatasets(1);
 ```
 
-...will populate $user_details with the account details for the user who's user ID is 1. Using the Get methods without specifying a resource ID will return a list of the resources you have access to.
+...will populate $dataset_details with the dataset details for the dataset with id 1. Using the Get methods without specifying a resource ID will return a list of the resources you have access to.
 
 ### Updating Resources
 To update a resource, you must use a replace method. The replace methods take the resource ID for the resource you wish to update, as well as the values you wish to update the resource with.
 
-The required fields vary from resource type to resource type, but for example, the request for updating the user would look like this:
+The required fields vary from resource type to resource type, but for example, the request for updating a dataset would look like this:
 
 ```php
-$response = $api->replaceUser(
-  $id,
-  $name,
-  $email,
-  $password
+$response = $api->replaceDataset(
+  $id, 
+  $name, 
+  $project_id, 
+  $manager_id
 );
 ```
 
@@ -145,13 +147,13 @@ $response = $api->replaceUser(
 ### Deleting Resources
 To delete a resource, you must use a delete method. The delete methods take the resource ID for the resource you wish to delete.
 
-To delete a user, use the following method:
+To delete a dataset, use the following method:
 
 ```php
-$response = $api->deleteUser($id);
+$response = $api->deleteDataset($id);
 ```
 
-This would delete the user with the ID specified in $id.
+This would delete the dataset with the ID specified in $id.
 
 ### Filters
 By default, a Get method for a resource will return all of the results that are available for the authenticated user. This can be useful, but gives you extra work to do if you only require a subset of results.
