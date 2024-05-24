@@ -13,14 +13,6 @@ interface ApiInterface
 
     public function getUsers();
 
-    public function addUser($name, $email, $password);
-
-    public function updateUser($id, $name, $email, $password);
-
-    public function replaceUser($id, $name, $email, $password);
-
-    public function deleteUser($id);
-
     public function getUserAccess($userID);
 
     public function getDatasets();
