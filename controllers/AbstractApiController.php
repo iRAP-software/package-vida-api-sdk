@@ -77,68 +77,6 @@ abstract class AbstractApiController implements ApiInterface
     }
 
     /**
-     * Add a new user to the system by supplying their name, email address and a password.
-     *
-     * @param string $name
-     * @param string $email
-     * @param string $password
-     * @return object
-     * @throws Exception
-     */
-    public function addUser($name, $email, $password): object
-    {
-        $userController = new UsersController($this->getAuth());
-        return $userController->postResource(array("name"=>$name,"email"=>$email,"password"=>$password));
-    }
-
-    /**
-     * Update a user in the system by supplying their user id, along with a new name, email address
-     * and password.
-     *
-     * @param int $id
-     * @param string $name
-     * @param string $email
-     * @param string $password
-     * @return object
-     * @throws Exception
-     */
-    public function updateUser($id, $name, $email, $password): object
-    {
-        $userController = new UsersController($this->getAuth());
-        return $userController->patchResource($id, array("name"=>$name,"email"=>$email,"password"=>$password));
-    }
-
-    /**
-     * Replace a user in the system by supplying their user id, along with a new name, email address
-     * and password.
-     *
-     * @param int $id
-     * @param string $name
-     * @param string $email
-     * @param string $password
-     * @return object
-     * @throws Exception
-     */
-    public function replaceUser($id, $name, $email, $password): object
-    {
-        $userController = new UsersController($this->getAuth());
-        return $userController->putResource($id, array("name"=>$name,"email"=>$email,"password"=>$password));
-    }
-
-    /**
-     * Delete a user from the system, using their user id.
-     *
-     * @param int $id
-     * @return object
-     * @throws Exception
-     */
-    public function deleteUser($id): object
-    {
-        $userController = new UsersController($this->getAuth());
-        return $userController->deleteResource($id);
-    }
-
-    /**
      * Fetches a list of all the users in the system. If you specify an ID, that user will be
      * returned to you.
      *
