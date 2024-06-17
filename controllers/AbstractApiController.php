@@ -251,7 +251,7 @@ abstract class AbstractApiController implements ApiInterface
      * Grant access to the specified user for the specified dataset
      *
      * @param int $dataset_id
-     * @param int $user_id
+     * @param int|int[] $user_id
      * @param int $access_level
      * @param int $user_manager
      * @return object
@@ -267,14 +267,14 @@ abstract class AbstractApiController implements ApiInterface
      * Revokes access for the specified user for the specified dataset
      *
      * @param int $dataset_id
-     * @param int $user_id
+     * @param int ...$user_id
      * @return object
      * @throws Exception
      */
-    public function deleteDatasetUser($dataset_id, $user_id): object
+    public function deleteDatasetUser($dataset_id, ...$user_id): object
     {
         $datasetController = new DatasetsController($this->getAuth());
-        return $datasetController->deleteResource($dataset_id, array('user-access',$user_id));
+        return $datasetController->deleteResource($dataset_id, array('user-access', ...$user_id));
     }
 
     /**
@@ -463,7 +463,7 @@ abstract class AbstractApiController implements ApiInterface
      * Grant access to the specified user for the specified programme
      *
      * @param int $programme_id
-     * @param int $user_id
+     * @param int|int[] $user_id
      * @param int $access_level
      * @param int $user_manager
      * @return object
@@ -479,14 +479,14 @@ abstract class AbstractApiController implements ApiInterface
      * Revokes access for the specified user for the specified programme
      *
      * @param int $programme_id
-     * @param int $user_id
+     * @param int ...$user_id
      * @return object
      * @throws Exception
      */
-    public function deleteProgrammeUser($programme_id, $user_id): object
+    public function deleteProgrammeUser($programme_id, ...$user_id): object
     {
         $programmeController = new ProgrammesController($this->getAuth());
-        return $programmeController->deleteResource($programme_id, array('user-access',$user_id));
+        return $programmeController->deleteResource($programme_id, array('user-access', ...$user_id));
     }
 
     /**
@@ -585,7 +585,7 @@ abstract class AbstractApiController implements ApiInterface
      * Grant access to the specified user for the specified region
      *
      * @param int $region_id
-     * @param int $user_id
+     * @param int|int[] $user_id
      * @param int $access_level
      * @param int $user_manager
      * @return object
@@ -601,14 +601,14 @@ abstract class AbstractApiController implements ApiInterface
      * Revokes access for the specified user for the specified region
      *
      * @param int $region_id
-     * @param int $user_id
+     * @param int ...$user_id
      * @return object
      * @throws Exception
      */
-    public function deleteRegionUser($region_id, $user_id): object
+    public function deleteRegionUser($region_id, ...$user_id): object
     {
         $regionController = new RegionsController($this->getAuth());
-        return $regionController->deleteResource($region_id, array('user-access',$user_id));
+        return $regionController->deleteResource($region_id, array('user-access', ...$user_id));
     }
 
     /**
@@ -708,7 +708,7 @@ abstract class AbstractApiController implements ApiInterface
      * Grant access to the specified user for the specified project
      *
      * @param int $project_id
-     * @param int $user_id
+     * @param int|int[] $user_id
      * @param int $access_level
      * @param int $user_manager
      * @return object
@@ -724,14 +724,14 @@ abstract class AbstractApiController implements ApiInterface
      * Revokes access for the specified user for the specified project
      *
      * @param int $project_id
-     * @param int $user_id
+     * @param int ...$user_id
      * @return object
      * @throws Exception
      */
-    public function deleteProjectUser($project_id, $user_id): object
+    public function deleteProjectUser($project_id, ...$user_id): object
     {
         $projectController = new ProjectsController($this->getAuth());
-        return $projectController->deleteResource($project_id, array('user-access',$user_id));
+        return $projectController->deleteResource($project_id, array('user-access', ...$user_id));
     }
 
     /**
