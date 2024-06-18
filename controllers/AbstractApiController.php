@@ -278,6 +278,26 @@ abstract class AbstractApiController implements ApiInterface
     }
 
     /**
+     * Replace access to the specified user for the specified dataset
+     *
+     * @param int $dataset_id
+     * @param int|int[] $user_id
+     * @param int $access_level
+     * @param int $user_manager
+     * @return object
+     * @throws Exception
+     */
+    public function replaceDatasetUser($dataset_id, $user_id, int $access_level = 1, int $user_manager = 0): object
+    {
+        $datasetController = new DatasetsController($this->getAuth());
+        return $datasetController->putResource(
+            ['user_id' => $user_id, 'access_level' => $access_level, 'user_manager' => $user_manager],
+            $dataset_id,
+            'user-access'
+        );
+    }
+
+    /**
      * Get a list of datasets for a programme, using the programme's ID.
      *
      * @param int $id
@@ -490,6 +510,26 @@ abstract class AbstractApiController implements ApiInterface
     }
 
     /**
+     * Replace access to the specified user for the specified programme
+     *
+     * @param int $programme_id
+     * @param int|int[] $user_id
+     * @param int $access_level
+     * @param int $user_manager
+     * @return object
+     * @throws Exception
+     */
+    public function replaceProgrammeUser($programme_id, $user_id, int $access_level = 1, int $user_manager = 0): object
+    {
+        $programmeController = new ProgrammesController($this->getAuth());
+        return $programmeController->putResource(
+            ['user_id' => $user_id, 'access_level' => $access_level, 'user_manager' => $user_manager],
+            $programme_id,
+            'user-access'
+        );
+    }
+
+    /**
      * Fetches a list of all the regions in the system. If you specify an ID, that region will be
      * returned to you.
      *
@@ -609,6 +649,26 @@ abstract class AbstractApiController implements ApiInterface
     {
         $regionController = new RegionsController($this->getAuth());
         return $regionController->deleteResource($region_id, array('user-access', ...$user_id));
+    }
+
+    /**
+     * Replace access to the specified user for the specified region
+     *
+     * @param int $region_id
+     * @param int|int[] $user_id
+     * @param int $access_level
+     * @param int $user_manager
+     * @return object
+     * @throws Exception
+     */
+    public function replaceRegionUser($region_id, $user_id, int $access_level = 1, int $user_manager = 0): object
+    {
+        $regionController = new RegionsController($this->getAuth());
+        return $regionController->putResource(
+            ['user_id' => $user_id, 'access_level' => $access_level, 'user_manager' => $user_manager],
+            $region_id,
+            'user-access'
+        );
     }
 
     /**
@@ -732,6 +792,26 @@ abstract class AbstractApiController implements ApiInterface
     {
         $projectController = new ProjectsController($this->getAuth());
         return $projectController->deleteResource($project_id, array('user-access', ...$user_id));
+    }
+
+    /**
+     * Replace access to the specified user for the specified project
+     *
+     * @param int $project_id
+     * @param int|int[] $user_id
+     * @param int $access_level
+     * @param int $user_manager
+     * @return object
+     * @throws Exception
+     */
+    public function replaceProjectUser($project_id, $user_id, int $access_level = 1, int $user_manager = 0): object
+    {
+        $projectController = new ProjectsController($this->getAuth());
+        return $projectController->putResource(
+            ['user_id' => $user_id, 'access_level' => $access_level, 'user_manager' => $user_manager],
+            $project_id,
+            'user-access'
+        );
     }
 
     /**
