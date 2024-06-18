@@ -291,8 +291,8 @@ abstract class AbstractApiController implements ApiInterface
     {
         $datasetController = new DatasetsController($this->getAuth());
         return $datasetController->putResource(
-            ['user_id' => $user_id, 'access_level' => $access_level, 'user_manager' => $user_manager],
             $dataset_id,
+            ['user_id' => $user_id, 'access_level' => $access_level, 'user_manager' => $user_manager],
             'user-access'
         );
     }
@@ -523,8 +523,8 @@ abstract class AbstractApiController implements ApiInterface
     {
         $programmeController = new ProgrammesController($this->getAuth());
         return $programmeController->putResource(
-            ['user_id' => $user_id, 'access_level' => $access_level, 'user_manager' => $user_manager],
             $programme_id,
+            ['user_id' => $user_id, 'access_level' => $access_level, 'user_manager' => $user_manager],
             'user-access'
         );
     }
@@ -665,8 +665,8 @@ abstract class AbstractApiController implements ApiInterface
     {
         $regionController = new RegionsController($this->getAuth());
         return $regionController->putResource(
-            ['user_id' => $user_id, 'access_level' => $access_level, 'user_manager' => $user_manager],
             $region_id,
+            ['user_id' => $user_id, 'access_level' => $access_level, 'user_manager' => $user_manager],
             'user-access'
         );
     }
@@ -808,8 +808,8 @@ abstract class AbstractApiController implements ApiInterface
     {
         $projectController = new ProjectsController($this->getAuth());
         return $projectController->putResource(
-            ['user_id' => $user_id, 'access_level' => $access_level, 'user_manager' => $user_manager],
             $project_id,
+            ['user_id' => $user_id, 'access_level' => $access_level, 'user_manager' => $user_manager],
             'user-access'
         );
     }
