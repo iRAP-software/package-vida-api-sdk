@@ -31,7 +31,9 @@ interface ApiInterface
 
     public function addDatasetUser($dataset_id, $user_id);
 
-    public function deleteDatasetUser($dataset_id, $user_id);
+    public function deleteDatasetUser($dataset_id, ...$user_id);
+
+    public function replaceDatasetUser($dataset_id, $user_id);
 
     public function getDatasetsForProgramme($id);
 
@@ -59,7 +61,9 @@ interface ApiInterface
 
     public function addProgrammeUser($programme_id, $user_id);
 
-    public function deleteProgrammeUser($programme_id, $user_id);
+    public function deleteProgrammeUser($programme_id, ...$user_id);
+
+    public function replaceProgrammeUser($programme_id, $user_id);
 
     public function getRegions();
 
@@ -75,7 +79,9 @@ interface ApiInterface
 
     public function addRegionUser($region_id, $user_id);
 
-    public function deleteRegionUser($region_id, $user_id);
+    public function deleteRegionUser($region_id, ...$user_id);
+
+    public function replaceRegionUser($region_id, $user_id);
 
     public function getRegionsForProgramme($id);
 
@@ -93,7 +99,9 @@ interface ApiInterface
 
     public function addProjectUser($project_id, $user_id);
 
-    public function deleteProjectUser($project_id, $user_id);
+    public function deleteProjectUser($project_id, ...$user_id);
+
+    public function replaceProjectUser($project_id, $user_id);
 
     public function getProjectsForProgramme($id);
 

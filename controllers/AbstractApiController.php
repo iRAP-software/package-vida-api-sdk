@@ -251,7 +251,7 @@ abstract class AbstractApiController implements ApiInterface
      * Grant access to the specified user for the specified dataset
      *
      * @param int $dataset_id
-     * @param int $user_id
+     * @param int|int[] $user_id
      * @param int $access_level
      * @param int $user_manager
      * @return object
@@ -267,14 +267,34 @@ abstract class AbstractApiController implements ApiInterface
      * Revokes access for the specified user for the specified dataset
      *
      * @param int $dataset_id
-     * @param int $user_id
+     * @param int ...$user_id
      * @return object
      * @throws Exception
      */
-    public function deleteDatasetUser($dataset_id, $user_id): object
+    public function deleteDatasetUser($dataset_id, ...$user_id): object
     {
         $datasetController = new DatasetsController($this->getAuth());
-        return $datasetController->deleteResource($dataset_id, array('user-access',$user_id));
+        return $datasetController->deleteResource($dataset_id, array('user-access', ...$user_id));
+    }
+
+    /**
+     * Replace access to the specified user for the specified dataset
+     *
+     * @param int $dataset_id
+     * @param int|int[] $user_id
+     * @param int $access_level
+     * @param int $user_manager
+     * @return object
+     * @throws Exception
+     */
+    public function replaceDatasetUser($dataset_id, $user_id, int $access_level = 1, int $user_manager = 0): object
+    {
+        $datasetController = new DatasetsController($this->getAuth());
+        return $datasetController->putResource(
+            $dataset_id,
+            ['user_id' => $user_id, 'access_level' => $access_level, 'user_manager' => $user_manager],
+            'user-access'
+        );
     }
 
     /**
@@ -463,7 +483,7 @@ abstract class AbstractApiController implements ApiInterface
      * Grant access to the specified user for the specified programme
      *
      * @param int $programme_id
-     * @param int $user_id
+     * @param int|int[] $user_id
      * @param int $access_level
      * @param int $user_manager
      * @return object
@@ -479,14 +499,34 @@ abstract class AbstractApiController implements ApiInterface
      * Revokes access for the specified user for the specified programme
      *
      * @param int $programme_id
-     * @param int $user_id
+     * @param int ...$user_id
      * @return object
      * @throws Exception
      */
-    public function deleteProgrammeUser($programme_id, $user_id): object
+    public function deleteProgrammeUser($programme_id, ...$user_id): object
     {
         $programmeController = new ProgrammesController($this->getAuth());
-        return $programmeController->deleteResource($programme_id, array('user-access',$user_id));
+        return $programmeController->deleteResource($programme_id, array('user-access', ...$user_id));
+    }
+
+    /**
+     * Replace access to the specified user for the specified programme
+     *
+     * @param int $programme_id
+     * @param int|int[] $user_id
+     * @param int $access_level
+     * @param int $user_manager
+     * @return object
+     * @throws Exception
+     */
+    public function replaceProgrammeUser($programme_id, $user_id, int $access_level = 1, int $user_manager = 0): object
+    {
+        $programmeController = new ProgrammesController($this->getAuth());
+        return $programmeController->putResource(
+            $programme_id,
+            ['user_id' => $user_id, 'access_level' => $access_level, 'user_manager' => $user_manager],
+            'user-access'
+        );
     }
 
     /**
@@ -585,7 +625,7 @@ abstract class AbstractApiController implements ApiInterface
      * Grant access to the specified user for the specified region
      *
      * @param int $region_id
-     * @param int $user_id
+     * @param int|int[] $user_id
      * @param int $access_level
      * @param int $user_manager
      * @return object
@@ -601,14 +641,34 @@ abstract class AbstractApiController implements ApiInterface
      * Revokes access for the specified user for the specified region
      *
      * @param int $region_id
-     * @param int $user_id
+     * @param int ...$user_id
      * @return object
      * @throws Exception
      */
-    public function deleteRegionUser($region_id, $user_id): object
+    public function deleteRegionUser($region_id, ...$user_id): object
     {
         $regionController = new RegionsController($this->getAuth());
-        return $regionController->deleteResource($region_id, array('user-access',$user_id));
+        return $regionController->deleteResource($region_id, array('user-access', ...$user_id));
+    }
+
+    /**
+     * Replace access to the specified user for the specified region
+     *
+     * @param int $region_id
+     * @param int|int[] $user_id
+     * @param int $access_level
+     * @param int $user_manager
+     * @return object
+     * @throws Exception
+     */
+    public function replaceRegionUser($region_id, $user_id, int $access_level = 1, int $user_manager = 0): object
+    {
+        $regionController = new RegionsController($this->getAuth());
+        return $regionController->putResource(
+            $region_id,
+            ['user_id' => $user_id, 'access_level' => $access_level, 'user_manager' => $user_manager],
+            'user-access'
+        );
     }
 
     /**
@@ -708,7 +768,7 @@ abstract class AbstractApiController implements ApiInterface
      * Grant access to the specified user for the specified project
      *
      * @param int $project_id
-     * @param int $user_id
+     * @param int|int[] $user_id
      * @param int $access_level
      * @param int $user_manager
      * @return object
@@ -724,14 +784,34 @@ abstract class AbstractApiController implements ApiInterface
      * Revokes access for the specified user for the specified project
      *
      * @param int $project_id
-     * @param int $user_id
+     * @param int ...$user_id
      * @return object
      * @throws Exception
      */
-    public function deleteProjectUser($project_id, $user_id): object
+    public function deleteProjectUser($project_id, ...$user_id): object
     {
         $projectController = new ProjectsController($this->getAuth());
-        return $projectController->deleteResource($project_id, array('user-access',$user_id));
+        return $projectController->deleteResource($project_id, array('user-access', ...$user_id));
+    }
+
+    /**
+     * Replace access to the specified user for the specified project
+     *
+     * @param int $project_id
+     * @param int|int[] $user_id
+     * @param int $access_level
+     * @param int $user_manager
+     * @return object
+     * @throws Exception
+     */
+    public function replaceProjectUser($project_id, $user_id, int $access_level = 1, int $user_manager = 0): object
+    {
+        $projectController = new ProjectsController($this->getAuth());
+        return $projectController->putResource(
+            $project_id,
+            ['user_id' => $user_id, 'access_level' => $access_level, 'user_manager' => $user_manager],
+            'user-access'
+        );
     }
 
     /**
