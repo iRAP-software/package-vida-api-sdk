@@ -264,4 +264,10 @@ interface ApiInterface
     public function getRoadClassificationsRulesets($filter = null);
 
     public function getRoadClassificationsRulesetFunctions($rulesetId, $filter = null);
+
+    public function getCycleRAPScores($datasetId, $filter = null);
+
+    public function getCycleRAPRoadAttributes($datasetId, $filter = null);
+
+    public function getCycleRAPTreatments($datasetId, $filter = null);
 }

@@ -2329,4 +2329,46 @@ abstract class AbstractApiController implements ApiInterface
 
         return $roadClassificationsController->getResource('rulesets', [$rulesetId, 'functions']);
     }
+
+    /**
+     * Gets CycleRAP scores for a dataset
+     * @param $datasetId
+     * @param $filter
+     * @return Response
+     * @throws Exception
+     */
+    public function getCycleRAPScores($datasetId, $filter = null): Response
+    {
+        $cycleRAPController = new CycleRAPController($this->getAuth(), $filter);
+
+        return $cycleRAPController->getResource('scores', $datasetId);
+    }
+
+    /**
+     * Gets CycleRAP road attributes for a dataset
+     * @param $datasetId
+     * @param $filter
+     * @return Response
+     * @throws Exception
+     */
+    public function getCycleRAPRoadAttributes($datasetId, $filter = null): Response
+    {
+        $cycleRAPController = new CycleRAPController($this->getAuth(), $filter);
+
+        return $cycleRAPController->getResource('road-attributes', $datasetId);
+    }
+
+    /**
+     * Gets CycleRAP treatments for a dataset
+     * @param $datasetId
+     * @param $filter
+     * @return Response
+     * @throws Exception
+     */
+    public function getCycleRAPTreatments($datasetId, $filter = null): Response
+    {
+        $cycleRAPController = new CycleRAPController($this->getAuth(), $filter);
+
+        return $cycleRAPController->getResource('treatments', $datasetId);
+    }
 }
