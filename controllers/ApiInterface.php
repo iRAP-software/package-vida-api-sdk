@@ -271,5 +271,5 @@ interface ApiInterface
 
     public function getCycleRAPTreatments($datasetId, $filter = null);
 
-    public function calculateCycleRAPScores($filter = null);
+    public function calculateCycleRAPScores(array $data, $filter = null);
 }
