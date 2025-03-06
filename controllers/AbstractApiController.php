@@ -70,7 +70,7 @@ abstract class AbstractApiController implements ApiInterface
      * @return object
      * @throws Exception
      */
-    public function getUsers(int $id = null, $filter = null): object
+    public function getUsers(int|null $id = null, $filter = null): object
     {
         $userController = new UsersController($this->getAuth(), $filter);
         return $userController->getResource($id);
@@ -100,7 +100,7 @@ abstract class AbstractApiController implements ApiInterface
      * @return object
      * @throws Exception
      */
-    public function getDatasets(int $id = null, $filter = null): object
+    public function getDatasets(int|null $id = null, $filter = null): object
     {
         $datasetController = new DatasetsController($this->getAuth(), $filter);
         return $datasetController->getResource($id);
@@ -123,7 +123,7 @@ abstract class AbstractApiController implements ApiInterface
     public function addDataset(string $name, $project_id, $manager_id,
                                int $country_id,
                                int $type = App::DATASET_TYPE_UNKNOWN,
-                               string $assessment_date = null,
+                               string|null $assessment_date = null,
                                string $description = ''): object
     {
         $datasetController = new DatasetsController($this->getAuth());
@@ -155,7 +155,7 @@ abstract class AbstractApiController implements ApiInterface
     public function updateDataset($id, string $name, $project_id, $manager_id,
                                   int $country_id,
                                   int $type = App::DATASET_TYPE_UNKNOWN,
-                                  string $assessment_date = null,
+                                  string|null $assessment_date = null,
                                   string $description = ''): object
     {
         $datasetController = new DatasetsController($this->getAuth());
@@ -205,7 +205,7 @@ abstract class AbstractApiController implements ApiInterface
      */
     public function replaceDataset($id, string $name, $project_id, $manager_id,
                                    int $type = App::DATASET_TYPE_UNKNOWN,
-                                   string $assessment_date = null,
+                                   string|null $assessment_date = null,
                                    string $description = ''): object
     {
         $datasetController = new DatasetsController($this->getAuth());
@@ -399,7 +399,7 @@ abstract class AbstractApiController implements ApiInterface
      * @return object
      * @throws Exception
      */
-    public function getProgrammes(int $id = null, $filter = null): object
+    public function getProgrammes(int|null $id = null, $filter = null): object
     {
         $programmeController = new ProgrammesController($this->getAuth(), $filter);
         return $programmeController->getResource($id);
@@ -538,7 +538,7 @@ abstract class AbstractApiController implements ApiInterface
      * @return object
      * @throws Exception
      */
-    public function getRegions(int $id = null, $filter = null): object
+    public function getRegions(int|null $id = null, $filter = null): object
     {
         $regionController = new RegionsController($this->getAuth(), $filter);
         return $regionController->getResource($id);
@@ -694,7 +694,7 @@ abstract class AbstractApiController implements ApiInterface
      * @return object
      * @throws Exception
      */
-    public function getProjects(int $id = null, $filter = null): object
+    public function getProjects(int|null $id = null, $filter = null): object
     {
         $projectController = new ProjectsController($this->getAuth(), $filter);
         return $projectController->getResource($id);
@@ -865,7 +865,7 @@ abstract class AbstractApiController implements ApiInterface
      * @return object
      * @throws Exception
      */
-    public function getVariables(int $id = null, $filter = null): object
+    public function getVariables(int|null $id = null, $filter = null): object
     {
         $variableController = new VariablesController($this->getAuth(), $filter);
         return $variableController->getResource($id);
@@ -1914,7 +1914,7 @@ abstract class AbstractApiController implements ApiInterface
      * @return object
      * @throws Exception
      */
-    public function getCountries(int $id = null, $filter = null): object
+    public function getCountries(int|null $id = null, $filter = null): object
     {
         $countriesController = new CountriesController($this->getAuth(), $filter);
         return $countriesController->getResource($id);
@@ -2028,8 +2028,12 @@ abstract class AbstractApiController implements ApiInterface
      * accepting an invitation
      * @throws Exception
      */
-    public function inviteUser(string $email, string $first_name = null,
-                               string $last_name = null, array $permissions = []): object
+    public function inviteUser(
+        string $email,
+        string|null $first_name = null,
+        string|null $last_name = null,
+        array $permissions = []
+    ): object
     {
         $inviteCtrl = new InviteController($this->getAuth());
         return $inviteCtrl->invite($email, $first_name, $last_name, $permissions);
