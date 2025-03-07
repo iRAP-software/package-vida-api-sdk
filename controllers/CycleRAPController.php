@@ -4,7 +4,7 @@
  * This file is for internal use by the ViDA SDK. It should not be altered by users
  **************************************************************************************************
  *
- * Controller for the Applied Countermeasures resource. Overrides the Abstract Resource Controller.
+ * Controller for the CycleRAP resource. Overrides the Abstract Resource Controller.
  *
  */
 
