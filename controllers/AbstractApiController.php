@@ -2371,4 +2371,18 @@ abstract class AbstractApiController implements ApiInterface
 
         return $cycleRAPController->getResource('treatments', $datasetId);
     }
+
+    /**
+     * Calculates CycleRAP scores given an array of coding data
+     * @param array $data
+     * @param null $filter
+     * @return Response
+     * @throws Exception
+     */
+    public function calculateCycleRAPScores(array $data, $filter = null): Response
+    {
+        $cycleRAPController = new CycleRAPController($this->getAuth(), $filter);
+
+        return $cycleRAPController->postResource($data, null, 'calculate');
+    }
 }

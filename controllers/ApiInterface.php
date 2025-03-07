@@ -270,4 +270,6 @@ interface ApiInterface
     public function getCycleRAPRoadAttributes($datasetId, $filter = null);
 
     public function getCycleRAPTreatments($datasetId, $filter = null);
+
+    public function calculateCycleRAPScores(array $data, $filter = null);
 }
