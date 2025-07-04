@@ -2333,4 +2333,20 @@ abstract class AbstractApiController implements ApiInterface
 
         return $roadClassificationsController->getResource('rulesets', [$rulesetId, 'functions']);
     }
+
+    /**
+     * Calculates the speed units for a dataset and returns 'mph', 'km/h' or 'mixed'
+     * The fields used for this are speed limit, operating speed (85th) and operating speed (mean)
+     * @param int $datasetId
+     * @param null $filter
+     * @return Response
+     * @throws Exception
+     */
+    public function getSpeedUnitsForDataset(int $datasetId, $filter = null): Response
+    {
+        $speedsController = new SpeedsController($this->getAuth(), $filter);
+
+        return $speedsController->getResource($datasetId, ['units']);
+    }
+
 }
