@@ -264,4 +264,6 @@ interface ApiInterface
     public function getRoadClassificationsRulesets($filter = null);
 
     public function getRoadClassificationsRulesetFunctions($rulesetId, $filter = null);
+
+    public function getSpeedUnitsForDataset(int $datasetId, $filter = null);
 }
