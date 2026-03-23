@@ -79,7 +79,7 @@ class PermissionController extends AbstractResourceController
     /**
      * @throws Exception
      */
-    public function hasPermission(int $userId, string $identifier = null): Response
+    public function hasPermission(int $userId, string|null $identifier = null): Response
     {
         if (self::$response->getCode() === 200) {
             $hasPermission = false;
@@ -104,7 +104,7 @@ class PermissionController extends AbstractResourceController
     /**
      * @throws Exception
      */
-    public function isManager(int $userId, string $identifier = null): Response
+    public function isManager(int $userId, string|null $identifier = null): Response
     {
         if (self::$response->getCode() === 200) {
             $isManager = false;

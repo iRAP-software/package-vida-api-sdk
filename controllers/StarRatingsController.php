@@ -43,7 +43,7 @@ class StarRatingsController extends AbstractResourceController
      * @param FilterInterface|null $filter
      * @return APIRequest
      */
-    public function getBeforeStarRatingsForDatasetRequest(int $datasetID, FilterInterface $filter = null): APIRequest
+    public function getBeforeStarRatingsForDatasetRequest(int $datasetID, FilterInterface|null $filter = null): APIRequest
     {
         $request = new APIRequest($this->m_auth);
         $args = array('dataset', $datasetID, 'before');
@@ -58,7 +58,7 @@ class StarRatingsController extends AbstractResourceController
      * @param FilterInterface|null $filter
      * @return APIRequest
      */
-    public function getAfterStarRatingsForDatasetRequest(int $datasetID, FilterInterface $filter = null): APIRequest
+    public function getAfterStarRatingsForDatasetRequest(int $datasetID, FilterInterface|null $filter = null): APIRequest
     {
         $request = new APIRequest($this->m_auth);
         $args = array('dataset', $datasetID, 'after');
@@ -72,7 +72,7 @@ class StarRatingsController extends AbstractResourceController
      * @param FilterInterface|null $filter
      * @return APIRequest
      */
-    public function getBeforeDecimalStarRatingsForDatasetRequest(int $datasetID, FilterInterface $filter = null): APIRequest
+    public function getBeforeDecimalStarRatingsForDatasetRequest(int $datasetID, FilterInterface|null $filter = null): APIRequest
     {
         $request = new APIRequest($this->m_auth);
         $args = ['for', 'dataset', $datasetID, 'before'];
@@ -86,7 +86,7 @@ class StarRatingsController extends AbstractResourceController
      * @param FilterInterface|null $filter
      * @return APIRequest
      */
-    public function getAfterDecimalStarRatingsForDatasetRequest(int $datasetID, FilterInterface $filter = null): APIRequest
+    public function getAfterDecimalStarRatingsForDatasetRequest(int $datasetID, FilterInterface|null $filter = null): APIRequest
     {
         $request = new APIRequest($this->m_auth);
         $args = ['for', 'dataset', $datasetID, 'after'];
