@@ -2349,4 +2349,18 @@ abstract class AbstractApiController implements ApiInterface
         return $speedsController->getResource($datasetId, ['units']);
     }
 
+    /**
+     * Cancel processing of a dataset
+     * @param int $datasetId
+     * @return object
+     * @throws Exception
+     */
+    public function cancelDataset(int $datasetId): object
+    {
+        $datasetController = new DatasetsController($this->getAuth());
+        return $datasetController->getResource($datasetId, 'cancel');
+    }
+
+
+
 }
