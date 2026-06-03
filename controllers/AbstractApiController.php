@@ -2361,6 +2361,18 @@ abstract class AbstractApiController implements ApiInterface
         return $datasetController->getResource($datasetId, 'cancel');
     }
 
+    /**
+     * Fetches a list of all the dataset types in the system. Each type's name is returned
+     * already translated from its language tag by the API.
+     * @param null $filter
+     * @return Response
+     * @throws Exception
+     */
+    public function getDatasetTypes($filter = null): Response
+    {
+        $datasetTypesController = new DatasetTypesController($this->getAuth(), $filter);
 
+        return $datasetTypesController->getResource();
+    }
 
 }

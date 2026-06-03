@@ -269,4 +269,6 @@ interface ApiInterface
 
     public function cancelDataset(int $datasetId);
 
+    public function getDatasetTypes($filter = null);
+
 }
