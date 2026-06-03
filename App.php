@@ -15,9 +15,26 @@ namespace iRAP\VidaSDK;
 class App extends Controllers\AbstractApiController
 {
     private Models\AppAuthentication $m_auth;
+
+    /**
+     * @deprecated Dataset types are no longer fixed in the SDK. Fetch the available
+     * types (with their IDs and translated names) from the API via getDatasetTypes() instead.
+     */
     const DATASET_TYPE_UNKNOWN  = 1;
+    /**
+     * @deprecated Dataset types are no longer fixed in the SDK. Fetch the available
+     * types (with their IDs and translated names) from the API via getDatasetTypes() instead.
+     */
     const DATASET_TYPE_EXISTING = 2;
+    /**
+     * @deprecated Dataset types are no longer fixed in the SDK. Fetch the available
+     * types (with their IDs and translated names) from the API via getDatasetTypes() instead.
+     */
     const DATASET_TYPE_DESIGN   = 3;
+    /**
+     * @deprecated Dataset types are no longer fixed in the SDK. Fetch the available
+     * types (with their IDs and translated names) from the API via getDatasetTypes() instead.
+     */
     const DATASET_TYPE_RESEARCH = 4;
 
     /**

@@ -12,7 +12,6 @@
 namespace iRAP\VidaSDK\Controllers;
 
 use Exception;
-use iRAP\VidaSDK\App;
 use iRAP\VidaSDK\Models\ImportResponse;
 use iRAP\VidaSDK\Models\Response;
 use stdClass;
@@ -112,9 +111,8 @@ abstract class AbstractApiController implements ApiInterface
      * @param $project_id
      * @param $manager_id
      * @param int $country_id
-     * @param int $type Could be any one of \iRAP\VidaSDK\App::DATASET_TYPE_EXISTING,
-     * \iRAP\VidaSDK\App::DATASET_TYPE_DESIGN, \iRAP\VidaSDK\App::DATASET_TYPE_RESEARCH.
-     * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
+     * @param int $type The dataset type ID. The available types can be fetched via getDatasetTypes().
+     * <i>Defaults to 1 (Unknown)</i>
      * @param ?string $assessment_date Date format, 'Y-m-d' e.g. 2020-10-22
      * @param string $description
      * @return object
@@ -122,7 +120,7 @@ abstract class AbstractApiController implements ApiInterface
      */
     public function addDataset(string $name, $project_id, $manager_id,
                                int $country_id,
-                               int $type = App::DATASET_TYPE_UNKNOWN,
+                               int $type = 1,
                                ?string $assessment_date = null,
                                string $description = ''): object
     {
@@ -144,9 +142,8 @@ abstract class AbstractApiController implements ApiInterface
      * @param $project_id
      * @param $manager_id
      * @param int $country_id
-     * @param int $type Could be any one of \iRAP\VidaSDK\App::DATASET_TYPE_EXISTING,
-     * \iRAP\VidaSDK\App::DATASET_TYPE_DESIGN, \iRAP\VidaSDK\App::DATASET_TYPE_RESEARCH.
-     * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
+     * @param int $type The dataset type ID. The available types can be fetched via getDatasetTypes().
+     * <i>Defaults to 1 (Unknown)</i>
      * @param ?string $assessment_date Date format, 'Y-m-d' e.g. 2020-10-22
      * @param string $description
      * @return object
@@ -154,7 +151,7 @@ abstract class AbstractApiController implements ApiInterface
      */
     public function updateDataset($id, string $name, $project_id, $manager_id,
                                   int $country_id,
-                                  int $type = App::DATASET_TYPE_UNKNOWN,
+                                  int $type = 1,
                                   ?string $assessment_date = null,
                                   string $description = ''): object
     {
@@ -195,16 +192,15 @@ abstract class AbstractApiController implements ApiInterface
      * @param string $name
      * @param $project_id
      * @param $manager_id
-     * @param int $type Could be any one of \iRAP\VidaSDK\App::DATASET_TYPE_EXISTING,
-     * \iRAP\VidaSDK\App::DATASET_TYPE_DESIGN, \iRAP\VidaSDK\App::DATASET_TYPE_RESEARCH.
-     * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
+     * @param int $type The dataset type ID. The available types can be fetched via getDatasetTypes().
+     * <i>Defaults to 1 (Unknown)</i>
      * @param ?string $assessment_date Date format, 'Y-m-d' e.g. 2020-10-22
      * @param string $description
      * @return object
      * @throws Exception
      */
     public function replaceDataset($id, string $name, $project_id, $manager_id,
-                                   int $type = App::DATASET_TYPE_UNKNOWN,
+                                   int $type = 1,
                                    ?string $assessment_date = null,
                                    string $description = ''): object
     {
@@ -2364,7 +2360,7 @@ abstract class AbstractApiController implements ApiInterface
     /**
      * Fetches a list of all the dataset types in the system. Each type's name is returned
      * already translated from its language tag by the API.
-     * @param null $filter
+     * @param \iRAP\VidaSDK\Filter|null $filter
      * @return Response
      * @throws Exception
      */
