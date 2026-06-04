@@ -12,7 +12,6 @@
 namespace iRAP\VidaSDK\Controllers;
 
 use Exception;
-use iRAP\VidaSDK\App;
 use iRAP\VidaSDK\Models\ImportResponse;
 use iRAP\VidaSDK\Models\Response;
 use stdClass;
@@ -55,8 +54,8 @@ abstract class AbstractApiController implements ApiInterface
         }
         else
         {
-            AuthController::requestUserPermissions($this->getAuth(), $returnUrl);
             $response = new stdClass();
+            AuthController::requestUserPermissions($this->getAuth(), $returnUrl);
         }
         return $response;
     }
@@ -70,7 +69,7 @@ abstract class AbstractApiController implements ApiInterface
      * @return object
      * @throws Exception
      */
-    public function getUsers(int|null $id = null, $filter = null): object
+    public function getUsers(?int $id = null, $filter = null): object
     {
         $userController = new UsersController($this->getAuth(), $filter);
         return $userController->getResource($id);
@@ -100,7 +99,7 @@ abstract class AbstractApiController implements ApiInterface
      * @return object
      * @throws Exception
      */
-    public function getDatasets(int|null $id = null, $filter = null): object
+    public function getDatasets(?int $id = null, $filter = null): object
     {
         $datasetController = new DatasetsController($this->getAuth(), $filter);
         return $datasetController->getResource($id);
@@ -112,9 +111,8 @@ abstract class AbstractApiController implements ApiInterface
      * @param $project_id
      * @param $manager_id
      * @param int $country_id
-     * @param int $type Could be any one of \iRAP\VidaSDK\App::DATASET_TYPE_EXISTING,
-     * \iRAP\VidaSDK\App::DATASET_TYPE_DESIGN, \iRAP\VidaSDK\App::DATASET_TYPE_RESEARCH.
-     * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
+     * @param int $type The dataset type ID. The available types can be fetched via getDatasetTypes().
+     * <i>Defaults to 1 (Unknown)</i>
      * @param ?string $assessment_date Date format, 'Y-m-d' e.g. 2020-10-22
      * @param string $description
      * @return object
@@ -122,8 +120,8 @@ abstract class AbstractApiController implements ApiInterface
      */
     public function addDataset(string $name, $project_id, $manager_id,
                                int $country_id,
-                               int $type = App::DATASET_TYPE_UNKNOWN,
-                               string|null $assessment_date = null,
+                               int $type = 1,
+                               ?string $assessment_date = null,
                                string $description = ''): object
     {
         $datasetController = new DatasetsController($this->getAuth());
@@ -144,9 +142,8 @@ abstract class AbstractApiController implements ApiInterface
      * @param $project_id
      * @param $manager_id
      * @param int $country_id
-     * @param int $type Could be any one of \iRAP\VidaSDK\App::DATASET_TYPE_EXISTING,
-     * \iRAP\VidaSDK\App::DATASET_TYPE_DESIGN, \iRAP\VidaSDK\App::DATASET_TYPE_RESEARCH.
-     * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
+     * @param int $type The dataset type ID. The available types can be fetched via getDatasetTypes().
+     * <i>Defaults to 1 (Unknown)</i>
      * @param ?string $assessment_date Date format, 'Y-m-d' e.g. 2020-10-22
      * @param string $description
      * @return object
@@ -154,8 +151,8 @@ abstract class AbstractApiController implements ApiInterface
      */
     public function updateDataset($id, string $name, $project_id, $manager_id,
                                   int $country_id,
-                                  int $type = App::DATASET_TYPE_UNKNOWN,
-                                  string|null $assessment_date = null,
+                                  int $type = 1,
+                                  ?string $assessment_date = null,
                                   string $description = ''): object
     {
         $datasetController = new DatasetsController($this->getAuth());
@@ -195,17 +192,16 @@ abstract class AbstractApiController implements ApiInterface
      * @param string $name
      * @param $project_id
      * @param $manager_id
-     * @param int $type Could be any one of \iRAP\VidaSDK\App::DATASET_TYPE_EXISTING,
-     * \iRAP\VidaSDK\App::DATASET_TYPE_DESIGN, \iRAP\VidaSDK\App::DATASET_TYPE_RESEARCH.
-     * <i>Defaults to \iRAP\VidaSDK\App::DATASET_TYPE_UNKNOWN</i>
+     * @param int $type The dataset type ID. The available types can be fetched via getDatasetTypes().
+     * <i>Defaults to 1 (Unknown)</i>
      * @param ?string $assessment_date Date format, 'Y-m-d' e.g. 2020-10-22
      * @param string $description
      * @return object
      * @throws Exception
      */
     public function replaceDataset($id, string $name, $project_id, $manager_id,
-                                   int $type = App::DATASET_TYPE_UNKNOWN,
-                                   string|null $assessment_date = null,
+                                   int $type = 1,
+                                   ?string $assessment_date = null,
                                    string $description = ''): object
     {
         $datasetController = new DatasetsController($this->getAuth());
@@ -399,7 +395,7 @@ abstract class AbstractApiController implements ApiInterface
      * @return object
      * @throws Exception
      */
-    public function getProgrammes(int|null $id = null, $filter = null): object
+    public function getProgrammes(?int $id = null, $filter = null): object
     {
         $programmeController = new ProgrammesController($this->getAuth(), $filter);
         return $programmeController->getResource($id);
@@ -538,7 +534,7 @@ abstract class AbstractApiController implements ApiInterface
      * @return object
      * @throws Exception
      */
-    public function getRegions(int|null $id = null, $filter = null): object
+    public function getRegions(?int $id = null, $filter = null): object
     {
         $regionController = new RegionsController($this->getAuth(), $filter);
         return $regionController->getResource($id);
@@ -694,7 +690,7 @@ abstract class AbstractApiController implements ApiInterface
      * @return object
      * @throws Exception
      */
-    public function getProjects(int|null $id = null, $filter = null): object
+    public function getProjects(?int $id = null, $filter = null): object
     {
         $projectController = new ProjectsController($this->getAuth(), $filter);
         return $projectController->getResource($id);
@@ -865,7 +861,7 @@ abstract class AbstractApiController implements ApiInterface
      * @return object
      * @throws Exception
      */
-    public function getVariables(int|null $id = null, $filter = null): object
+    public function getVariables(?int $id = null, $filter = null): object
     {
         $variableController = new VariablesController($this->getAuth(), $filter);
         return $variableController->getResource($id);
@@ -1914,7 +1910,7 @@ abstract class AbstractApiController implements ApiInterface
      * @return object
      * @throws Exception
      */
-    public function getCountries(int|null $id = null, $filter = null): object
+    public function getCountries(?int $id = null, $filter = null): object
     {
         $countriesController = new CountriesController($this->getAuth(), $filter);
         return $countriesController->getResource($id);
@@ -2030,8 +2026,8 @@ abstract class AbstractApiController implements ApiInterface
      */
     public function inviteUser(
         string $email,
-        string|null $first_name = null,
-        string|null $last_name = null,
+        ?string $first_name = null,
+        ?string $last_name = null,
         array $permissions = []
     ): object
     {
@@ -2361,6 +2357,18 @@ abstract class AbstractApiController implements ApiInterface
         return $datasetController->getResource($datasetId, 'cancel');
     }
 
+    /**
+     * Fetches a list of all the dataset types in the system. Each type's name is returned
+     * already translated from its language tag by the API.
+     * @param \iRAP\VidaSDK\Filter|null $filter
+     * @return Response
+     * @throws Exception
+     */
+    public function getDatasetTypes($filter = null): Response
+    {
+        $datasetTypesController = new DatasetTypesController($this->getAuth(), $filter);
 
+        return $datasetTypesController->getResource();
+    }
 
 }

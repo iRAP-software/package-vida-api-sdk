@@ -221,7 +221,7 @@ interface ApiInterface
 
     public function addReportFilter($filter_json);
 
-    public function inviteUser(string $email, string|null $first_name = null, string|null $last_name = null, array $permissions = []);
+    public function inviteUser(string $email, ?string $first_name = null, ?string $last_name = null, array $permissions = []);
 
     public function getInviteDetails($value);
 
@@ -268,5 +268,7 @@ interface ApiInterface
     public function getSpeedUnitsForDataset(int $datasetId, $filter = null);
 
     public function cancelDataset(int $datasetId);
+
+    public function getDatasetTypes($filter = null);
 
 }
